@@ -17,7 +17,7 @@
   align-items: center;
   width: 100%;
   height: 80px;
-  max-width: 1440px;
+  max-width: 1200px;
   position: relative;
 }
 
@@ -54,12 +54,12 @@
 }
 
 .nav-links {
-  color: #fff;
+  color: #e5e5e5;
   text-decoration: none;
   padding: 0.5rem 1rem;
   height: 100%;
   border-bottom: 3px solid transparent;
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
 .nav-links:hover {
@@ -88,7 +88,7 @@
   color: white;
 }
 
-@media screen and (max-width: 960px) {
+@media screen and (max-width: 760px) {
   .nav-right {
     display: none;
   }
