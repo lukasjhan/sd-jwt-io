@@ -1,5 +1,6 @@
 import React from 'react';
 import { ContentWrapper } from '../ContentWrapper';
+import { Description } from '../Description';
 
 export const Home = () => {
   return (
@@ -17,7 +18,7 @@ export const Home = () => {
           color: 'white',
         }}
       >
-        <h1>Home</h1>
+        <Description />
       </ContentWrapper>
       <ContentWrapper>
         <h1>Home</h1>
