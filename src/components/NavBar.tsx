@@ -18,7 +18,7 @@ function NavBar() {
 
           <ul className={click ? 'nav-menu active' : 'nav-menu'}>
             <li className="nav-item">
-              <NavLink to="/" className="nav-links" onClick={unClick}>
+              <NavLink to="/#debugger" className="nav-links" onClick={unClick}>
                 Debugger
               </NavLink>
             </li>

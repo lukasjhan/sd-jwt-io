@@ -61,3 +61,16 @@
     display: block;
   }
 }
+
+.footer-link {
+  color: #1e90ff;
+  cursor: pointer;
+}
+
+.footer-link:hover {
+  text-decoration: underline;
+}
+
+body {
+  overflow-x: hidden;
+}
