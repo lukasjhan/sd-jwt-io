@@ -26,7 +26,7 @@
 .code-wrapper {
   display: flex;
   flex-direction: row;
-  gap: 1rem;
+  gap: 2rem;
   width: 100%;
   justify-content: center;
   align-items: center;
@@ -34,13 +34,88 @@
 }
 
 .code-item {
-  width: calc(50% - 0.5rem);
+  width: calc(50% - 1rem);
   position: relative;
-  height: 500px;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
 }
 
 .CodeMirror {
   width: 100%;
+  height: 100%;
+}
+
+.code-title-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 0.8rem;
+  justify-content: flex-start;
+  align-items: baseline;
+}
+
+.code-title {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.code-desc {
+  font-size: 10px;
+  font-weight: normal;
+  color: #777;
+}
+
+.area-wrapper {
+  flex: 1;
+  padding: 1.4rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.decode-area {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  max-height: 536px;
+}
+
+.decode-header {
+  padding: 0.4rem 1rem;
+  border-bottom: 1px solid #ccc;
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  justify-content: flex-start;
+  align-items: baseline;
+}
+
+.decode-desc {
+  font-size: 0.6rem;
+  color: #777;
+}
+
+.decode-item {
+  flex: 1;
+  padding: 0rem 1.4rem;
+
+  overflow-y: auto;
+}
+
+.react-codemirror2 {
+  height: 100%;
+  font-size: 1.4rem;
+}
+
+.decode-border-top {
+  border-top: 1px solid #ccc;
+}
+
+.json-editor {
+  font-size: 1rem;
 }
 
 @media screen and (max-width: 900px) {
@@ -56,14 +131,31 @@
 }
 
 .cm-jwt-header {
-  color: red;
+  color: rgb(251, 1, 91);
 }
 .cm-jwt-payload {
-  color: green;
+  color: rgb(214, 58, 255);
 }
 .cm-jwt-signature {
-  color: blue;
+  color: rgb(0, 185, 241);
 }
 .cm-jwt-dot {
   color: black;
+}
+
+.json-header .CodeMirror {
+  font-size: 1rem;
+  color: rgb(251, 1, 91);
+}
+
+.json-payload .CodeMirror {
+  font-size: 1rem;
+  color: rgb(214, 58, 255);
+}
+
+.verified-share-wrapper {
+  display: flex;
+  align-self: flex-end;
+  gap: 2rem;
+  padding: 0 20px;
 }

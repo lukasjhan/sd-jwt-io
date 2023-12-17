@@ -1,8 +1,9 @@
-import { Select } from 'antd';
+import { Select, Input, Checkbox } from 'antd';
 import './Debugger.css';
 import CodeMirror from 'codemirror';
 import { useEffect, useState } from 'react';
 import { UnControlled as UnControlledEditor } from 'react-codemirror2';
+import { CheckboxChangeEvent } from 'antd/es/checkbox';
 
 const Warning = () => {
   return (
@@ -81,6 +82,80 @@ const JWTCode = () => {
   );
 };
 
+const JWTHeader = () => {
+  return (
+    <UnControlledEditor
+      value={''}
+      options={{
+        mode: 'javascript',
+        lineWrapping: true,
+      }}
+      onChange={(editor, data, value) => {
+        console.log(value);
+      }}
+      className="json-header"
+    />
+  );
+};
+
+const JWTPayload = () => {
+  return (
+    <UnControlledEditor
+      value={''}
+      options={{
+        mode: 'javascript',
+        lineWrapping: true,
+      }}
+      onChange={(editor, data, value) => {
+        console.log(value);
+      }}
+      className="json-payload"
+    />
+  );
+};
+
+const JWTDecode = () => {
+  const [value, setValue] = useState('your-256-bit-secret');
+  const onChange = (e: CheckboxChangeEvent) => {
+    console.log(`checked = ${e.target.checked}`);
+  };
+  return (
+    <pre
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '0.2rem',
+        color: 'rgb(0, 185, 241)',
+      }}
+    >
+      <div>{'HMACSHA256('}</div>
+      <div>{`base64UrlEncode(header) + "." +`}</div>
+      <div>{'base64UrlEncode(payload),'}</div>
+      <div>
+        <Input
+          onChange={(e) => setValue(e.target.value)}
+          value={value}
+          style={{
+            width: '200px',
+            color: 'rgb(0, 185, 241)',
+          }}
+        />
+      </div>
+      <div>
+        {')  '}
+        <Checkbox
+          onChange={onChange}
+          style={{
+            color: 'rgb(0, 185, 241)',
+          }}
+        >
+          {'secret base64 encoded'}
+        </Checkbox>
+      </div>
+    </pre>
+  );
+};
+
 export const Debugger = () => {
   useEffect(() => {
     if (window.location.hash !== '#debugger') {
@@ -110,8 +185,51 @@ export const Debugger = () => {
       <Warning />
       <SelectAlg />
       <div className="code-wrapper">
-        <div className="code-item"></div>
-        <div className="code-item"></div>
+        <div className="code-item">
+          <div className="code-title-wrapper">
+            <div className="code-title">{'Encoded'}</div>
+            <div className="code-desc">
+              {'paste your token here'.toUpperCase()}
+            </div>
+          </div>
+          <div className="area-wrapper">
+            <JWTCode />
+          </div>
+        </div>
+        <div className="code-item">
+          <div className="code-title-wrapper">
+            <div className="code-title">{'Decoded'}</div>
+            <div className="code-desc">
+              {'edit the payload and secret'.toUpperCase()}
+            </div>
+          </div>
+          <div className="decode-area">
+            <div className="decode-header">
+              {'HEADER'}
+              <span className="decode-desc">{'ALGORITHM & TOKEN TYPE'}</span>
+            </div>
+            <div className="decode-item">
+              <JWTHeader />
+            </div>
+            <div className="decode-header decode-border-top">
+              {'PAYLOAD'}
+              <span className="decode-desc">{'DATA'}</span>
+            </div>
+            <div className="decode-item">
+              <JWTPayload />
+            </div>
+            <div className="decode-header decode-border-top">
+              {'VERIFY SIGNATURE'}
+            </div>
+            <div className="decode-item">
+              <JWTDecode />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="verified-share-wrapper">
+        <div>Signature Verified</div>
+        <div>Share SD JWT</div>
       </div>
     </div>
   );
@@ -120,24 +238,27 @@ export const Debugger = () => {
 CodeMirror.defineMode('jwt', function () {
   return {
     token: function (stream, state) {
-      if (stream.sol() && !state.partParsed) {
-        stream.skipTo('.') || stream.skipToEnd();
-        state.partParsed = 'header';
-        return 'jwt-header';
+      if (stream.sol()) {
+        state.partParsed = 'header'; // Start of line, assume header
       }
 
-      if (stream.peek() === '.' && state.partParsed !== 'signature') {
-        stream.next(); // Skip the dot itself
+      if (stream.eat('.')) {
+        // Consume and style the dot
         if (state.partParsed === 'header') {
           state.partParsed = 'payload';
         } else if (state.partParsed === 'payload') {
           state.partParsed = 'signature';
+        } else if (state.partParsed === 'signature') {
+          state.partParsed = 'after-signature'; // After the signature, no styling
         }
-        return 'jwt-dot'; // Don't style the dot
+        return 'jwt-dot';
       }
 
-      stream.skipTo('.') || stream.skipToEnd();
-      return 'jwt-' + state.partParsed;
+      stream.next(); // Consume the next character
+      if (state.partParsed === 'after-signature') {
+        return null; // No styling after the signature
+      }
+      return 'jwt-' + state.partParsed; // Style based on the current part
     },
     startState: function () {
       return { partParsed: null };

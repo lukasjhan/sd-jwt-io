@@ -5,6 +5,11 @@ body {
   font-family: Pretendard;
 }
 
+* {
+  font-family: Pretendard;
+  letter-spacing: +0.02rem;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
