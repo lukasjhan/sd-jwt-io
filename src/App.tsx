@@ -51,7 +51,7 @@ function App() {
                   className="footer-link"
                   onClick={() => {
                     window.open(
-                      'https://github.com/lukasjhan/sd-jwt-io/blob/master/README.md',
+                      'https://github.com/lukasjhan/sd-jwt-io/blob/master/LICENSE.md',
                       '_blank'
                     );
                   }}
