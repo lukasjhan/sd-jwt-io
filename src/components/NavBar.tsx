@@ -8,6 +8,21 @@ function NavBar() {
 
   const handleClick = () => setClick(!click);
   const unClick = () => setClick(false);
+  const onClickDebug = () => {
+    unClick();
+    const element = document.getElementById('debugger');
+    if (element) {
+      const offset = 150; // Number of pixels you want to scroll above the element
+      const elementPosition =
+        element.getBoundingClientRect().top + window.pageYOffset;
+      const offsetPosition = elementPosition - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
+    }
+  };
   return (
     <>
       <nav className="navbar">
@@ -18,7 +33,11 @@ function NavBar() {
 
           <ul className={click ? 'nav-menu active' : 'nav-menu'}>
             <li className="nav-item">
-              <NavLink to="/#debugger" className="nav-links" onClick={unClick}>
+              <NavLink
+                to="/#debugger"
+                className="nav-links"
+                onClick={onClickDebug}
+              >
                 Debugger
               </NavLink>
             </li>

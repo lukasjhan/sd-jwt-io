@@ -58,13 +58,13 @@ const SelectAlg = () => {
   );
 };
 
-const MyComponent = () => {
+const JWTCode = () => {
   const [jwt, setJwt] = useState(
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
   );
 
   setTimeout(() => {
-    setJwt('hi.hi.hi');
+    //setJwt('hi.hi.hi');
   }, 5000);
 
   return (
@@ -72,6 +72,7 @@ const MyComponent = () => {
       value={jwt}
       options={{
         mode: 'jwt',
+        lineWrapping: true,
       }}
       onChange={(editor, data, value) => {
         console.log(value);
@@ -83,10 +84,15 @@ const MyComponent = () => {
 export const Debugger = () => {
   return (
     <div className="debugger-wrapper">
-      <div className="debugger-title">Debugger</div>
+      <div className="debugger-title" id="debugger">
+        Debugger
+      </div>
       <Warning />
       <SelectAlg />
-      <MyComponent />
+      <div className="code-wrapper">
+        <div className="code-item"></div>
+        <div className="code-item"></div>
+      </div>
     </div>
   );
 };

@@ -8,6 +8,7 @@
   gap: 2rem;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .debugger-title {
@@ -20,6 +21,26 @@
   border-radius: 6px;
   font-size: 0.8rem;
   line-height: 2;
+}
+
+.code-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.code-item {
+  width: calc(50% - 0.5rem);
+  position: relative;
+  height: 500px;
+}
+
+.CodeMirror {
+  width: 100%;
 }
 
 @media screen and (max-width: 900px) {
