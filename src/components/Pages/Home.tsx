@@ -1,6 +1,7 @@
 import React from 'react';
 import { ContentWrapper } from '../ContentWrapper';
 import { Description } from '../Description';
+import { Debugger } from '../Debugger';
 
 export const Home = () => {
   return (
@@ -21,7 +22,7 @@ export const Home = () => {
         <Description />
       </ContentWrapper>
       <ContentWrapper>
-        <h1>Home</h1>
+        <Debugger />
       </ContentWrapper>
     </div>
   );

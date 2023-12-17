@@ -5,6 +5,7 @@ import { Home } from './components/Pages/Home';
 import { Library } from './components/Pages/Library';
 import { Layout } from 'antd';
 import { ContentWrapper } from './components/ContentWrapper';
+import { GithubOutlined } from '@ant-design/icons';
 const { Content, Footer } = Layout;
 
 function App() {
@@ -57,6 +58,23 @@ function App() {
                 >
                   {'License'}
                 </span>
+              </div>
+              <div
+                style={{
+                  cursor: 'pointer',
+                }}
+                onClick={() => {
+                  window.open(
+                    'https://github.com/lukasjhan/sd-jwt-io',
+                    '_blank'
+                  );
+                }}
+              >
+                <GithubOutlined
+                  style={{
+                    fontSize: '1.2rem',
+                  }}
+                />
               </div>
             </div>
           </ContentWrapper>

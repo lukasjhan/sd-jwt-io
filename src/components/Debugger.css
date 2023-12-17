@@ -1,0 +1,32 @@
+.debugger-wrapper {
+  padding: 60px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.debugger-title {
+  font-size: 2.4rem;
+}
+
+.debugger-warning {
+  background-color: #fff7c9;
+  padding: 1.4rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  line-height: 2;
+}
+
+@media screen and (max-width: 900px) {
+  .debugger-title {
+    font-size: 2rem;
+  }
+}
+
+@media screen and (max-width: 760px) {
+  .debugger-title {
+    font-size: 1.6rem;
+  }
+}
