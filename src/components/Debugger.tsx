@@ -1,7 +1,7 @@
 import { Select } from 'antd';
 import './Debugger.css';
 import CodeMirror from 'codemirror';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { UnControlled as UnControlledEditor } from 'react-codemirror2';
 
 const Warning = () => {
@@ -82,6 +82,26 @@ const JWTCode = () => {
 };
 
 export const Debugger = () => {
+  useEffect(() => {
+    if (window.location.hash !== '#debugger') {
+      return;
+    }
+    setTimeout(() => {
+      const element = document.getElementById('debugger');
+      if (element) {
+        const offset = 150; // Number of pixels you want to scroll above the element
+        const elementPosition =
+          element.getBoundingClientRect().top + window.pageYOffset;
+        const offsetPosition = elementPosition - offset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth',
+        });
+      }
+    });
+  }, []);
+
   return (
     <div className="debugger-wrapper">
       <div className="debugger-title" id="debugger">

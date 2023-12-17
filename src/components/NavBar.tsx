@@ -7,9 +7,12 @@ function NavBar() {
   const [click, setClick] = useState(false);
 
   const handleClick = () => setClick(!click);
-  const unClick = () => setClick(false);
+  const unClick = () => {
+    window.scrollTo(0, 0);
+    setClick(false);
+  };
   const onClickDebug = () => {
-    unClick();
+    setClick(false);
     const element = document.getElementById('debugger');
     if (element) {
       const offset = 150; // Number of pixels you want to scroll above the element
@@ -27,7 +30,7 @@ function NavBar() {
     <>
       <nav className="navbar">
         <div className="nav-container">
-          <NavLink to="/" className="nav-logo">
+          <NavLink to="/" className="nav-logo" onClick={unClick}>
             <span>SD JWT</span>
           </NavLink>
 
