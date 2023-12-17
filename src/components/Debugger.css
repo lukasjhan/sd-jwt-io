@@ -142,6 +142,12 @@
 .cm-jwt-dot {
   color: black;
 }
+.cm-sdjwt-disclosure {
+  color: purple;
+} /* Style for disclosures */
+.cm-jwt-kbjwt {
+  color: orange;
+} /* Style for additional data */
 
 .json-header .CodeMirror {
   font-size: 1rem;
@@ -156,6 +162,15 @@
 .verified-share-wrapper {
   display: flex;
   align-self: flex-end;
-  gap: 2rem;
+  gap: 1rem;
   padding: 0 20px;
+}
+
+.decode-tab {
+  cursor: pointer;
+}
+
+.decode-tab-active {
+  font-weight: bold;
+  cursor: pointer;
 }

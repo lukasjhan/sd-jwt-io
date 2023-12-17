@@ -45,7 +45,12 @@ function NavBar() {
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink to="/library" className="nav-links" onClick={unClick}>
+              <NavLink
+                to="https://github.com/openwallet-foundation-labs/sd-jwt-js"
+                target="_black"
+                className="nav-links"
+                onClick={unClick}
+              >
                 Library
               </NavLink>
             </li>

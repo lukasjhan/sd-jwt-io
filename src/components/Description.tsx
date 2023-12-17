@@ -43,7 +43,10 @@ export const Description = () => {
         <div
           className="button subdue"
           onClick={() => {
-            window.location.href = window.location.origin + '/library';
+            window.open(
+              'https://github.com/openwallet-foundation-labs/sd-jwt-js',
+              '_blank'
+            );
           }}
         >
           {'SEE JWT LIBRARIES'}

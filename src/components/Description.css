@@ -33,6 +33,10 @@
   color: #6495ed;
 }
 
+.small-button {
+  padding: 0.5em 1rem;
+}
+
 @media screen and (max-width: 900px) {
   .description {
     font-size: 24px;
