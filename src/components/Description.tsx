@@ -29,8 +29,25 @@ export const Description = () => {
       </div>
       <div>SD-JWT.net allows you to decode, verify and generate SD JWT.</div>
       <div className="cta-buttons">
-        <div className="button primary">{'LEARN MORE ABOUT SD JWT'}</div>
-        <div className="button subdue">{'SEE JWT LIBRARIES'}</div>
+        <div
+          className="button primary"
+          onClick={() => {
+            window.open(
+              'https://www.ietf.org/archive/id/draft-ietf-oauth-selective-disclosure-jwt-06.html',
+              '_blank'
+            );
+          }}
+        >
+          {'LEARN MORE ABOUT SD JWT'}
+        </div>
+        <div
+          className="button subdue"
+          onClick={() => {
+            window.location.href = window.location.origin + '/library';
+          }}
+        >
+          {'SEE JWT LIBRARIES'}
+        </div>
       </div>
     </div>
   );
