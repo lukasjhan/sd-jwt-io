@@ -1,3 +1,6 @@
+@import 'codemirror/lib/codemirror.css';
+@import 'codemirror/theme/material.css';
+
 .debugger-wrapper {
   padding: 60px 0px;
   display: flex;
@@ -29,4 +32,17 @@
   .debugger-title {
     font-size: 1.6rem;
   }
+}
+
+.cm-jwt-header {
+  color: red;
+}
+.cm-jwt-payload {
+  color: green;
+}
+.cm-jwt-signature {
+  color: blue;
+}
+.cm-jwt-dot {
+  color: black;
 }

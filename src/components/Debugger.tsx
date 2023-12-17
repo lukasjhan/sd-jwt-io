@@ -1,5 +1,8 @@
 import { Select } from 'antd';
 import './Debugger.css';
+import CodeMirror from 'codemirror';
+import { useState } from 'react';
+import { UnControlled as UnControlledEditor } from 'react-codemirror2';
 
 const Warning = () => {
   return (
@@ -55,12 +58,63 @@ const SelectAlg = () => {
   );
 };
 
+const MyComponent = () => {
+  const [jwt, setJwt] = useState(
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+  );
+
+  setTimeout(() => {
+    setJwt('hi.hi.hi');
+  }, 5000);
+
+  return (
+    <UnControlledEditor
+      value={jwt}
+      options={{
+        mode: 'jwt',
+      }}
+      onChange={(editor, data, value) => {
+        console.log(value);
+      }}
+    />
+  );
+};
+
 export const Debugger = () => {
   return (
     <div className="debugger-wrapper">
       <div className="debugger-title">Debugger</div>
       <Warning />
       <SelectAlg />
+      <MyComponent />
     </div>
   );
 };
+
+CodeMirror.defineMode('jwt', function () {
+  return {
+    token: function (stream, state) {
+      if (stream.sol() && !state.partParsed) {
+        stream.skipTo('.') || stream.skipToEnd();
+        state.partParsed = 'header';
+        return 'jwt-header';
+      }
+
+      if (stream.peek() === '.' && state.partParsed !== 'signature') {
+        stream.next(); // Skip the dot itself
+        if (state.partParsed === 'header') {
+          state.partParsed = 'payload';
+        } else if (state.partParsed === 'payload') {
+          state.partParsed = 'signature';
+        }
+        return 'jwt-dot'; // Don't style the dot
+      }
+
+      stream.skipTo('.') || stream.skipToEnd();
+      return 'jwt-' + state.partParsed;
+    },
+    startState: function () {
+      return { partParsed: null };
+    },
+  };
+});
