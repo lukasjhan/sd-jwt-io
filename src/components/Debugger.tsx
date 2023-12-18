@@ -4,7 +4,7 @@ import CodeMirror from 'codemirror';
 import { useEffect, useState } from 'react';
 import { Controlled as ControlledEditor } from 'react-codemirror2';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
-import sdjwt from '@lukas.j.han/sd-jwt';
+import sdjwt from '@hopae/sd-jwt';
 
 const initialToken =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6InNkK2p3dCJ9.eyJsYXN0bmFtZSI6IkRvZSIsInNzbiI6IjEyMy00NS02Nzg5IiwiX3NkIjpbIk4yUXhZV1UxTlRnME1qQmpOR1JpWVRCaU1tRmtaamN5WXpSbFpXUmhaRGd5WkRCbE1qaGhZVGcwTnpJMU9XSXpZek5qWkdNNE1qZG1NVGN6TmpZd05RIiwiWlRSalkyUTVOemRoWkRVM05tWTFZV0UyTmpka01XVmpNRE16WXpOak5qQmtNak5pT0dZelpHSTBOelV4TURsak9EWTRNREEzWm1JeFpUY3daREZqTmciXSwiX3NkX2FsZyI6InNoYS0yNTYifQ.mX14Sw86xy8NFQta7tCfNmhVCqzfaJ_K3VEIhTjbLDY~WyJmYjlhZTU3OTMwMDE1NTA4NjY2YTQzODQwNGU1MzA1YiIsImZpcnN0bmFtZSIsIkpvaG4iXQ~WyJiOTYzMDcyNWViZjViYTE4OTc1ZWU4MWY4MWZkNTc3YyIsImlkIiwiMTIzNCJd~';
@@ -241,7 +241,7 @@ export const Debugger = () => {
 
   const [token, setToken] = useState(initialToken);
   const [tab, setTab] = useState<'claim' | 'discloseFrame' | 'discolsures'>(
-    'claim'
+    'claim',
   );
 
   const [secret, setSecret] = useState('your-256-bit-secret');
@@ -253,8 +253,8 @@ export const Debugger = () => {
         _sd: ['firstname', 'id'],
       },
       null,
-      2
-    )
+      2,
+    ),
   );
 
   const [claims, setClaims] = useState(
@@ -266,8 +266,8 @@ export const Debugger = () => {
         id: '1234',
       },
       null,
-      2
-    )
+      2,
+    ),
   );
 
   const [discolsures, setDiscolsures] = useState(
@@ -285,8 +285,8 @@ export const Debugger = () => {
         },
       ],
       null,
-      2
-    )
+      2,
+    ),
   );
 
   const tabValue = {
@@ -308,8 +308,8 @@ export const Debugger = () => {
         typ: 'sd+jwt',
       },
       null,
-      2
-    )
+      2,
+    ),
   );
 
   const encode = async () => {
@@ -323,7 +323,7 @@ export const Debugger = () => {
         sd_Data,
         {
           sign_alg: 'HS256',
-        }
+        },
       );
       setToken(token);
     } catch (e) {

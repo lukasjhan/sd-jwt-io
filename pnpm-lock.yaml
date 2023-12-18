@@ -8,7 +8,7 @@ dependencies:
   '@ant-design/icons':
     specifier: ^5.2.6
     version: 5.2.6(react-dom@18.2.0)(react@18.2.0)
-  '@lukas.j.han/sd-jwt':
+  '@hopae/sd-jwt':
     specifier: ^1.0.0
     version: 1.0.0
   '@testing-library/jest-dom':
@@ -1816,6 +1816,12 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: false
 
+  /@hopae/sd-jwt@1.0.0:
+    resolution: {integrity: sha512-szUgYLjvDW/Es0afIrkpAkBTLIKOjiXM5STjfmaZMrAwEHjWF4gttZUgoyRcRQpKgNuCaxZn696F8HGIulQNSg==}
+    dependencies:
+      jose: 5.1.3
+    dev: false
+
   /@humanwhocodes/config-array@0.11.13:
     resolution: {integrity: sha512-JSBDMiDKSzQVngfRjOdFXgFfklaXI4K9nLF49Auh21lmBWRLIK3+xTErTWD4KU54pb6coM6ESE7Awz/FNU3zgQ==}
     engines: {node: '>=10.10.0'}
@@ -2123,12 +2129,6 @@ packages:
 
   /@leichtgewicht/ip-codec@2.0.4:
     resolution: {integrity: sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A==}
-    dev: false
-
-  /@lukas.j.han/sd-jwt@1.0.0:
-    resolution: {integrity: sha512-9PpkV1bbOmvUkpr8WoFDbQlnBNpWey1DeYVFX36X1D9EEHcTxYiraI2dMuu/kRkdEvm73OZJxIdvaMAWE3mySA==}
-    dependencies:
-      jose: 5.1.3
     dev: false
 
   /@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1:
