@@ -1,85 +1,20 @@
-import { Select, Input, Checkbox, message } from 'antd';
+import { Input, Checkbox, message } from 'antd';
 import './Debugger.css';
 import CodeMirror from 'codemirror';
 import { useEffect, useState } from 'react';
 import { Controlled as ControlledEditor } from 'react-codemirror2';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import sdjwt from '@hopae/sd-jwt';
+import { Warning } from './Warning';
+import {
+  copyCurrentURLToClipboard,
+  stringToUint8Array,
+  updateURLWithQuery,
+} from '../utils';
+import { SelectAlg } from './SelectAlg';
 
 const initialToken =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6InNkK2p3dCJ9.eyJsYXN0bmFtZSI6IkRvZSIsInNzbiI6IjEyMy00NS02Nzg5IiwiX3NkIjpbIk4yUXhZV1UxTlRnME1qQmpOR1JpWVRCaU1tRmtaamN5WXpSbFpXUmhaRGd5WkRCbE1qaGhZVGcwTnpJMU9XSXpZek5qWkdNNE1qZG1NVGN6TmpZd05RIiwiWlRSalkyUTVOemRoWkRVM05tWTFZV0UyTmpka01XVmpNRE16WXpOak5qQmtNak5pT0dZelpHSTBOelV4TURsak9EWTRNREEzWm1JeFpUY3daREZqTmciXSwiX3NkX2FsZyI6InNoYS0yNTYifQ.mX14Sw86xy8NFQta7tCfNmhVCqzfaJ_K3VEIhTjbLDY~WyJmYjlhZTU3OTMwMDE1NTA4NjY2YTQzODQwNGU1MzA1YiIsImZpcnN0bmFtZSIsIkpvaG4iXQ~WyJiOTYzMDcyNWViZjViYTE4OTc1ZWU4MWY4MWZkNTc3YyIsImlkIiwiMTIzNCJd~';
-
-const Warning = () => {
-  return (
-    <div className="debugger-warning">
-      <span
-        style={{
-          fontWeight: 'bold',
-        }}
-      >
-        {'Warning: '}
-      </span>
-      {
-        'SD JWTs are credentials, which might have personal data. Be careful where you paste them! We do not record tokens, all validation and debugging is done on the client side.'
-      }
-    </div>
-  );
-};
-
-const SelectAlg = () => {
-  return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontWeight: 'bold',
-        gap: '1rem',
-      }}
-    >
-      <div>{'Algorithm'}</div>
-      <Select
-        defaultValue="HS256"
-        style={{ width: 100 }}
-        onChange={(value: string) => {
-          console.log(value);
-        }}
-        options={[
-          { value: 'HS256', label: 'HS256' },
-          { value: 'HS384', label: 'HS384' },
-          { value: 'HS512', label: 'HS512' },
-          { value: 'RS256', label: 'RS256' },
-          { value: 'RS384', label: 'RS384' },
-          { value: 'RS512', label: 'RS512' },
-          { value: 'ES256', label: 'ES256' },
-          { value: 'ES384', label: 'ES384' },
-          { value: 'ES512', label: 'ES512' },
-          { value: 'PS256', label: 'PS256' },
-          { value: 'PS384', label: 'PS384' },
-          { value: 'PS512', label: 'PS512' },
-        ]}
-      />
-    </div>
-  );
-};
-
-export function updateURLWithQuery(queryData: string) {
-  if (window.history.pushState) {
-    const newurl =
-      window.location.protocol +
-      '//' +
-      window.location.host +
-      window.location.pathname +
-      `?${queryData}`;
-    window.history.pushState({ path: newurl }, '', newurl);
-  }
-}
-
-function stringToUint8Array(str: string) {
-  const encoder = new TextEncoder(); // Create a new TextEncoder instance
-  const uint8Array = encoder.encode(str); // Encode the string
-  return uint8Array;
-}
 
 const JWTCode = ({
   token,
@@ -203,21 +138,6 @@ const JWTDecode = ({
   );
 };
 
-const copyCurrentURLToClipboard = async () => {
-  if (!navigator.clipboard) {
-    console.error('Clipboard API not available');
-    return false;
-  }
-
-  try {
-    await navigator.clipboard.writeText(window.location.href);
-    return true;
-  } catch (err) {
-    console.error('Failed to copy: ', err);
-    return false;
-  }
-};
-
 export const Debugger = () => {
   useEffect(() => {
     if (window.location.hash !== '#debugger') {
@@ -241,7 +161,7 @@ export const Debugger = () => {
 
   const [token, setToken] = useState(initialToken);
   const [tab, setTab] = useState<'claim' | 'discloseFrame' | 'discolsures'>(
-    'claim',
+    'claim'
   );
 
   const [secret, setSecret] = useState('your-256-bit-secret');
@@ -253,8 +173,8 @@ export const Debugger = () => {
         _sd: ['firstname', 'id'],
       },
       null,
-      2,
-    ),
+      2
+    )
   );
 
   const [claims, setClaims] = useState(
@@ -266,8 +186,8 @@ export const Debugger = () => {
         id: '1234',
       },
       null,
-      2,
-    ),
+      2
+    )
   );
 
   const [discolsures, setDiscolsures] = useState(
@@ -285,8 +205,8 @@ export const Debugger = () => {
         },
       ],
       null,
-      2,
-    ),
+      2
+    )
   );
 
   const tabValue = {
@@ -308,8 +228,8 @@ export const Debugger = () => {
         typ: 'sd+jwt',
       },
       null,
-      2,
-    ),
+      2
+    )
   );
 
   const encode = async () => {
@@ -323,7 +243,7 @@ export const Debugger = () => {
         sd_Data,
         {
           sign_alg: 'HS256',
-        },
+        }
       );
       setToken(token);
     } catch (e) {
