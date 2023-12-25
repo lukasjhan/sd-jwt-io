@@ -85,7 +85,7 @@ const JWTPayload = ({
   );
 };
 
-const JWTDecode = ({
+const JWTSig = ({
   secret,
   setSecret,
   checked,
@@ -362,7 +362,7 @@ export const Debugger = () => {
               {'VERIFY SIGNATURE'}
             </div>
             <div className="decode-item">
-              <JWTDecode
+              <JWTSig
                 secret={secret}
                 setSecret={setSecret}
                 checked={base64Checked}
