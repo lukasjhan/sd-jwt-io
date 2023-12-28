@@ -64,7 +64,9 @@ export const DebugHook = () => {
   const encode = async () => {
     try {
       const data = JSON.parse(claims);
-      const sd_Data = JSON.parse(discloseFrame) as any;
+      const sd_Data = discloseFrame
+        ? (JSON.parse(discloseFrame) as any)
+        : undefined;
       console.log(data);
       const token = await sdjwt.issue(
         data,
@@ -75,6 +77,9 @@ export const DebugHook = () => {
         }
       );
       setToken(token);
+      const sdJwtToken = sdjwt.decode(token);
+
+      setDiscolsures(JSON.stringify(sdJwtToken.disclosures, null, 2));
     } catch (e) {
       console.error(e);
       message.error('Encode Failed', 2);
@@ -100,7 +105,10 @@ export const DebugHook = () => {
 
   const verify = async () => {
     try {
-      const result = await sdjwt.validate(token, stringToUint8Array(secret));
+      const sig = base64Checked
+        ? stringToUint8Array(atob(secret))
+        : stringToUint8Array(secret);
+      const result = await sdjwt.validate(token, sig);
       if (result) {
         message.success('Verify Success', 2);
       } else {
