@@ -9,17 +9,19 @@ export const JwtCode = ({
   setToken: (t: string) => void;
 }) => {
   return (
-    <ControlledEditor
-      value={token}
-      options={{
-        mode: "jwt",
-        lineWrapping: true,
-      }}
-      onBeforeChange={(editor, data, value) => {
-        updateURLWithQuery(`token=${value}`);
-        setToken(value);
-        console.log(value);
-      }}
-    />
+    <div className="area-wrapper">
+      <ControlledEditor
+        value={token}
+        options={{
+          mode: "jwt",
+          lineWrapping: true,
+        }}
+        onBeforeChange={(editor, data, value) => {
+          updateURLWithQuery(`token=${value}`);
+          setToken(value);
+          console.log(value);
+        }}
+      />
+    </div>
   );
 };

@@ -13,6 +13,7 @@ import {
 } from "./index";
 import "./Debugger.css";
 import Button from "./common/Button";
+import { DebuggerContainer } from "./DebuggerContainer";
 
 export const Debugger = () => {
   useEffect(() => {
@@ -90,25 +91,12 @@ export const Debugger = () => {
       </div>
       <Warning />
       <SelectAlgorithm />
+
       <div className="code-wrapper">
-        <div className="code-item">
-          <div className="code-title-wrapper">
-            <div className="code-title">{"Encoded"}</div>
-            <div className="code-desc">
-              {"paste your token here".toUpperCase()}
-            </div>
-          </div>
-          <div className="area-wrapper">
-            <JwtCode token={token} setToken={setToken} />
-          </div>
-        </div>
-        <div className="code-item">
-          <div className="code-title-wrapper">
-            <div className="code-title">{"Decoded"}</div>
-            <div className="code-desc">
-              {"edit the payload and secret".toUpperCase()}
-            </div>
-          </div>
+        <DebuggerContainer>
+          <JwtCode token={token} setToken={setToken} />
+        </DebuggerContainer>
+        <DebuggerContainer>
           <div className="decode-area">
             <JwtHeader header={header} setHeader={setHeader} />
             <Tabs tab={tab} setTab={setTab} />
@@ -120,7 +108,7 @@ export const Debugger = () => {
               setChecked={setBase64Checked}
             />
           </div>
-        </div>
+        </DebuggerContainer>
       </div>
 
       <div className="verified-share-wrapper">
