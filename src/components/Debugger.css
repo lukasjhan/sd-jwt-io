@@ -1,5 +1,5 @@
-@import 'codemirror/lib/codemirror.css';
-@import 'codemirror/theme/material.css';
+@import "codemirror/lib/codemirror.css";
+@import "codemirror/theme/material.css";
 
 .debugger-wrapper {
   padding: 60px 0px;
@@ -91,11 +91,6 @@
   gap: 0.5rem;
   justify-content: flex-start;
   align-items: baseline;
-}
-
-.decode-desc {
-  font-size: 0.6rem;
-  color: #777;
 }
 
 .decode-item {

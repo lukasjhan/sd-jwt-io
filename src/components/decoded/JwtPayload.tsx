@@ -1,4 +1,5 @@
 import { Controlled as ControlledEditor } from "react-codemirror2";
+import { decodeItem } from "../common/style";
 
 export const JwtPayload = ({
   payload,
@@ -8,17 +9,19 @@ export const JwtPayload = ({
   setPayload: any;
 }) => {
   return (
-    <ControlledEditor
-      value={payload}
-      options={{
-        mode: "javascript",
-        lineWrapping: true,
-      }}
-      onBeforeChange={(editor, data, value) => {
-        console.log(value);
-        setPayload(value);
-      }}
-      className="json-payload"
-    />
+    <div style={decodeItem}>
+      <ControlledEditor
+        value={payload}
+        options={{
+          mode: "javascript",
+          lineWrapping: true,
+        }}
+        onBeforeChange={(editor, data, value) => {
+          console.log(value);
+          setPayload(value);
+        }}
+        className="json-payload"
+      />
+    </div>
   );
 };

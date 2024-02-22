@@ -1,6 +1,6 @@
 import { message } from "antd";
 import CodeMirror from "codemirror";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { copyCurrentURLToClipboard, updateURLWithQuery } from "../utils";
 import { DebugHook } from "../hooks/debug.hook";
 import {
@@ -12,6 +12,7 @@ import {
   Warning,
 } from "./index";
 import "./Debugger.css";
+import Button from "./common/Button";
 
 export const Debugger = () => {
   useEffect(() => {
@@ -109,100 +110,47 @@ export const Debugger = () => {
             </div>
           </div>
           <div className="decode-area">
-            <div className="decode-header">
-              {"HEADER"}
-              <span className="decode-desc">{"ALGORITHM & TOKEN TYPE"}</span>
-            </div>
-            <div className="decode-item">
-              <JwtHeader header={header} setHeader={setHeader} />
-            </div>
-            <div className="decode-header decode-border-top">
-              <span
-                className={tab === "claim" ? "decode-tab-active" : "decode-tab"}
-                onClick={() => setTab("claim")}
-              >
-                {"Claims"}
-              </span>
-              <span
-                className={
-                  tab === "discloseFrame" ? "decode-tab-active" : "decode-tab"
-                }
-                onClick={() => setTab("discloseFrame")}
-              >
-                {"DiscloseFrames"}
-              </span>
-              <span
-                className={
-                  tab === "discolsures" ? "decode-tab-active" : "decode-tab"
-                }
-                onClick={() => setTab("discolsures")}
-              >
-                {"Discolsures"}
-              </span>
-            </div>
-            <div className="decode-item">
-              <JwtPayload
-                payload={tabValue[tab]}
-                setPayload={tabHandler[tab]}
-              />
-            </div>
-            <div className="decode-header decode-border-top">
-              {"VERIFY SIGNATURE"}
-            </div>
-            <div className="decode-item">
-              <JwtSigature
-                secret={secret}
-                setSecret={setSecret}
-                checked={base64Checked}
-                setChecked={setBase64Checked}
-              />
-            </div>
+            <JwtHeader header={header} setHeader={setHeader} />
+            <Tabs tab={tab} setTab={setTab} />
+            <JwtPayload payload={tabValue[tab]} setPayload={tabHandler[tab]} />
+            <JwtSigature
+              secret={secret}
+              setSecret={setSecret}
+              checked={base64Checked}
+              setChecked={setBase64Checked}
+            />
           </div>
         </div>
       </div>
+
       <div className="verified-share-wrapper">
-        <div
-          className="button small-button"
-          onClick={() => {
-            encode();
-          }}
-        >
-          Encode SD JWT
-        </div>
-        <div
-          className="button small-button"
-          onClick={() => {
-            decode();
-          }}
-        >
-          Decode SD JWT
-        </div>
-        <div
-          className="button small-button"
-          onClick={() => {
-            verify();
-          }}
-        >
-          Verify Signature
-        </div>
-        <div
-          className="button subdue small-button"
-          style={{
-            background: "transparent",
-          }}
+        <Button onClick={() => encode()}>Encode SD JWT</Button>
+        <Button onClick={() => decode()}>Decode SD JWT</Button>
+        <Button onClick={() => verify()}>Verify Signature</Button>
+        <Button
           onClick={async () => {
             const result = await copyCurrentURLToClipboard();
             if (result) message.success("URL is copied to your clipboard", 2);
           }}
+          className="subdue"
+          style={{ background: "transparent" }}
         >
           Share SD JWT
-        </div>
+        </Button>
       </div>
     </div>
   );
 };
 
+interface TabProps {
+  tabName: string;
+  isActive: boolean;
+  setTab: any;
+  children: ReactNode;
+}
+
 CodeMirror.defineMode("jwt", function () {
+  console.log("jwt code Mirror");
   return {
     token: function (stream, state) {
       if (stream.sol()) {
@@ -232,3 +180,38 @@ CodeMirror.defineMode("jwt", function () {
     },
   };
 });
+
+const Tab = ({ tabName, isActive, setTab, children }: TabProps) => (
+  <span
+    className={isActive ? "decode-tab-active" : "decode-tab"}
+    onClick={() => setTab(tabName)}
+  >
+    {children}
+  </span>
+);
+
+const Tabs = ({ tab, setTab }: any) => (
+  <div className="decode-header decode-border-top">
+    <Tab
+      tabName="claim"
+      isActive={tab === "claim"}
+      setTab={() => setTab("discloseFrame")}
+    >
+      Claims
+    </Tab>
+    <Tab
+      tabName="discloseFrame"
+      isActive={tab === "discloseFrame"}
+      setTab={() => setTab("discolsures")}
+    >
+      DiscloseFrames
+    </Tab>
+    <Tab
+      tabName="discolsures"
+      isActive={tab === "discolsures"}
+      setTab={() => setTab("discolsures")}
+    >
+      Discolsure
+    </Tab>
+  </div>
+);
