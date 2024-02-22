@@ -1,3 +1,5 @@
+/* styles.module.css */
+
 .navbar {
   background-color: black;
   height: 100px;
@@ -11,7 +13,7 @@
   border-bottom: 1px solid rgb(74, 74, 74);
 }
 
-.nav-container {
+.navContainer {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -21,7 +23,7 @@
   position: relative;
 }
 
-.nav-logo {
+.navLogo {
   color: white;
   align-items: center;
   margin-left: 20px;
@@ -35,14 +37,14 @@
   justify-items: center;
 }
 
-.nav-logo .icon {
+.navLogo .icon {
   display: inline-block;
   width: 3rem;
   height: 3rem;
   margin-left: 16px;
 }
 
-.nav-menu {
+.navMenu {
   display: flex;
   list-style: none;
   text-align: center;
@@ -53,7 +55,7 @@
   flex-grow: 1;
 }
 
-.nav-links {
+.navLinks {
   color: #e5e5e5;
   text-decoration: none;
   padding: 0.5rem 1rem;
@@ -62,20 +64,17 @@
   font-size: 0.9rem;
 }
 
-.nav-links:hover {
+.navLinks:hover {
   color: #c5c5c5;
 }
-/* .fa-code {
-  margin-left: 1rem;
-} */
 
-.nav-item {
+.navItem {
   line-height: 40px;
   margin-right: 1rem;
 }
 
-.nav-item:after {
-  content: '';
+.navItem:after {
+  content: "";
   display: block;
   height: 3px;
   width: 0;
@@ -83,16 +82,16 @@
   transition: width 0.7s ease, background-color 0.5s ease;
 }
 
-.nav-icon {
+.navIcon {
   display: none;
   color: white;
 }
 
 @media screen and (max-width: 760px) {
-  .nav-right {
+  .navRight {
     display: none;
   }
-  .nav-menu {
+  .navMenu {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -105,7 +104,7 @@
     padding: 0px;
   }
 
-  .nav-menu.active {
+  .navMenu.active {
     background: black;
     top: 70px;
     left: 0px;
@@ -114,7 +113,7 @@
     z-index: 1;
   }
 
-  .nav-links {
+  .navLinks {
     padding: 1.5rem;
     width: 100%;
     display: table;
@@ -122,12 +121,12 @@
     border: 1px solid #c5c5c5;
   }
 
-  .nav-logo .icon {
+  .navLogo .icon {
     width: 2rem;
     height: 2rem;
   }
 
-  .nav-icon {
+  .navIcon {
     display: block;
     position: absolute;
     top: 50%;
