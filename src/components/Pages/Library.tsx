@@ -1,22 +1,11 @@
-import { ContentWrapper } from '../ContentWrapper';
-import { LibraryDescription } from '../LibraryDescription';
+import { ContentWrapper } from "../ContentWrapper";
+import { LibraryDescription } from "../LibraryDescription";
+import { CSSProperties } from "react";
 
 export const Library = () => {
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-        flexDirection: 'column',
-      }}
-    >
-      <ContentWrapper
-        style={{
-          background: 'black',
-          color: 'white',
-        }}
-      >
+    <div style={LibraryWrap}>
+      <ContentWrapper>
         <LibraryDescription />
       </ContentWrapper>
       <ContentWrapper>
@@ -24,4 +13,11 @@ export const Library = () => {
       </ContentWrapper>
     </div>
   );
+};
+
+const LibraryWrap: CSSProperties = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "flex-start",
+  flexDirection: "column",
 };
