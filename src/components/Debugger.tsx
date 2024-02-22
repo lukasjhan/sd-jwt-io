@@ -1,135 +1,17 @@
-import { Input, Checkbox, message } from "antd";
-import "./Debugger.css";
+import { message } from "antd";
 import CodeMirror from "codemirror";
 import { useEffect, useState } from "react";
-import { Controlled as ControlledEditor } from "react-codemirror2";
-import { CheckboxChangeEvent } from "antd/es/checkbox";
-import { Warning } from "./Warning";
 import { copyCurrentURLToClipboard, updateURLWithQuery } from "../utils";
-import { SelectAlgorithm } from "./SelectAlgorithm";
 import { DebugHook } from "../hooks/debug.hook";
-
-const JWTCode = ({
-  token,
-  setToken,
-}: {
-  token: string;
-  setToken: (t: string) => void;
-}) => {
-  return (
-    <ControlledEditor
-      value={token}
-      options={{
-        mode: "jwt",
-        lineWrapping: true,
-      }}
-      onBeforeChange={(editor, data, value) => {
-        updateURLWithQuery(`token=${value}`);
-        setToken(value);
-        console.log(value);
-      }}
-    />
-  );
-};
-
-const JWTHeader = ({
-  header,
-  setHeader,
-}: {
-  header: string;
-  setHeader: any;
-}) => {
-  return (
-    <ControlledEditor
-      value={header}
-      options={{
-        mode: "javascript",
-        lineWrapping: true,
-      }}
-      onBeforeChange={(editor, data, value) => {
-        console.log(value);
-        setHeader(value);
-      }}
-      className="json-header"
-    />
-  );
-};
-
-const JWTPayload = ({
-  payload,
-  setPayload,
-}: {
-  payload: string;
-  setPayload: any;
-}) => {
-  return (
-    <ControlledEditor
-      value={payload}
-      options={{
-        mode: "javascript",
-        lineWrapping: true,
-      }}
-      onBeforeChange={(editor, data, value) => {
-        console.log(value);
-        setPayload(value);
-      }}
-      className="json-payload"
-    />
-  );
-};
-
-const JWTSig = ({
-  secret,
-  setSecret,
-  checked,
-  setChecked,
-}: {
-  secret: any;
-  setSecret: any;
-  checked: boolean;
-  setChecked: any;
-}) => {
-  const onChange = (e: CheckboxChangeEvent) => {
-    console.log(`checked = ${e.target.checked}`);
-    setChecked(e.target.checked);
-  };
-  return (
-    <pre
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "0.2rem",
-        color: "rgb(0, 185, 241)",
-      }}
-    >
-      <div>{"HMACSHA256("}</div>
-      <div>{`base64UrlEncode(header) + "." +`}</div>
-      <div>{"base64UrlEncode(payload),"}</div>
-      <div>
-        <Input
-          onChange={(e) => setSecret(e.target.value)}
-          value={secret}
-          style={{
-            width: "200px",
-            color: "rgb(0, 185, 241)",
-          }}
-        />
-      </div>
-      <div>
-        {")  "}
-        <Checkbox
-          checked={checked}
-          onChange={onChange}
-          style={{
-            color: "rgb(0, 185, 241)",
-          }}
-        >
-          {"secret base64 encoded"}
-        </Checkbox>
-      </div>
-    </pre>
-  );
-};
+import {
+  JwtCode,
+  JwtHeader,
+  JwtPayload,
+  JwtSigature,
+  SelectAlgorithm,
+  Warning,
+} from "./index";
+import "./Debugger.css";
 
 export const Debugger = () => {
   useEffect(() => {
@@ -216,7 +98,7 @@ export const Debugger = () => {
             </div>
           </div>
           <div className="area-wrapper">
-            <JWTCode token={token} setToken={setToken} />
+            <JwtCode token={token} setToken={setToken} />
           </div>
         </div>
         <div className="code-item">
@@ -232,7 +114,7 @@ export const Debugger = () => {
               <span className="decode-desc">{"ALGORITHM & TOKEN TYPE"}</span>
             </div>
             <div className="decode-item">
-              <JWTHeader header={header} setHeader={setHeader} />
+              <JwtHeader header={header} setHeader={setHeader} />
             </div>
             <div className="decode-header decode-border-top">
               <span
@@ -259,7 +141,7 @@ export const Debugger = () => {
               </span>
             </div>
             <div className="decode-item">
-              <JWTPayload
+              <JwtPayload
                 payload={tabValue[tab]}
                 setPayload={tabHandler[tab]}
               />
@@ -268,7 +150,7 @@ export const Debugger = () => {
               {"VERIFY SIGNATURE"}
             </div>
             <div className="decode-item">
-              <JWTSig
+              <JwtSigature
                 secret={secret}
                 setSecret={setSecret}
                 checked={base64Checked}
