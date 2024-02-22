@@ -93,10 +93,10 @@ export const Debugger = () => {
       <SelectAlgorithm />
 
       <div className="code-wrapper">
-        <DebuggerContainer>
+        <DebuggerContainer headerText="Encoded">
           <JwtCode token={token} setToken={setToken} />
         </DebuggerContainer>
-        <DebuggerContainer>
+        <DebuggerContainer headerText="Decoded">
           <div className="decode-area">
             <JwtHeader header={header} setHeader={setHeader} />
             <Tabs tab={tab} setTab={setTab} />
