@@ -30,3 +30,26 @@ export function stringToUint8Array(str: string) {
   const uint8Array = encoder.encode(str); // Encode the string
   return uint8Array;
 }
+
+export function decodeBase64URL(base64urlString: string): string {
+  // Convert Base64Url to Base64 by replacing '-' with '+', '_' with '/' and appending '=' to make the length a multiple of 4
+  const base64 = base64urlString
+    .replace(/-/g, '+')
+    .replace(/_/g, '/')
+    .padEnd(
+      base64urlString.length + ((4 - (base64urlString.length % 4)) % 4),
+      '=',
+    );
+
+  // Decode the Base64 string
+  const decodedString = atob(base64);
+
+  return decodedString;
+}
+
+export function bufferToBase64Url(buffer: ArrayBuffer): string {
+  // Convert ArrayBuffer to Base64
+  const base64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
+  // Convert Base64 to Base64Url by replacing '+' with '-', '/' with '_', and removing '='
+  return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
