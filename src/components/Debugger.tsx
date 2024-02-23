@@ -14,6 +14,7 @@ import {
 import "./Debugger.css";
 import Button from "./common/Button";
 import { DebuggerContainer } from "./DebuggerContainer";
+import { Equipments } from "./Equipments";
 
 export const Debugger = () => {
   useEffect(() => {
@@ -59,6 +60,22 @@ export const Debugger = () => {
   const [tab, setTab] = useState<"claim" | "discloseFrame" | "discolsures">(
     "claim"
   );
+  const [isEcode, setIsEncode] = useState(false);
+
+  const encodeClaim = () => {
+    encode();
+    setIsEncode(false);
+  };
+
+  const decodeJwt = () => {
+    decode();
+    setIsEncode(true);
+  };
+
+  const shareSdJwt = async () => {
+    const result = await copyCurrentURLToClipboard();
+    if (result) message.success("URL is copied to your clipboard", 2);
+  };
 
   const tabValue = {
     claim: claims,
@@ -92,10 +109,20 @@ export const Debugger = () => {
       <Warning />
       <SelectAlgorithm />
 
-      <div className="code-wrapper">
+      <div>
+        <Equipments
+          isEcode={isEcode}
+          encodeClaim={encodeClaim}
+          decodeJwt={decodeJwt}
+          shareSdJwt={shareSdJwt}
+        />
+      </div>
+
+      <div className={isEcode ? "code-wrapper" : "code-reverse-wrapper"}>
         <DebuggerContainer headerText="Encoded">
           <JwtCode token={token} setToken={setToken} />
         </DebuggerContainer>
+
         <DebuggerContainer headerText="Decoded">
           <div className="decode-area">
             <JwtHeader header={header} setHeader={setHeader} />
@@ -109,22 +136,6 @@ export const Debugger = () => {
             />
           </div>
         </DebuggerContainer>
-      </div>
-
-      <div className="verified-share-wrapper">
-        <Button onClick={() => encode()}>Encode SD JWT</Button>
-        <Button onClick={() => decode()}>Decode SD JWT</Button>
-        <Button onClick={() => verify()}>Verify Signature</Button>
-        <Button
-          onClick={async () => {
-            const result = await copyCurrentURLToClipboard();
-            if (result) message.success("URL is copied to your clipboard", 2);
-          }}
-          className="subdue"
-          style={{ background: "transparent" }}
-        >
-          Share SD JWT
-        </Button>
       </div>
     </div>
   );
@@ -168,6 +179,43 @@ CodeMirror.defineMode("jwt", function () {
     },
   };
 });
+
+const DebuggerContent = ({
+  token,
+  setToken,
+  header,
+  setHeader,
+  tab,
+  setTab,
+  tabValue,
+  tabHandler,
+  secret,
+  setSecret,
+  base64Checked,
+  setBase64Checked,
+}: any) => (
+  <>
+    <DebuggerContainer headerText="Encoded">
+      <JwtCode token={token} setToken={setToken} />
+    </DebuggerContainer>
+
+    <DebuggerContainer headerText="Decoded">
+      <div className="decode-area">
+        <JwtHeader header={header} setHeader={setHeader} />
+        <Tabs tab={tab} setTab={setTab} />
+        <JwtPayload payload={tabValue[tab]} setPayload={tabHandler[tab]} />
+        <JwtSigature
+          secret={secret}
+          setSecret={setSecret}
+          checked={base64Checked}
+          setChecked={setBase64Checked}
+        />
+      </div>
+    </DebuggerContainer>
+  </>
+);
+
+export default DebuggerContent;
 
 const Tab = ({ tabName, isActive, setTab, children }: TabProps) => (
   <span
