@@ -117,6 +117,7 @@ export const Debugger = () => {
         <Button onClick={() => verify()}>Verify Signature</Button>
         <Button
           onClick={async () => {
+            updateURLWithQuery(`token=${token}`);
             const result = await copyCurrentURLToClipboard();
             if (result) message.success("URL is copied to your clipboard", 2);
           }}
