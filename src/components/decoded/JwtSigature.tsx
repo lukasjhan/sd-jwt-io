@@ -11,7 +11,7 @@ export const JwtSigature = ({
   secret: any;
   setSecret: any;
   checked: boolean;
-  setChecked: any;
+  setChecked: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const onChange = (e: CheckboxChangeEvent) => {
     console.log(`checked = ${e.target.checked}`);

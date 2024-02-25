@@ -6,7 +6,7 @@ export const JwtPayload = ({
   setPayload,
 }: {
   payload: string;
-  setPayload: any;
+  setPayload: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   return (
     <div style={decodeItem}>
