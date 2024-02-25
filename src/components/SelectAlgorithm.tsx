@@ -1,4 +1,4 @@
-import { Select } from "antd";
+import { Select } from 'antd';
 
 interface SelectAlgorithmProps {
   select: (selected: string) => void;
@@ -25,9 +25,9 @@ const algorithms = [
 ];
 
 const SelectAlgorithmWrap = {
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  fontWeight: "bold",
-  gap: "1rem",
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  fontWeight: 'bold',
+  gap: '1rem',
 };
