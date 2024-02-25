@@ -180,43 +180,6 @@ CodeMirror.defineMode("jwt", function () {
   };
 });
 
-const DebuggerContent = ({
-  token,
-  setToken,
-  header,
-  setHeader,
-  tab,
-  setTab,
-  tabValue,
-  tabHandler,
-  secret,
-  setSecret,
-  base64Checked,
-  setBase64Checked,
-}: any) => (
-  <>
-    <DebuggerContainer headerText="Encoded">
-      <JwtCode token={token} setToken={setToken} />
-    </DebuggerContainer>
-
-    <DebuggerContainer headerText="Decoded">
-      <div className="decode-area">
-        <JwtHeader header={header} setHeader={setHeader} />
-        <Tabs tab={tab} setTab={setTab} />
-        <JwtPayload payload={tabValue[tab]} setPayload={tabHandler[tab]} />
-        <JwtSigature
-          secret={secret}
-          setSecret={setSecret}
-          checked={base64Checked}
-          setChecked={setBase64Checked}
-        />
-      </div>
-    </DebuggerContainer>
-  </>
-);
-
-export default DebuggerContent;
-
 const Tab = ({ tabName, isActive, setTab, children }: TabProps) => (
   <span
     className={isActive ? "decode-tab-active" : "decode-tab"}
@@ -228,26 +191,30 @@ const Tab = ({ tabName, isActive, setTab, children }: TabProps) => (
 
 const Tabs = ({ tab, setTab }: any) => (
   <div className="decode-header decode-border-top">
-    <Tab
-      tabName="claim"
-      isActive={tab === "claim"}
-      setTab={() => setTab("discloseFrame")}
-    >
-      Claims
-    </Tab>
-    <Tab
-      tabName="discloseFrame"
-      isActive={tab === "discloseFrame"}
-      setTab={() => setTab("discolsures")}
-    >
-      DiscloseFrames
-    </Tab>
-    <Tab
-      tabName="discolsures"
-      isActive={tab === "discolsures"}
-      setTab={() => setTab("discolsures")}
-    >
-      Discolsure
-    </Tab>
+    <div className="payload-subhead">
+      <Tab
+        tabName="claim"
+        isActive={tab === "claim"}
+        setTab={() => setTab("claim")}
+      >
+        Claims
+      </Tab>
+    </div>
+    <div className="payload-subhead">
+      <Tab
+        tabName="discloseFrame"
+        isActive={tab === "discloseFrame"}
+        setTab={() => setTab("discloseFrame")}
+      >
+        DiscloseFrames
+      </Tab>
+      <Tab
+        tabName="discolsures"
+        isActive={tab === "discolsures"}
+        setTab={() => setTab("discolsures")}
+      >
+        Discolsures
+      </Tab>
+    </div>
   </div>
 );
