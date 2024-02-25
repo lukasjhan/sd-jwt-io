@@ -108,14 +108,12 @@ export const Debugger = () => {
       <Warning />
       <SelectAlgorithm />
 
-      <div>
-        <Equipments
-          isEcoded={isEcoded}
-          encodeClaim={encodeClaim}
-          decodeJwt={decodeJwt}
-          shareSdJwt={shareSdJwt}
-        />
-      </div>
+      <Equipments
+        isEcoded={isEcoded}
+        encodeClaim={encodeClaim}
+        decodeJwt={decodeJwt}
+        shareSdJwt={shareSdJwt}
+      />
 
       <div className={isEcoded ? "code-wrapper" : "code-reverse-wrapper"}>
         <DebuggerContainer headerText="Encoded">
