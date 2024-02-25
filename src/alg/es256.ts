@@ -1,3 +1,5 @@
+import { Signer, Verifier } from '@lukas.j.han/sd-jwt-type';
+
 const spkiToPEM = (keyData: ArrayBuffer) => {
   const keyB64 = arrayBufferToBase64(keyData);
   const keyPem = `-----BEGIN PUBLIC KEY-----\n${formatKeyBase64(
@@ -119,7 +121,7 @@ export const ES256 = {
     return { publicKey, privateKey };
   },
 
-  async getSigner(privateKeyPEM: string) {
+  async getSigner(privateKeyPEM: string): Promise<Signer> {
     const privateKey = await pkcs8PemToCryptoKey(privateKeyPEM);
     return async (data: string) => {
       const encoder = new TextEncoder();
@@ -140,7 +142,7 @@ export const ES256 = {
     };
   },
 
-  async getVerifier(publicKeyPEM: string) {
+  async getVerifier(publicKeyPEM: string): Promise<Verifier> {
     const publicKey = await spkiPemToCryptoKey(publicKeyPEM);
     return async (data: string, signatureBase64url: string) => {
       const encoder = new TextEncoder();
