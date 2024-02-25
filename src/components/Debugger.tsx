@@ -57,9 +57,8 @@ export const Debugger = () => {
     verify,
   } = DebugHook();
 
-  const [tab, setTab] = useState<"claim" | "discloseFrame" | "discolsures">(
-    "claim"
-  );
+  type TabType = "claim" | "discloseFrame" | "discolsures";
+  const [tab, setTab] = useState<TabType>("claim");
   const [isEcode, setIsEncode] = useState(false);
 
   const encodeClaim = () => {
@@ -126,7 +125,11 @@ export const Debugger = () => {
         <DebuggerContainer headerText="Decoded">
           <div className="decode-area">
             <JwtHeader header={header} setHeader={setHeader} />
-            <Tabs tab={tab} setTab={setTab} />
+            {isEcode ? (
+              <SingleTab tab={tab} setTab={setTab} />
+            ) : (
+              <MultiTab tab={tab} setTab={setTab} />
+            )}
             <JwtPayload payload={tabValue[tab]} setPayload={tabHandler[tab]} />
             <JwtSigature
               secret={secret}
@@ -144,7 +147,7 @@ export const Debugger = () => {
 interface TabProps {
   tabName: string;
   isActive: boolean;
-  setTab: any;
+  setTab: React.Dispatch<React.SetStateAction<string>>;
   children: ReactNode;
 }
 
@@ -180,41 +183,34 @@ CodeMirror.defineMode("jwt", function () {
   };
 });
 
-const Tab = ({ tabName, isActive, setTab, children }: TabProps) => (
-  <span
-    className={isActive ? "decode-tab-active" : "decode-tab"}
-    onClick={() => setTab(tabName)}
-  >
-    {children}
-  </span>
+const SingleTab = ({ tab, setTab }: any) => (
+  <div className="decode-header decode-border-top">
+    <span
+      className={tab === "discolsures" ? "decode-tab-active" : "decode-tab"}
+      onClick={() => setTab("discolsures")}
+    >
+      {"Discolsures"}
+    </span>
+  </div>
 );
 
-const Tabs = ({ tab, setTab }: any) => (
+const MultiTab = ({ tab, setTab }: any) => (
   <div className="decode-header decode-border-top">
     <div className="payload-subhead">
-      <Tab
-        tabName="claim"
-        isActive={tab === "claim"}
-        setTab={() => setTab("claim")}
+      <span
+        className={tab === "claim" ? "decode-tab-active" : "decode-tab"}
+        style={{ borderRight: "1px solid #ccc", paddingRight: "1.25rem" }}
+        onClick={() => setTab("claim")}
       >
-        Claims
-      </Tab>
-    </div>
-    <div className="payload-subhead">
-      <Tab
-        tabName="discloseFrame"
-        isActive={tab === "discloseFrame"}
-        setTab={() => setTab("discloseFrame")}
+        {"Claims"}
+      </span>
+      <span
+        className={tab === "discloseFrame" ? "decode-tab-active" : "decode-tab"}
+        onClick={() => setTab("discloseFrame")}
+        style={{ paddingLeft: "1.25rem" }}
       >
-        DiscloseFrames
-      </Tab>
-      <Tab
-        tabName="discolsures"
-        isActive={tab === "discolsures"}
-        setTab={() => setTab("discolsures")}
-      >
-        Discolsures
-      </Tab>
+        {"DiscloseFrames"}
+      </span>
     </div>
   </div>
 );
