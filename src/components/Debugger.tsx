@@ -107,7 +107,11 @@ export const Debugger = () => {
         Debugger
       </div>
       <Warning />
-      <SelectAlgorithm />
+      <SelectAlgorithm
+        select={(value: string) => {
+          console.log(value);
+        }}
+      />
 
       <Equipments
         isEcoded={isEcoded}

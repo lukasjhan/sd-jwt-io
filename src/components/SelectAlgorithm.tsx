@@ -1,14 +1,17 @@
 import { Select } from "antd";
 
-export const SelectAlgorithm = () => {
+interface SelectAlgorithmProps {
+  select: (selected: string) => void;
+}
+export const SelectAlgorithm = ({ select }: SelectAlgorithmProps) => {
   return (
     <div style={SelectAlgorithmWrap}>
-      <div>{"Algorithm"}</div>
+      <div>{'Algorithm'}</div>
       <Select
         defaultValue="HS256"
         style={{ width: 100 }}
         onChange={(value: string) => {
-          console.log(value);
+          select(value);
         }}
         options={algorithms}
       />
