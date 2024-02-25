@@ -32,6 +32,15 @@
   align-items: center;
   position: relative;
 }
+.code-reverse-wrapper {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 2rem;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
 
 .code-item {
   width: calc(50% - 1rem);
@@ -83,7 +92,6 @@
 }
 
 .decode-header {
-  padding: 0.4rem 1rem;
   border-bottom: 1px solid #ccc;
   font-size: 0.9rem;
   display: flex;
@@ -91,6 +99,14 @@
   gap: 0.5rem;
   justify-content: flex-start;
   align-items: baseline;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.payload-subhead {
+  flex: 1;
+  padding: 0.4rem 1rem;
 }
 
 .decode-item {
@@ -107,6 +123,10 @@
 
 .decode-border-top {
   border-top: 1px solid #ccc;
+}
+.decode-payload-layout {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .json-editor {
