@@ -59,16 +59,16 @@ export const Debugger = () => {
 
   type TabType = "claim" | "discloseFrame" | "discolsures";
   const [tab, setTab] = useState<TabType>("claim");
-  const [isEcode, setIsEncode] = useState(false);
+  const [isEcoded, setIsEncoded] = useState(false);
 
   const encodeClaim = () => {
     encode();
-    setIsEncode(false);
+    setIsEncoded(true);
   };
 
   const decodeJwt = () => {
     decode();
-    setIsEncode(true);
+    setIsEncoded(false);
   };
 
   const shareSdJwt = async () => {
@@ -110,14 +110,14 @@ export const Debugger = () => {
 
       <div>
         <Equipments
-          isEcode={isEcode}
+          isEcoded={isEcoded}
           encodeClaim={encodeClaim}
           decodeJwt={decodeJwt}
           shareSdJwt={shareSdJwt}
         />
       </div>
 
-      <div className={isEcode ? "code-wrapper" : "code-reverse-wrapper"}>
+      <div className={isEcoded ? "code-wrapper" : "code-reverse-wrapper"}>
         <DebuggerContainer headerText="Encoded">
           <JwtCode token={token} setToken={setToken} />
         </DebuggerContainer>
@@ -125,7 +125,7 @@ export const Debugger = () => {
         <DebuggerContainer headerText="Decoded">
           <div className="decode-area">
             <JwtHeader header={header} setHeader={setHeader} />
-            {isEcode ? (
+            {isEcoded ? (
               <SingleTab tab={tab} setTab={setTab} />
             ) : (
               <MultiTab tab={tab} setTab={setTab} />
