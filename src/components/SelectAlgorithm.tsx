@@ -5,6 +5,7 @@ export const SelectAlgorithm = () => {
     <div style={SelectAlgorithmWrap}>
       <Select
         style={{ width: 100 }}
+        defaultValue="HS256"
         onChange={(value: string) => {
           console.log(value);
         }}
