@@ -1,31 +1,27 @@
-import { Controlled as ControlledEditor } from "react-codemirror2";
-import { updateURLWithQuery } from "../../utils";
+import { Controlled as ControlledEditor } from 'react-codemirror2';
+import { updateURLWithQuery } from '../../utils';
 
 export const JwtCode = ({
   token,
-  setToken,
+  updateToken,
   mode,
-  decode,
 }: {
   token: string;
-  setToken: any;
+  updateToken: (token: string) => void;
   mode: string;
-  decode: any;
 }) => {
   return (
     <div className="area-wrapper">
       <ControlledEditor
         value={token}
         options={{
-          mode: "jwt",
+          mode: 'jwt',
           lineWrapping: true,
-          readOnly: mode === "decode",
+          readOnly: mode === 'decode',
         }}
         onBeforeChange={(editor, data, value) => {
           updateURLWithQuery(value, mode);
-          setToken(value);
-          decode();
-          // console.log(value);
+          updateToken(value);
         }}
       />
     </div>

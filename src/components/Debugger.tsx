@@ -1,23 +1,23 @@
-import { message } from "antd";
-import CodeMirror from "codemirror";
-import { ReactNode, useEffect, useState } from "react";
-import { copyCurrentURLToClipboard, updateURLWithQuery } from "../utils";
-import { DebugHook } from "../hooks/debug.hook";
-import { JwtCode, JwtHeader, JwtPayload, JwtSigature, Warning } from "./index";
-import "./Debugger.css";
-import { DebuggerContainer } from "./DebuggerContainer";
-import { Equipments } from "./Equipments";
+import { message } from 'antd';
+import CodeMirror from 'codemirror';
+import { ReactNode, useEffect, useState } from 'react';
+import { copyCurrentURLToClipboard, updateURLWithQuery } from '../utils';
+import { DebugHook } from '../hooks/debug.hook';
+import { JwtCode, JwtHeader, JwtPayload, JwtSigature, Warning } from './index';
+import './Debugger.css';
+import { DebuggerContainer } from './DebuggerContainer';
+import { Equipments } from './Equipments';
 
-const CLAIM = "claim";
-const DISCLOSE_FRAME = "discloseFrame";
+const CLAIM = 'claim';
+const DISCLOSE_FRAME = 'discloseFrame';
 
 export const Debugger = () => {
   useEffect(() => {
-    if (window.location.hash !== "#debugger") {
+    if (window.location.hash !== '#debugger') {
       return;
     }
     setTimeout(() => {
-      const element = document.getElementById("debugger");
+      const element = document.getElementById('debugger');
       if (element) {
         const offset = 150; // Number of pixels you want to scroll above the element
         const elementPosition =
@@ -26,7 +26,7 @@ export const Debugger = () => {
 
         window.scrollTo({
           top: offsetPosition,
-          behavior: "smooth",
+          behavior: 'smooth',
         });
       }
     });
@@ -49,28 +49,29 @@ export const Debugger = () => {
     setHeader,
     encode,
     decode,
+    updateToken,
     verify,
   } = DebugHook();
 
-  type TabType = "claim" | "discloseFrame" | "discolsures";
-  type ModeType = "encode" | "decode";
+  type TabType = 'claim' | 'discloseFrame' | 'discolsures';
+  type ModeType = 'encode' | 'decode';
 
-  const [tab, setTab] = useState<TabType>("claim");
-  const [mode, setMode] = useState<ModeType>("decode");
+  const [tab, setTab] = useState<TabType>('claim');
+  const [mode, setMode] = useState<ModeType>('decode');
 
   const swtichMode = () => {
-    if (mode === "encode") {
-      setMode("decode");
+    if (mode === 'encode') {
+      setMode('decode');
       return;
     }
 
-    setMode("encode");
+    setMode('encode');
   };
 
   const shareSdJwt = async () => {
     updateURLWithQuery(token, mode);
     const result = await copyCurrentURLToClipboard();
-    if (result) message.success("URL is copied to your clipboard", 2);
+    if (result) message.success('URL is copied to your clipboard', 2);
   };
 
   const tabValue = {
@@ -88,8 +89,8 @@ export const Debugger = () => {
   useEffect(() => {
     // Parse the URL query parameters
     const queryParams = new URLSearchParams(window.location.search);
-    const tokenParam = queryParams.get("token");
-    const modeParams = queryParams.get("mode");
+    const tokenParam = queryParams.get('token');
+    const modeParams = queryParams.get('mode');
 
     // If the "token" parameter exists, use it as the initial state
     if (tokenParam) {
@@ -115,15 +116,10 @@ export const Debugger = () => {
         verify={verify}
       />
       <div
-        className={mode === "encode" ? "code-wrapper" : "code-reverse-wrapper"}
+        className={mode === 'encode' ? 'code-wrapper' : 'code-reverse-wrapper'}
       >
         <DebuggerContainer headerText="Encoded">
-          <JwtCode
-            token={token}
-            setToken={setToken}
-            mode={mode}
-            decode={decode}
-          />
+          <JwtCode token={token} updateToken={updateToken} mode={mode} />
         </DebuggerContainer>
 
         <DebuggerContainer headerText="Decoded">
@@ -158,35 +154,35 @@ export const Debugger = () => {
 interface TabProps {
   tab: string;
   setTab: React.Dispatch<
-    React.SetStateAction<"claim" | "discloseFrame" | "discolsures">
+    React.SetStateAction<'claim' | 'discloseFrame' | 'discolsures'>
   >;
 }
 
-CodeMirror.defineMode("jwt", function () {
-  console.log("jwt code Mirror");
+CodeMirror.defineMode('jwt', function () {
+  console.log('jwt code Mirror');
   return {
     token: function (stream, state) {
       if (stream.sol()) {
-        state.partParsed = "header"; // Start of line, assume header
+        state.partParsed = 'header'; // Start of line, assume header
       }
 
-      if (stream.eat(".") || stream.eat("~")) {
+      if (stream.eat('.') || stream.eat('~')) {
         // Consume and style the dot
-        if (state.partParsed === "header") {
-          state.partParsed = "payload";
-        } else if (state.partParsed === "payload") {
-          state.partParsed = "signature";
-        } else if (state.partParsed === "signature") {
-          state.partParsed = "after-signature"; // After the signature, no styling
+        if (state.partParsed === 'header') {
+          state.partParsed = 'payload';
+        } else if (state.partParsed === 'payload') {
+          state.partParsed = 'signature';
+        } else if (state.partParsed === 'signature') {
+          state.partParsed = 'after-signature'; // After the signature, no styling
         }
-        return "jwt-dot";
+        return 'jwt-dot';
       }
 
       stream.next(); // Consume the next character
-      if (state.partParsed === "after-signature") {
-        return "sdjwt-disclosure"; // No styling after the signature
+      if (state.partParsed === 'after-signature') {
+        return 'sdjwt-disclosure'; // No styling after the signature
       }
-      return "jwt-" + state.partParsed; // Style based on the current part
+      return 'jwt-' + state.partParsed; // Style based on the current part
     },
     startState: function () {
       return { partParsed: null };
@@ -196,7 +192,7 @@ CodeMirror.defineMode("jwt", function () {
 
 const JwtPayloadSection = ({ tabValue, tabHandler, mode, encode }: any) => (
   <>
-    {mode === "encode" && (
+    {mode === 'encode' && (
       <>
         <PayloadHeader>
           <span> Climas </span>
@@ -210,13 +206,13 @@ const JwtPayloadSection = ({ tabValue, tabHandler, mode, encode }: any) => (
       </>
     )}
 
-    {mode === "decode" && (
+    {mode === 'decode' && (
       <>
         <PayloadHeader>
           <span style={{ flex: 1 }}> Claims </span>
           <span style={{ flex: 1 }}> Disclose Frame </span>
         </PayloadHeader>
-        <div style={{ display: "flex" }}>
+        <div style={{ display: 'flex' }}>
           <JwtPayload
             payload={tabValue[CLAIM]}
             setPayload={tabHandler[CLAIM]}
