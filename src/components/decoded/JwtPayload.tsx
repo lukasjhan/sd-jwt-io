@@ -5,10 +5,12 @@ export const JwtPayload = ({
   payload,
   setPayload,
   mode,
+  encode,
 }: {
   payload: string;
   setPayload: React.Dispatch<React.SetStateAction<string>>;
   mode: string;
+  encode: () => Promise<void>;
 }) => {
   return (
     <div style={decodeItem}>
@@ -22,6 +24,7 @@ export const JwtPayload = ({
         onBeforeChange={(editor, data, value) => {
           console.log(value);
           setPayload(value);
+          encode();
         }}
         className="json-payload"
       />

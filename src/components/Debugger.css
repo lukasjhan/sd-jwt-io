@@ -106,7 +106,7 @@
 }
 
 .payload-subhead {
-  flex: 1;
+  /* flex: 1; */
 }
 
 .decode-item {
