@@ -1,6 +1,6 @@
 export const copyCurrentURLToClipboard = async () => {
   if (!navigator.clipboard) {
-    console.error('Clipboard API not available');
+    console.error("Clipboard API not available");
     return false;
   }
 
@@ -8,20 +8,30 @@ export const copyCurrentURLToClipboard = async () => {
     await navigator.clipboard.writeText(window.location.href);
     return true;
   } catch (err) {
-    console.error('Failed to copy: ', err);
+    console.error("Failed to copy: ", err);
     return false;
   }
 };
 
-export function updateURLWithQuery(queryData: string) {
+export function updateURLWithQuery(token: string, isEncode: boolean) {
   if (window.history.pushState) {
-    const newurl =
-      window.location.protocol +
-      '//' +
-      window.location.host +
-      window.location.pathname +
-      `?${queryData}`;
-    window.history.pushState({ path: newurl }, '', newurl);
+    const { protocol, host, pathname } = window.location;
+    const newurl = `${protocol}//${host}${pathname}`;
+    const searchParams = new URLSearchParams(window.location.search);
+
+    searchParams.set("token", token);
+    searchParams.set("isEncode", isEncode.toString());
+
+    const newURLWithQuery = `${newurl}?${searchParams.toString()}`;
+    window.history.pushState({ path: newURLWithQuery }, "", newURLWithQuery);
+
+    //   const newurl =
+    //   window.location.protocol +
+    //   '//' +
+    //   window.location.host +
+    //   window.location.pathname +
+    //   `?${queryData}`;
+    // window.history.pushState({ path: newurl }, '', newurl);
   }
 }
 
@@ -34,11 +44,11 @@ export function stringToUint8Array(str: string) {
 export function decodeBase64URL(base64urlString: string): string {
   // Convert Base64Url to Base64 by replacing '-' with '+', '_' with '/' and appending '=' to make the length a multiple of 4
   const base64 = base64urlString
-    .replace(/-/g, '+')
-    .replace(/_/g, '/')
+    .replace(/-/g, "+")
+    .replace(/_/g, "/")
     .padEnd(
       base64urlString.length + ((4 - (base64urlString.length % 4)) % 4),
-      '=',
+      "="
     );
 
   // Decode the Base64 string
@@ -51,5 +61,5 @@ export function bufferToBase64Url(buffer: ArrayBuffer): string {
   // Convert ArrayBuffer to Base64
   const base64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
   // Convert Base64 to Base64Url by replacing '+' with '-', '/' with '_', and removing '='
-  return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  return base64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }

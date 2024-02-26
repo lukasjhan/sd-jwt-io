@@ -1,8 +1,8 @@
-import { message } from 'antd';
-import CodeMirror from 'codemirror';
-import { ReactNode, useEffect, useState } from 'react';
-import { copyCurrentURLToClipboard, updateURLWithQuery } from '../utils';
-import { DebugHook } from '../hooks/debug.hook';
+import { message } from "antd";
+import CodeMirror from "codemirror";
+import { ReactNode, useEffect, useState } from "react";
+import { copyCurrentURLToClipboard, updateURLWithQuery } from "../utils";
+import { DebugHook } from "../hooks/debug.hook";
 import {
   JwtCode,
   JwtHeader,
@@ -10,19 +10,18 @@ import {
   JwtSigature,
   SelectAlgorithm,
   Warning,
-} from './index';
-import './Debugger.css';
-import Button from './common/Button';
-import { DebuggerContainer } from './DebuggerContainer';
-import { Equipments } from './Equipments';
+} from "./index";
+import "./Debugger.css";
+import { DebuggerContainer } from "./DebuggerContainer";
+import { Equipments } from "./Equipments";
 
 export const Debugger = () => {
   useEffect(() => {
-    if (window.location.hash !== '#debugger') {
+    if (window.location.hash !== "#debugger") {
       return;
     }
     setTimeout(() => {
-      const element = document.getElementById('debugger');
+      const element = document.getElementById("debugger");
       if (element) {
         const offset = 150; // Number of pixels you want to scroll above the element
         const elementPosition =
@@ -31,7 +30,7 @@ export const Debugger = () => {
 
         window.scrollTo({
           top: offsetPosition,
-          behavior: 'smooth',
+          behavior: "smooth",
         });
       }
     });
@@ -57,8 +56,8 @@ export const Debugger = () => {
     verify,
   } = DebugHook();
 
-  type TabType = 'claim' | 'discloseFrame' | 'discolsures';
-  const [tab, setTab] = useState<TabType>('claim');
+  type TabType = "claim" | "discloseFrame" | "discolsures";
+  const [tab, setTab] = useState<TabType>("claim");
   const [isEcoded, setIsEncoded] = useState(false);
 
   const encodeClaim = () => {
@@ -72,9 +71,9 @@ export const Debugger = () => {
   };
 
   const shareSdJwt = async () => {
-    updateURLWithQuery(`token=${token}`);
+    updateURLWithQuery(token, isEcoded);
     const result = await copyCurrentURLToClipboard();
-    if (result) message.success('URL is copied to your clipboard', 2);
+    if (result) message.success("URL is copied to your clipboard", 2);
   };
 
   const tabValue = {
@@ -92,12 +91,17 @@ export const Debugger = () => {
   useEffect(() => {
     // Parse the URL query parameters
     const queryParams = new URLSearchParams(window.location.search);
-    const tokenParam = queryParams.get('token');
+    const tokenParam = queryParams.get("token");
+    const isEncode = queryParams.get("isEncode");
 
     // If the "token" parameter exists, use it as the initial state
     if (tokenParam) {
       setToken(tokenParam);
     }
+    if (isEncode) {
+      setIsEncoded(Boolean(isEncode));
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -116,9 +120,9 @@ export const Debugger = () => {
         shareSdJwt={shareSdJwt}
       />
 
-      <div className={isEcoded ? 'code-wrapper' : 'code-reverse-wrapper'}>
+      <div className={isEcoded ? "code-wrapper" : "code-reverse-wrapper"}>
         <DebuggerContainer headerText="Encoded">
-          <JwtCode token={token} setToken={setToken} />
+          <JwtCode token={token} setToken={setToken} isEcoded={isEcoded} />
         </DebuggerContainer>
 
         <DebuggerContainer headerText="Decoded">
@@ -144,37 +148,37 @@ export const Debugger = () => {
 };
 
 interface TabProps {
-  tabName: string;
-  isActive: boolean;
-  setTab: React.Dispatch<React.SetStateAction<string>>;
-  children: ReactNode;
+  tab: string;
+  setTab: React.Dispatch<
+    React.SetStateAction<"claim" | "discloseFrame" | "discolsures">
+  >;
 }
 
-CodeMirror.defineMode('jwt', function () {
-  console.log('jwt code Mirror');
+CodeMirror.defineMode("jwt", function () {
+  console.log("jwt code Mirror");
   return {
     token: function (stream, state) {
       if (stream.sol()) {
-        state.partParsed = 'header'; // Start of line, assume header
+        state.partParsed = "header"; // Start of line, assume header
       }
 
-      if (stream.eat('.') || stream.eat('~')) {
+      if (stream.eat(".") || stream.eat("~")) {
         // Consume and style the dot
-        if (state.partParsed === 'header') {
-          state.partParsed = 'payload';
-        } else if (state.partParsed === 'payload') {
-          state.partParsed = 'signature';
-        } else if (state.partParsed === 'signature') {
-          state.partParsed = 'after-signature'; // After the signature, no styling
+        if (state.partParsed === "header") {
+          state.partParsed = "payload";
+        } else if (state.partParsed === "payload") {
+          state.partParsed = "signature";
+        } else if (state.partParsed === "signature") {
+          state.partParsed = "after-signature"; // After the signature, no styling
         }
-        return 'jwt-dot';
+        return "jwt-dot";
       }
 
       stream.next(); // Consume the next character
-      if (state.partParsed === 'after-signature') {
-        return 'sdjwt-disclosure'; // No styling after the signature
+      if (state.partParsed === "after-signature") {
+        return "sdjwt-disclosure"; // No styling after the signature
       }
-      return 'jwt-' + state.partParsed; // Style based on the current part
+      return "jwt-" + state.partParsed; // Style based on the current part
     },
     startState: function () {
       return { partParsed: null };
@@ -182,33 +186,33 @@ CodeMirror.defineMode('jwt', function () {
   };
 });
 
-const SingleTab = ({ tab, setTab }: any) => (
+const SingleTab = ({ tab, setTab }: TabProps) => (
   <div className="decode-header decode-border-top">
     <span
-      className={tab === 'discolsures' ? 'decode-tab-active' : 'decode-tab'}
-      onClick={() => setTab('discolsures')}
+      className={tab === "discolsures" ? "decode-tab-active" : "decode-tab"}
+      onClick={() => setTab("discolsures")}
     >
-      {'Discolsures'}
+      {"Discolsures"}
     </span>
   </div>
 );
 
-const MultiTab = ({ tab, setTab }: any) => (
+const MultiTab = ({ tab, setTab }: TabProps) => (
   <div className="decode-header decode-border-top">
     <div className="payload-subhead">
       <span
-        className={tab === 'claim' ? 'decode-tab-active' : 'decode-tab'}
-        style={{ borderRight: '1px solid #ccc', paddingRight: '1.25rem' }}
-        onClick={() => setTab('claim')}
+        className={tab === "claim" ? "decode-tab-active" : "decode-tab"}
+        style={{ borderRight: "1px solid #ccc", paddingRight: "1.25rem" }}
+        onClick={() => setTab("claim")}
       >
-        {'Claims'}
+        {"Claims"}
       </span>
       <span
-        className={tab === 'discloseFrame' ? 'decode-tab-active' : 'decode-tab'}
-        onClick={() => setTab('discloseFrame')}
-        style={{ paddingLeft: '1.25rem' }}
+        className={tab === "discloseFrame" ? "decode-tab-active" : "decode-tab"}
+        onClick={() => setTab("discloseFrame")}
+        style={{ paddingLeft: "1.25rem" }}
       >
-        {'DiscloseFrames'}
+        {"DiscloseFrames"}
       </span>
     </div>
   </div>
