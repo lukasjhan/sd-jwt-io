@@ -130,14 +130,19 @@ export const Debugger = () => {
 
         <DebuggerContainer headerText="Decoded">
           <div className="decode-area">
-            <JwtHeader header={header} setHeader={setHeader} />
+            <JwtHeader header={header} setHeader={setHeader} mode={mode} />
             {mode === "encode" ? (
               <SingleTab tab={tab} setTab={setTab} />
             ) : (
               <MultiTab tab={tab} setTab={setTab} />
             )}
-            <JwtPayload payload={tabValue[tab]} setPayload={tabHandler[tab]} />
+            <JwtPayload
+              payload={tabValue[tab]}
+              setPayload={tabHandler[tab]}
+              mode={mode}
+            />
             <JwtSigature
+              mode={mode}
               secret={secret}
               setSecret={setSecret}
               checked={base64Checked}

@@ -4,9 +4,11 @@ import { decodeItem, decodeHeader, decodeDescStyle } from "../common/style";
 export const JwtHeader = ({
   header,
   setHeader,
+  mode,
 }: {
   header: string;
   setHeader: any;
+  mode: string;
 }) => {
   return (
     <>
@@ -19,6 +21,7 @@ export const JwtHeader = ({
         <ControlledEditor
           value={header}
           options={{
+            readOnly: mode === "encode",
             mode: "javascript",
             lineWrapping: true,
           }}

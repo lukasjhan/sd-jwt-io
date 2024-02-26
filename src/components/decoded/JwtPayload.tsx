@@ -4,9 +4,11 @@ import { decodeItem } from "../common/style";
 export const JwtPayload = ({
   payload,
   setPayload,
+  mode,
 }: {
   payload: string;
   setPayload: React.Dispatch<React.SetStateAction<string>>;
+  mode: string;
 }) => {
   return (
     <div style={decodeItem}>
@@ -14,6 +16,7 @@ export const JwtPayload = ({
         value={payload}
         options={{
           mode: "javascript",
+          readOnly: mode === "encode",
           lineWrapping: true,
         }}
         onBeforeChange={(editor, data, value) => {
