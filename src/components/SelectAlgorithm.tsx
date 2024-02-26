@@ -36,5 +36,5 @@ const SelectAlgorithmWrap = {
   alignItems: 'center',
   fontWeight: 'bold',
   gap: '1rem',
-  marginRight: '15px',
+  marginRight: '8px',
 };
