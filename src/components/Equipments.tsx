@@ -1,4 +1,5 @@
 import Button from "./common/Button";
+import { SelectAlgorithm } from "./SelectAlgorithm";
 
 interface EquipmentsProps {
   mode: string;
@@ -13,7 +14,8 @@ export const Equipments = ({
   shareSdJwt,
 }: EquipmentsProps) => {
   return (
-    <div>
+    <div style={{ display: "flex", justifyContent: "flex-end", width: "100%" }}>
+      <SelectAlgorithm />
       <Button
         onClick={mode === "encode" ? () => decodeJwt() : () => encodeClaim()}
       >

@@ -112,7 +112,6 @@ export const Debugger = () => {
         Debugger
       </div>
       <Warning />
-      <SelectAlgorithm />
 
       <Equipments
         mode={mode}
@@ -121,7 +120,9 @@ export const Debugger = () => {
         shareSdJwt={shareSdJwt}
       />
 
-      <div className={mode ? "code-wrapper" : "code-reverse-wrapper"}>
+      <div
+        className={mode === "encode" ? "code-wrapper" : "code-reverse-wrapper"}
+      >
         <DebuggerContainer headerText="Encoded">
           <JwtCode token={token} setToken={setToken} mode={mode} />
         </DebuggerContainer>
