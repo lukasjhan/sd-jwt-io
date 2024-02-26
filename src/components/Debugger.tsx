@@ -20,7 +20,7 @@ export const Debugger = () => {
       const element = document.getElementById('debugger');
       if (element) {
         const offset = 150; // Number of pixels you want to scroll above the element
-        const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+        const elementPosition = element.getBoundingClientRect().top + window.scrollY;
         const offsetPosition = elementPosition - offset;
 
         window.scrollTo({
@@ -58,7 +58,7 @@ export const Debugger = () => {
   type ModeType = 'encode' | 'decode';
 
   const [tab, setTab] = useState<TabType>('claim');
-  const [mode, setMode] = useState<ModeType>('decode');
+  const [mode, setMode] = useState<ModeType>('encode');
 
   const swtichMode = () => {
     if (mode === 'encode') {
@@ -106,9 +106,6 @@ export const Debugger = () => {
 
   return (
     <div className="debugger-wrapper">
-      <div className="debugger-title" id="debugger">
-        Debugger
-      </div>
       <Warning />
       <Equipments
         alg={alg}
@@ -119,11 +116,11 @@ export const Debugger = () => {
         verify={verify}
       />
       <div className={mode === 'encode' ? 'code-wrapper' : 'code-reverse-wrapper'}>
-        <DebuggerContainer headerText="Encoded">
+        <DebuggerContainer headerText="Encoded" descriptionText="SD-JWT TOKEN">
           <JwtCode token={token} updateToken={updateToken} mode={mode} />
         </DebuggerContainer>
 
-        <DebuggerContainer headerText="Decoded">
+        <DebuggerContainer headerText="Decoded" descriptionText="PAYLOAD AND SECRET">
           <div className="decode-area">
             <JwtHeader header={header} setHeader={setHeader} mode={mode} encode={encode} />
             <JwtPayloadSection tabValue={tabValue} tabHandler={tabHandler} mode={mode} encode={encode} />
@@ -184,7 +181,7 @@ const JwtPayloadSection = ({ tabValue, tabHandler, mode, encode }: any) => (
     {mode === 'encode' && (
       <>
         <PayloadHeader>
-          <span> Climas </span>
+          <span> {'Claims'.toUpperCase()} </span>
         </PayloadHeader>
         <JwtPayload payload={tabValue[CLAIM]} setPayload={tabHandler[CLAIM]} mode={mode} encode={encode} />
       </>
@@ -193,12 +190,13 @@ const JwtPayloadSection = ({ tabValue, tabHandler, mode, encode }: any) => (
     {mode === 'decode' && (
       <>
         <PayloadHeader>
-          <span style={{ flex: 1 }}> Claims </span>
-          <span style={{ flex: 1 }}> Disclose Frame </span>
+          <span style={{ flex: 1 }}> {'Claims'.toUpperCase()} </span>
+          <span style={{ flex: 1 }}> {'Disclosure Frame'.toUpperCase()} </span>
         </PayloadHeader>
         <div style={{ display: 'flex' }}>
           <JwtPayload payload={tabValue[CLAIM]} setPayload={tabHandler[CLAIM]} mode={mode} encode={encode} />
           <JwtPayload
+            className="cm-sdjwt-disclosure"
             payload={tabValue[DISCLOSE_FRAME]}
             setPayload={tabHandler[DISCLOSE_FRAME]}
             mode={mode}
