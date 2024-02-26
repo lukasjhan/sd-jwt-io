@@ -1,8 +1,8 @@
-@import "codemirror/lib/codemirror.css";
-@import "codemirror/theme/material.css";
+@import 'codemirror/lib/codemirror.css';
+@import 'codemirror/theme/material.css';
 
 .debugger-wrapper {
-  padding: 60px 0px;
+  padding: 36px 0px;
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -17,7 +17,7 @@
 
 .debugger-warning {
   background-color: #fff7c9;
-  padding: 1.4rem;
+  padding: 1rem;
   border-radius: 6px;
   font-size: 0.8rem;
   line-height: 2;
@@ -65,8 +65,8 @@
 }
 
 .code-title {
-  font-size: 2rem;
-  font-weight: bold;
+  font-size: 1.6rem;
+  /* font-weight: bold; */
 }
 
 .code-desc {
@@ -77,7 +77,7 @@
 
 .area-wrapper {
   flex: 1;
-  padding: 1.4rem;
+  padding: 0.8rem;
   border-radius: 6px;
   border: 1px solid #ccc;
 }
@@ -89,6 +89,7 @@
   border-radius: 6px;
   border: 1px solid #ccc;
   max-height: 536px;
+  /* overflow: auto; */
 }
 
 .decode-header {
@@ -116,9 +117,14 @@
   overflow-y: auto;
 }
 
+.area-wrapper .react-codemirror2 {
+  font-size: 1.2rem;
+  line-height: 140%;
+}
+
 .react-codemirror2 {
   height: 100%;
-  font-size: 1.4rem;
+  font-size: 1.1rem;
 }
 
 .decode-border-top {
@@ -165,13 +171,17 @@
 } /* Style for additional data */
 
 .json-header .CodeMirror {
-  font-size: 1rem;
+  font-size: 14px;
   color: rgb(251, 1, 91);
 }
 
 .json-payload .CodeMirror {
-  font-size: 1rem;
+  font-size: 14px;
   color: rgb(214, 58, 255);
+}
+
+.cm-sdjwt-disclosure .CodeMirror {
+  color: purple;
 }
 
 .verified-share-wrapper {
