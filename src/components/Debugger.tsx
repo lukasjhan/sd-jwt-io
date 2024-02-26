@@ -118,6 +118,7 @@ export const Debugger = () => {
         encodeClaim={encodeClaim}
         decodeJwt={decodeJwt}
         shareSdJwt={shareSdJwt}
+        verify={verify}
       />
 
       <div

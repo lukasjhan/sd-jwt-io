@@ -6,12 +6,14 @@ interface EquipmentsProps {
   encodeClaim: () => void;
   decodeJwt: () => void;
   shareSdJwt: () => void;
+  verify: () => void;
 }
 export const Equipments = ({
   mode,
   encodeClaim,
   decodeJwt,
   shareSdJwt,
+  verify,
 }: EquipmentsProps) => {
   return (
     <div style={{ display: "flex", justifyContent: "flex-end", width: "100%" }}>
@@ -29,6 +31,7 @@ export const Equipments = ({
       >
         Share SD JWT
       </Button>
+      <Button onClick={verify}>Verify Signature</Button>
     </div>
   );
 };
