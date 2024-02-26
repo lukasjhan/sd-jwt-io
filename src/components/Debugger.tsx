@@ -55,6 +55,8 @@ export const Debugger = () => {
     encode,
     decode,
     verify,
+    alg,
+    setAlg,
   } = DebugHook();
 
   type TabType = 'claim' | 'discloseFrame' | 'discolsures';
@@ -107,7 +109,13 @@ export const Debugger = () => {
         Debugger
       </div>
       <Warning />
-      <SelectAlgorithm />
+      <SelectAlgorithm
+        alg={alg}
+        select={(value: string) => {
+          console.log(value);
+          setAlg(value);
+        }}
+      />
 
       <Equipments
         isEcoded={isEcoded}

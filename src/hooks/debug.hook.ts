@@ -3,6 +3,7 @@ import { SDJwtInstance } from '@lukas.j.han/sd-jwt-core';
 import { digest, generateSalt } from '@lukas.j.han/sd-jwt-browser-crypto';
 import { message } from 'antd';
 import { HS256 } from '../alg/hs256';
+import { ES256 } from '../alg/es256';
 
 const initialSecret = 'your-256-bit-secret';
 
@@ -18,8 +19,47 @@ const sdjwt = new SDJwtInstance({
 const initialToken =
   'eyJ0eXAiOiJzZC1qd3QiLCJhbGciOiJIUzI1NiJ9.eyJsYXN0bmFtZSI6IkRvZSIsInNzbiI6IjEyMy00NS02Nzg5IiwiX3NkIjpbImVfMnZHTkpGcXBBVHNxd21NcDVJWXQ0cHlSb25KQmVOV2pNN3BJdFJtMUkiLCJ4UnptQWlCYjV5Vk9jUHNDWUdwaEVCdjRCZWRtVkZpQlBnakROLWNjN1NRIl0sIl9zZF9hbGciOiJTSEEtMjU2In0.IgTBKAhwyT0qaopCQUC_-RYKC2uBknxEwucCWAgSBXM~WyI5NDUxZjMzN2E4ZTQ3NzU5IiwiZmlyc3RuYW1lIiwiSm9obiJd~WyI3NjQ1YjUwOTM1YjQ4ZmNjIiwiaWQiLCIxMjM0Il0~';
 
+const getSignerByAlg = (alg: string) => {
+  switch (alg) {
+    case 'HS256':
+      return HS256.getSigner;
+    case 'ES256':
+      return (jwk: string) => {
+        try {
+          const key = JSON.parse(jwk);
+          return ES256.getSigner(key);
+        } catch (e) {
+          console.error(e);
+          throw new Error('Invalid JWK');
+        }
+      };
+    default:
+      throw new Error('Invalid Algorithm');
+  }
+};
+
+const getVerifierByAlg = (alg: string) => {
+  switch (alg) {
+    case 'HS256':
+      return HS256.getVerifier;
+    case 'ES256':
+      return (jwk: string) => {
+        try {
+          const key = JSON.parse(jwk);
+          return ES256.getVerifier(key);
+        } catch (e) {
+          console.error(e);
+          throw new Error('Invalid JWK');
+        }
+      };
+    default:
+      throw new Error('Invalid Algorithm');
+  }
+};
+
 export const DebugHook = () => {
   const [token, setToken] = useState(initialToken);
+  const [alg, setAlg] = useState(HS256.alg);
   const [secret, setSecret] = useState(initialSecret);
   const [base64Checked, setBase64Checked] = useState(false);
   const [discloseFrame, setDiscloseFrame] = useState(
@@ -80,8 +120,11 @@ export const DebugHook = () => {
         ? (JSON.parse(discloseFrame) as any)
         : undefined;
       console.log(data);
+
+      const getSigner = getSignerByAlg(alg);
+      const signer = await getSigner(secret);
       sdjwt.config({
-        signer: HS256.getSigner(secret),
+        signer,
       });
       const token = await sdjwt.issue(data, sd_Data);
       setToken(token);
@@ -114,8 +157,10 @@ export const DebugHook = () => {
   const verify = async () => {
     try {
       const sig = base64Checked ? atob(secret) : secret;
+      const getVerifier = getVerifierByAlg(alg);
+      const verifier = await getVerifier(sig);
       sdjwt.config({
-        verifier: HS256.getVerifier(sig),
+        verifier,
       });
       const result = await sdjwt.validate(token);
       if (result) {
@@ -134,6 +179,8 @@ export const DebugHook = () => {
     setToken,
     secret,
     setSecret,
+    alg,
+    setAlg,
     base64Checked,
     setBase64Checked,
     discloseFrame,
