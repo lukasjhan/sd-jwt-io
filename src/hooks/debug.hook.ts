@@ -19,12 +19,39 @@ const sdjwt = new SDJwtInstance({
 const initialToken =
   'eyJ0eXAiOiJzZC1qd3QiLCJhbGciOiJIUzI1NiJ9.eyJsYXN0bmFtZSI6IkRvZSIsInNzbiI6IjEyMy00NS02Nzg5IiwiX3NkIjpbImVfMnZHTkpGcXBBVHNxd21NcDVJWXQ0cHlSb25KQmVOV2pNN3BJdFJtMUkiLCJ4UnptQWlCYjV5Vk9jUHNDWUdwaEVCdjRCZWRtVkZpQlBnakROLWNjN1NRIl0sIl9zZF9hbGciOiJTSEEtMjU2In0.IgTBKAhwyT0qaopCQUC_-RYKC2uBknxEwucCWAgSBXM~WyI5NDUxZjMzN2E4ZTQ3NzU5IiwiZmlyc3RuYW1lIiwiSm9obiJd~WyI3NjQ1YjUwOTM1YjQ4ZmNjIiwiaWQiLCIxMjM0Il0~';
 
-const getAlgObject = (alg: string) => {
+const getSignerByAlg = (alg: string) => {
   switch (alg) {
     case 'HS256':
-      return HS256;
+      return HS256.getSigner;
     case 'ES256':
-      return ES256;
+      return (jwk: string) => {
+        try {
+          const key = JSON.parse(jwk);
+          return ES256.getSigner(key);
+        } catch (e) {
+          console.error(e);
+          throw new Error('Invalid JWK');
+        }
+      };
+    default:
+      throw new Error('Invalid Algorithm');
+  }
+};
+
+const getVerifierByAlg = (alg: string) => {
+  switch (alg) {
+    case 'HS256':
+      return HS256.getVerifier;
+    case 'ES256':
+      return (jwk: string) => {
+        try {
+          const key = JSON.parse(jwk);
+          return ES256.getVerifier(key);
+        } catch (e) {
+          console.error(e);
+          throw new Error('Invalid JWK');
+        }
+      };
     default:
       throw new Error('Invalid Algorithm');
   }
@@ -94,8 +121,8 @@ export const DebugHook = () => {
         : undefined;
       console.log(data);
 
-      const ALG = getAlgObject(alg);
-      const signer = await ALG.getSigner(secret);
+      const getSigner = getSignerByAlg(alg);
+      const signer = await getSigner(secret);
       sdjwt.config({
         signer,
       });
@@ -130,8 +157,8 @@ export const DebugHook = () => {
   const verify = async () => {
     try {
       const sig = base64Checked ? atob(secret) : secret;
-      const ALG = getAlgObject(alg);
-      const verifier = await ALG.getVerifier(sig);
+      const getVerifier = getVerifierByAlg(alg);
+      const verifier = await getVerifier(sig);
       sdjwt.config({
         verifier,
       });
