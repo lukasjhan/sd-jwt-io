@@ -137,7 +137,8 @@ export const DebugHook = () => {
     }
   };
 
-  const decode = async () => {
+  const decode = async (token: string) => {
+    console.log('decode');
     try {
       const sdJwtToken = await sdjwt.decode(token);
       const header = JSON.stringify(sdJwtToken.jwt?.header ?? {}, null, 2);
@@ -152,6 +153,11 @@ export const DebugHook = () => {
       console.error(e);
       message.error('Decode Failed', 2);
     }
+  };
+
+  const updateToken = async (token: string) => {
+    setToken(token);
+    decode(token);
   };
 
   const verify = async () => {
@@ -193,6 +199,7 @@ export const DebugHook = () => {
     setHeader,
     encode,
     decode,
+    updateToken,
     verify,
   };
 };

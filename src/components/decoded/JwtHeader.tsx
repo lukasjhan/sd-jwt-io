@@ -4,9 +4,13 @@ import { decodeItem, decodeHeader, decodeDescStyle } from "../common/style";
 export const JwtHeader = ({
   header,
   setHeader,
+  mode,
+  encode,
 }: {
   header: string;
   setHeader: any;
+  mode: string;
+  encode: () => Promise<void>;
 }) => {
   return (
     <>
@@ -19,12 +23,14 @@ export const JwtHeader = ({
         <ControlledEditor
           value={header}
           options={{
+            readOnly: mode === "encode",
             mode: "javascript",
             lineWrapping: true,
           }}
           onBeforeChange={(editor, data, value) => {
             console.log(value);
             setHeader(value);
+            encode();
           }}
           className="json-header"
         />

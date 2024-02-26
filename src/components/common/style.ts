@@ -2,7 +2,7 @@ import { CSSProperties } from "react";
 
 export const decodeItem: CSSProperties = {
   flex: 1,
-  padding: "0rem 1.4rem",
+  padding: "0.1rem 1.4rem",
   overflowY: "auto",
 };
 

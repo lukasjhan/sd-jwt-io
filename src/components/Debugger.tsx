@@ -3,18 +3,13 @@ import CodeMirror from 'codemirror';
 import { ReactNode, useEffect, useState } from 'react';
 import { copyCurrentURLToClipboard, updateURLWithQuery } from '../utils';
 import { DebugHook } from '../hooks/debug.hook';
-import {
-  JwtCode,
-  JwtHeader,
-  JwtPayload,
-  JwtSigature,
-  SelectAlgorithm,
-  Warning,
-} from './index';
+import { JwtCode, JwtHeader, JwtPayload, JwtSigature, Warning } from './index';
 import './Debugger.css';
-import Button from './common/Button';
 import { DebuggerContainer } from './DebuggerContainer';
 import { Equipments } from './Equipments';
+
+const CLAIM = 'claim';
+const DISCLOSE_FRAME = 'discloseFrame';
 
 export const Debugger = () => {
   useEffect(() => {
@@ -25,8 +20,7 @@ export const Debugger = () => {
       const element = document.getElementById('debugger');
       if (element) {
         const offset = 150; // Number of pixels you want to scroll above the element
-        const elementPosition =
-          element.getBoundingClientRect().top + window.pageYOffset;
+        const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
         const offsetPosition = elementPosition - offset;
 
         window.scrollTo({
@@ -54,27 +48,29 @@ export const Debugger = () => {
     setHeader,
     encode,
     decode,
+    updateToken,
     verify,
     alg,
     setAlg,
   } = DebugHook();
 
   type TabType = 'claim' | 'discloseFrame' | 'discolsures';
+  type ModeType = 'encode' | 'decode';
+
   const [tab, setTab] = useState<TabType>('claim');
-  const [isEcoded, setIsEncoded] = useState(false);
+  const [mode, setMode] = useState<ModeType>('decode');
 
-  const encodeClaim = () => {
-    encode();
-    setIsEncoded(true);
-  };
+  const swtichMode = () => {
+    if (mode === 'encode') {
+      setMode('decode');
+      return;
+    }
 
-  const decodeJwt = () => {
-    decode();
-    setIsEncoded(false);
+    setMode('encode');
   };
 
   const shareSdJwt = async () => {
-    updateURLWithQuery(`token=${token}`);
+    updateURLWithQuery(token, mode);
     const result = await copyCurrentURLToClipboard();
     if (result) message.success('URL is copied to your clipboard', 2);
   };
@@ -95,11 +91,16 @@ export const Debugger = () => {
     // Parse the URL query parameters
     const queryParams = new URLSearchParams(window.location.search);
     const tokenParam = queryParams.get('token');
+    const modeParams = queryParams.get('mode');
 
     // If the "token" parameter exists, use it as the initial state
     if (tokenParam) {
       setToken(tokenParam);
     }
+    if (modeParams) {
+      setMode(modeParams as ModeType);
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -109,40 +110,30 @@ export const Debugger = () => {
         Debugger
       </div>
       <Warning />
-      <SelectAlgorithm
-        alg={alg}
-        select={(value: string) => {
-          console.log(value);
-          setAlg(value);
-        }}
-      />
-
       <Equipments
-        isEcoded={isEcoded}
-        encodeClaim={encodeClaim}
-        decodeJwt={decodeJwt}
+        alg={alg}
+        setAlg={setAlg}
+        mode={mode}
+        switchMode={swtichMode}
         shareSdJwt={shareSdJwt}
+        verify={verify}
       />
-
-      <div className={isEcoded ? 'code-wrapper' : 'code-reverse-wrapper'}>
+      <div className={mode === 'encode' ? 'code-wrapper' : 'code-reverse-wrapper'}>
         <DebuggerContainer headerText="Encoded">
-          <JwtCode token={token} setToken={setToken} />
+          <JwtCode token={token} updateToken={updateToken} mode={mode} />
         </DebuggerContainer>
 
         <DebuggerContainer headerText="Decoded">
           <div className="decode-area">
-            <JwtHeader header={header} setHeader={setHeader} />
-            {isEcoded ? (
-              <SingleTab tab={tab} setTab={setTab} />
-            ) : (
-              <MultiTab tab={tab} setTab={setTab} />
-            )}
-            <JwtPayload payload={tabValue[tab]} setPayload={tabHandler[tab]} />
+            <JwtHeader header={header} setHeader={setHeader} mode={mode} encode={encode} />
+            <JwtPayloadSection tabValue={tabValue} tabHandler={tabHandler} mode={mode} encode={encode} />
             <JwtSigature
+              mode={mode}
               secret={secret}
               setSecret={setSecret}
               checked={base64Checked}
               setChecked={setBase64Checked}
+              encode={encode}
             />
           </div>
         </DebuggerContainer>
@@ -152,10 +143,8 @@ export const Debugger = () => {
 };
 
 interface TabProps {
-  tabName: string;
-  isActive: boolean;
-  setTab: React.Dispatch<React.SetStateAction<string>>;
-  children: ReactNode;
+  tab: string;
+  setTab: React.Dispatch<React.SetStateAction<'claim' | 'discloseFrame' | 'discolsures'>>;
 }
 
 CodeMirror.defineMode('jwt', function () {
@@ -190,34 +179,37 @@ CodeMirror.defineMode('jwt', function () {
   };
 });
 
-const SingleTab = ({ tab, setTab }: any) => (
-  <div className="decode-header decode-border-top">
-    <span
-      className={tab === 'discolsures' ? 'decode-tab-active' : 'decode-tab'}
-      onClick={() => setTab('discolsures')}
-    >
-      {'Discolsures'}
-    </span>
-  </div>
+const JwtPayloadSection = ({ tabValue, tabHandler, mode, encode }: any) => (
+  <>
+    {mode === 'encode' && (
+      <>
+        <PayloadHeader>
+          <span> Climas </span>
+        </PayloadHeader>
+        <JwtPayload payload={tabValue[CLAIM]} setPayload={tabHandler[CLAIM]} mode={mode} encode={encode} />
+      </>
+    )}
+
+    {mode === 'decode' && (
+      <>
+        <PayloadHeader>
+          <span style={{ flex: 1 }}> Claims </span>
+          <span style={{ flex: 1 }}> Disclose Frame </span>
+        </PayloadHeader>
+        <div style={{ display: 'flex' }}>
+          <JwtPayload payload={tabValue[CLAIM]} setPayload={tabHandler[CLAIM]} mode={mode} encode={encode} />
+          <JwtPayload
+            payload={tabValue[DISCLOSE_FRAME]}
+            setPayload={tabHandler[DISCLOSE_FRAME]}
+            mode={mode}
+            encode={encode}
+          />
+        </div>
+      </>
+    )}
+  </>
 );
 
-const MultiTab = ({ tab, setTab }: any) => (
-  <div className="decode-header decode-border-top">
-    <div className="payload-subhead">
-      <span
-        className={tab === 'claim' ? 'decode-tab-active' : 'decode-tab'}
-        style={{ borderRight: '1px solid #ccc', paddingRight: '1.25rem' }}
-        onClick={() => setTab('claim')}
-      >
-        {'Claims'}
-      </span>
-      <span
-        className={tab === 'discloseFrame' ? 'decode-tab-active' : 'decode-tab'}
-        onClick={() => setTab('discloseFrame')}
-        style={{ paddingLeft: '1.25rem' }}
-      >
-        {'DiscloseFrames'}
-      </span>
-    </div>
-  </div>
+const PayloadHeader = ({ children }: { children: ReactNode }) => (
+  <div className="decode-header decode-border-top">{children}</div>
 );

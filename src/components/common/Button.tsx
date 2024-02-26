@@ -1,4 +1,5 @@
 import React from "react";
+import { Button as AntButton } from "antd";
 
 interface ButtonProps {
   onClick: () => void;
@@ -8,13 +9,13 @@ interface ButtonProps {
 }
 
 const Button = ({ onClick, className, style, children }: ButtonProps) => (
-  <div
+  <AntButton
+    style={{ marginRight: "15px" }}
     className={`button small-button ${className || ""}`}
     onClick={onClick}
-    style={style}
   >
     {children}
-  </div>
+  </AntButton>
 );
 
 export default Button;

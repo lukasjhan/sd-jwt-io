@@ -1,30 +1,30 @@
-import Button from "./common/Button";
+import Button from './common/Button';
+import { SelectAlgorithm } from './SelectAlgorithm';
 
 interface EquipmentsProps {
-  isEcoded: boolean;
-  encodeClaim: () => void;
-  decodeJwt: () => void;
+  mode: string;
+  alg: string;
+  setAlg: (value: string) => void;
+  switchMode: () => void;
   shareSdJwt: () => void;
+  verify: any;
 }
-export const Equipments = ({
-  isEcoded,
-  encodeClaim,
-  decodeJwt,
-  shareSdJwt,
-}: EquipmentsProps) => {
+export const Equipments = ({ alg, setAlg, shareSdJwt, switchMode, verify }: EquipmentsProps) => {
   return (
-    <div>
-      <Button onClick={isEcoded ? () => decodeJwt() : () => encodeClaim()}>
-        {isEcoded ? "Decode SD JWT" : "Encode SD JWT"}
-      </Button>
+    <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
+      <SelectAlgorithm
+        alg={alg}
+        select={(value: string) => {
+          console.log(value);
+          setAlg(value);
+        }}
+      />
+      <Button onClick={switchMode}>Toggle Mode</Button>
 
-      <Button
-        onClick={shareSdJwt}
-        className="subdue"
-        style={{ background: "transparent" }}
-      >
-        Share SD JWT
+      <Button onClick={shareSdJwt} className="subdue" style={{ background: 'transparent' }}>
+        Share
       </Button>
+      <Button onClick={verify}>Verify Signature</Button>
     </div>
   );
 };

@@ -7,11 +7,15 @@ export const JwtSigature = ({
   setSecret,
   checked,
   setChecked,
+  mode,
+  encode,
 }: {
   secret: any;
   setSecret: any;
   checked: boolean;
   setChecked: React.Dispatch<React.SetStateAction<boolean>>;
+  mode: string;
+  encode: () => Promise<void>;
 }) => {
   const onChange = (e: CheckboxChangeEvent) => {
     console.log(`checked = ${e.target.checked}`);
@@ -36,6 +40,7 @@ export const JwtSigature = ({
           <div>{"base64UrlEncode(payload),"}</div>
           <div>
             <Input
+              disabled={mode === "encode"}
               onChange={(e) => setSecret(e.target.value)}
               value={secret}
               style={{
