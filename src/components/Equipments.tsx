@@ -1,21 +1,23 @@
 import Button from "./common/Button";
 
 interface EquipmentsProps {
-  isEcoded: boolean;
+  mode: string;
   encodeClaim: () => void;
   decodeJwt: () => void;
   shareSdJwt: () => void;
 }
 export const Equipments = ({
-  isEcoded,
+  mode,
   encodeClaim,
   decodeJwt,
   shareSdJwt,
 }: EquipmentsProps) => {
   return (
     <div>
-      <Button onClick={isEcoded ? () => decodeJwt() : () => encodeClaim()}>
-        {isEcoded ? "Decode SD JWT" : "Encode SD JWT"}
+      <Button
+        onClick={mode === "encode" ? () => decodeJwt() : () => encodeClaim()}
+      >
+        {mode === "encode" ? "Decode SD JWT" : "Encode SD JWT"}
       </Button>
 
       <Button

@@ -13,14 +13,14 @@ export const copyCurrentURLToClipboard = async () => {
   }
 };
 
-export function updateURLWithQuery(token: string, isEncode: boolean) {
+export function updateURLWithQuery(token: string, mode: string) {
   if (window.history.pushState) {
     const { protocol, host, pathname } = window.location;
     const newurl = `${protocol}//${host}${pathname}`;
     const searchParams = new URLSearchParams(window.location.search);
 
     searchParams.set("token", token);
-    searchParams.set("isEncode", isEncode.toString());
+    searchParams.set("mode", mode);
 
     const newURLWithQuery = `${newurl}?${searchParams.toString()}`;
     window.history.pushState({ path: newURLWithQuery }, "", newURLWithQuery);

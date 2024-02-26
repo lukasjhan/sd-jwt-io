@@ -4,11 +4,11 @@ import { updateURLWithQuery } from "../../utils";
 export const JwtCode = ({
   token,
   setToken,
-  isEcoded,
+  mode,
 }: {
   token: string;
   setToken: (t: string) => void;
-  isEcoded: boolean;
+  mode: string;
 }) => {
   return (
     <div className="area-wrapper">
@@ -19,7 +19,7 @@ export const JwtCode = ({
           lineWrapping: true,
         }}
         onBeforeChange={(editor, data, value) => {
-          updateURLWithQuery(value, isEcoded);
+          updateURLWithQuery(value, mode);
           setToken(value);
           console.log(value);
         }}

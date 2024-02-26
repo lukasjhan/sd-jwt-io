@@ -57,21 +57,22 @@ export const Debugger = () => {
   } = DebugHook();
 
   type TabType = "claim" | "discloseFrame" | "discolsures";
+
   const [tab, setTab] = useState<TabType>("claim");
-  const [isEcoded, setIsEncoded] = useState(false);
+  const [mode, setMode] = useState<"encode" | "decode">("decode");
 
   const encodeClaim = () => {
     encode();
-    setIsEncoded(true);
+    setMode("encode");
   };
 
   const decodeJwt = () => {
     decode();
-    setIsEncoded(false);
+    setMode("decode");
   };
 
   const shareSdJwt = async () => {
-    updateURLWithQuery(token, isEcoded);
+    updateURLWithQuery(token, mode);
     const result = await copyCurrentURLToClipboard();
     if (result) message.success("URL is copied to your clipboard", 2);
   };
@@ -92,14 +93,14 @@ export const Debugger = () => {
     // Parse the URL query parameters
     const queryParams = new URLSearchParams(window.location.search);
     const tokenParam = queryParams.get("token");
-    const isEncode = queryParams.get("isEncode");
+    const isEncode = queryParams.get("mode");
 
     // If the "token" parameter exists, use it as the initial state
     if (tokenParam) {
       setToken(tokenParam);
     }
     if (isEncode) {
-      setIsEncoded(Boolean(isEncode));
+      setMode(mode);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -114,21 +115,21 @@ export const Debugger = () => {
       <SelectAlgorithm />
 
       <Equipments
-        isEcoded={isEcoded}
+        mode={mode}
         encodeClaim={encodeClaim}
         decodeJwt={decodeJwt}
         shareSdJwt={shareSdJwt}
       />
 
-      <div className={isEcoded ? "code-wrapper" : "code-reverse-wrapper"}>
+      <div className={mode ? "code-wrapper" : "code-reverse-wrapper"}>
         <DebuggerContainer headerText="Encoded">
-          <JwtCode token={token} setToken={setToken} isEcoded={isEcoded} />
+          <JwtCode token={token} setToken={setToken} mode={mode} />
         </DebuggerContainer>
 
         <DebuggerContainer headerText="Decoded">
           <div className="decode-area">
             <JwtHeader header={header} setHeader={setHeader} />
-            {isEcoded ? (
+            {mode === "encode" ? (
               <SingleTab tab={tab} setTab={setTab} />
             ) : (
               <MultiTab tab={tab} setTab={setTab} />
