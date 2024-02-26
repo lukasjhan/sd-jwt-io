@@ -1,18 +1,22 @@
-import React from "react";
-import { Button as AntButton } from "antd";
+import React from 'react';
+import { Button as AntButton } from 'antd';
 
 interface ButtonProps {
   onClick: () => void;
   className?: string;
   style?: React.CSSProperties;
   children: React.ReactNode;
+  type?: 'default' | 'primary' | 'dashed' | 'link' | 'text';
+  icon?: React.ReactNode;
 }
 
-const Button = ({ onClick, className, style, children }: ButtonProps) => (
+const Button = ({ onClick, className, style, children, type = 'default', icon }: ButtonProps) => (
   <AntButton
-    style={{ marginRight: "15px" }}
-    className={`button small-button ${className || ""}`}
+    type={type}
+    style={{ marginRight: '8px' }}
+    className={`button small-button ${className || ''}`}
     onClick={onClick}
+    icon={icon}
   >
     {children}
   </AntButton>
