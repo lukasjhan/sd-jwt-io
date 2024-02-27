@@ -2,24 +2,21 @@ import { Input, Checkbox } from 'antd';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { decodeItem } from '../common/style';
 import { decodeHeader, decodeHeaderTop } from '../common/style';
+import { UpdateEncode } from '../../hooks/debug.hook';
+
 export const JwtSigature = ({
   secret,
-  setSecret,
   checked,
-  setChecked,
   mode,
   encode,
 }: {
   secret: any;
-  setSecret: any;
   checked: boolean;
-  setChecked: React.Dispatch<React.SetStateAction<boolean>>;
   mode: string;
-  encode: () => Promise<void>;
+  encode: (data: UpdateEncode) => Promise<void>;
 }) => {
   const onChange = (e: CheckboxChangeEvent) => {
-    console.log(`checked = ${e.target.checked}`);
-    setChecked(e.target.checked);
+    encode({ b64checked: e.target.checked });
   };
   return (
     <div>
@@ -40,7 +37,7 @@ export const JwtSigature = ({
           <div>
             <Input
               readOnly={mode === 'encode'}
-              onChange={(e) => setSecret(e.target.value)}
+              onChange={(e) => encode({ secret: e.target.value })}
               value={secret}
               style={{
                 width: '200px',

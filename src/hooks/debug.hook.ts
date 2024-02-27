@@ -4,6 +4,15 @@ import { digest, generateSalt, ES256 } from '@sd-jwt/crypto-browser';
 import { message } from 'antd';
 import { HS256 } from '../alg/hs256';
 
+export type UpdateEncode = {
+  header?: string;
+  claims?: string;
+  secret?: string;
+  alg?: string;
+  b64checked?: boolean;
+  disclosureFrame?: string;
+};
+
 const initialSecret = 'your-256-bit-secret';
 
 const sdjwt = new SDJwtInstance({
@@ -112,30 +121,61 @@ export const DebugHook = () => {
     ),
   );
 
-  const encode = async () => {
-    try {
-      const data = JSON.parse(claims);
-      const sd_Data = discloseFrame ? (JSON.parse(discloseFrame) as any) : undefined;
-      console.log(data);
+  const encode = async (updates: UpdateEncode) => {
+    const encodingHeader = updates.header ?? header;
+    const encodingClaims = updates.claims ?? claims;
+    const encodingSecret = updates.secret ?? secret;
+    const encodingAlg = updates.alg ?? alg;
+    const encodingBase64Checked = updates.b64checked ?? base64Checked;
+    const encodingDisclosureFrame = updates.disclosureFrame ?? discloseFrame;
 
-      const getSigner = getSignerByAlg(alg);
-      const signer = await getSigner(secret);
+    if (updates.header !== undefined) {
+      setHeader(encodingHeader);
+    }
+
+    if (updates.claims !== undefined) {
+      setClaims(encodingClaims);
+    }
+
+    if (updates.secret !== undefined) {
+      setSecret(encodingSecret);
+    }
+
+    if (updates.alg !== undefined) {
+      setAlg(encodingAlg);
+    }
+
+    if (updates.b64checked !== undefined) {
+      setBase64Checked(encodingBase64Checked);
+    }
+
+    if (updates.disclosureFrame !== undefined) {
+      setDiscloseFrame(encodingDisclosureFrame);
+    }
+
+    try {
+      const sig = encodingBase64Checked ? atob(encodingSecret) : encodingSecret;
+      const protectedHeader = JSON.parse(encodingHeader);
+      const data = JSON.parse(encodingClaims);
+      const sd_Data = encodingDisclosureFrame ? (JSON.parse(encodingDisclosureFrame) as any) : undefined;
+
+      const getSigner = getSignerByAlg(encodingAlg);
+      const signer = await getSigner(sig);
       sdjwt.config({
         signer,
       });
-      const token = await sdjwt.issue(data, sd_Data);
+      const token = await sdjwt.issue(data, sd_Data, { header: protectedHeader });
       setToken(token);
       const sdJwtToken = await sdjwt.decode(token);
 
       setDiscolsures(JSON.stringify(sdJwtToken.disclosures, null, 2));
     } catch (e) {
       console.error(e);
-      message.error('Encode Failed', 2);
+      setToken('');
     }
   };
 
   const decode = async (token: string) => {
-    console.log('decode');
     try {
       const sdJwtToken = await sdjwt.decode(token);
       const header = JSON.stringify(sdJwtToken.jwt?.header ?? {}, null, 2);
@@ -148,7 +188,10 @@ export const DebugHook = () => {
       setDiscloseFrame('');
     } catch (e) {
       console.error(e);
-      message.error('Decode Failed', 2);
+      setHeader('');
+      setDiscloseFrame('');
+      setClaims('');
+      setDiscolsures('');
     }
   };
 
@@ -179,18 +222,16 @@ export const DebugHook = () => {
 
   const switchAlg = (alg: string) => {
     setAlg(alg);
-    setHeader(
-      JSON.stringify(
-        {
-          alg,
-          typ: 'sd+jwt',
-        },
-        null,
-        2,
-      ),
+    const header = JSON.stringify(
+      {
+        alg,
+        typ: 'sd+jwt',
+      },
+      null,
+      2,
     );
-    // TODO: fix encode timing.
-    encode();
+    setHeader(header);
+    encode({ header, alg });
   };
 
   return {

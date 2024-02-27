@@ -1,16 +1,15 @@
 import { Controlled as ControlledEditor } from 'react-codemirror2';
 import { decodeItem, decodeHeader, decodeDescStyle } from '../common/style';
+import { UpdateEncode } from '../../hooks/debug.hook';
 
 export const JwtHeader = ({
   header,
   setHeader,
   mode,
-  encode,
 }: {
   header: string;
-  setHeader: any;
+  setHeader: (data: UpdateEncode) => Promise<void>;
   mode: string;
-  encode: () => Promise<void>;
 }) => {
   return (
     <>
@@ -29,8 +28,7 @@ export const JwtHeader = ({
           }}
           onBeforeChange={(editor, data, value) => {
             console.log(value);
-            setHeader(value);
-            encode();
+            setHeader({ header: value });
           }}
           className="json-header"
         />
