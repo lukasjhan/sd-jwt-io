@@ -7,16 +7,20 @@ interface SelectAlgorithmProps {
 export const SelectAlgorithm = ({ select, alg }: SelectAlgorithmProps) => {
   return (
     <div style={SelectAlgorithmWrap}>
-      <div>{'Algorithm'}</div>
       <Select
-        defaultValue="HS256"
-        value={alg}
         style={{ width: 100 }}
+        value={alg}
+        defaultValue="HS256"
         onChange={(value: string) => {
           select(value);
         }}
-        options={algorithms}
-      />
+      >
+        {algorithms.map((option, index) => (
+          <Select.Option key={index} value={option.value} disabled={index !== 0}>
+            {option.label}
+          </Select.Option>
+        ))}
+      </Select>
     </div>
   );
 };
@@ -32,4 +36,5 @@ const SelectAlgorithmWrap = {
   alignItems: 'center',
   fontWeight: 'bold',
   gap: '1rem',
+  marginRight: '8px',
 };

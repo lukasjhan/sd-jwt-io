@@ -5,12 +5,12 @@ body {
   font-family: Pretendard;
 }
 
-* {
+*:not(.react-codemirror2 *, .monospace *, input) {
   font-family: Pretendard;
-  letter-spacing: +0.02rem;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.monospace,
+code,
+input {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }

@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
-import styles from "./NavBar.module.css";
-import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
+import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import styles from './NavBar.module.css';
+import { MenuOutlined, CloseOutlined } from '@ant-design/icons';
 
 function NavBar() {
   const [click, setClick] = useState(false);
@@ -11,44 +11,20 @@ function NavBar() {
     window.scrollTo(0, 0);
     setClick(false);
   };
-  const onClickDebug = () => {
-    setClick(false);
-    const element = document.getElementById("debugger");
-    if (element) {
-      const offset = 150; // Number of pixels you want to scroll above the element
-      const elementPosition =
-        element.getBoundingClientRect().top + window.pageYOffset;
-      const offsetPosition = elementPosition - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
-    }
-  };
 
   return (
     <>
       <nav className={styles.navbar}>
         <div className={styles.navContainer}>
-          <NavLink to="/" className={styles.navLogo} onClick={unClick}>
-            <span>SD JWT</span>
+          <NavLink to="/" className={`${styles.navLogo} monospace`} onClick={unClick}>
+            <span>SD-JWT Debugger</span>
           </NavLink>
 
           <ul className={click ? styles.navMenuActive : styles.navMenu}>
             <li className={styles.navItem}>
               <NavLink
-                to="/#debugger"
-                className={styles.navLinks}
-                onClick={onClickDebug}
-              >
-                Debugger
-              </NavLink>
-            </li>
-            <li className={styles.navItem}>
-              <NavLink
                 to="https://github.com/openwallet-foundation-labs/sd-jwt-js"
-                target="_black"
+                target="_blank"
                 className={styles.navLinks}
                 onClick={unClick}
               >
@@ -56,50 +32,52 @@ function NavBar() {
               </NavLink>
             </li>
             <li className={styles.navItem}>
-              <NavLink
-                to="https://www.ietf.org/archive/id/draft-ietf-oauth-selective-disclosure-jwt-06.html"
-                target="_blank"
-                className={styles.navLinks}
-                onClick={unClick}
-              >
+              <NavLink to="https://sdjwt.js.org" target="_blank" className={styles.navLinks} onClick={unClick}>
                 About
               </NavLink>
             </li>
           </ul>
           <div
             style={{
-              color: "white",
+              color: 'white',
             }}
           >
-            <div
+            <NavLink
               className={styles.navRight}
-              onClick={() => {
-                window.open("https://hopae.com", "_blank");
-              }}
+              to="https://www.hopae.com"
+              target="_blank"
               style={{
-                cursor: "pointer",
-                paddingRight: "20px",
-                fontSize: "1.3rem",
+                color: 'white',
+                textDecoration: 'none',
+                cursor: 'pointer',
+                paddingRight: '20px',
+                fontSize: '1.3rem',
               }}
             >
               <span
                 style={{
-                  fontSize: "0.6rem",
+                  fontSize: '0.8rem',
+                  textAlign: 'right',
+                  marginRight: '8px',
                 }}
               >
-                Crafted by{" "}
+                Provided by <br /> HOPAE
               </span>
-              Hopae
-            </div>
+              <img
+                width={48}
+                src="https://assets-global.website-files.com/659d4e4a95e8dd9e35afd25a/659e06d136cc0d20099e75ac_app%20icon.png"
+                alt="hopae logo"
+              />
+            </NavLink>
           </div>
           <div className={styles.navIcon} onClick={handleClick}>
             {click ? (
               <span className={styles.icon}>
-                <CloseOutlined style={{ fontSize: "32px" }} />
+                <CloseOutlined style={{ fontSize: '32px' }} />
               </span>
             ) : (
               <span className={styles.icon}>
-                <MenuOutlined style={{ fontSize: "32px" }} />
+                <MenuOutlined style={{ fontSize: '32px' }} />
               </span>
             )}
           </div>
