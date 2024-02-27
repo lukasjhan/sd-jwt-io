@@ -22,7 +22,7 @@ export const JwtHeader = ({
         <ControlledEditor
           value={header}
           options={{
-            readOnly: mode === 'encode' ? 'nocursor' : false,
+            readOnly: mode === 'encode' ? true : false,
             mode: 'javascript',
             lineWrapping: true,
           }}
