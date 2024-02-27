@@ -67,8 +67,8 @@ export const DebugHook = () => {
         _sd: ['firstname', 'id'],
       },
       null,
-      2
-    )
+      2,
+    ),
   );
   const [claims, setClaims] = useState(
     JSON.stringify(
@@ -79,8 +79,8 @@ export const DebugHook = () => {
         id: '1234',
       },
       null,
-      2
-    )
+      2,
+    ),
   );
   const [discolsures, setDiscolsures] = useState(
     JSON.stringify(
@@ -97,8 +97,8 @@ export const DebugHook = () => {
         },
       ],
       null,
-      2
-    )
+      2,
+    ),
   );
 
   const [header, setHeader] = useState(
@@ -108,16 +108,14 @@ export const DebugHook = () => {
         typ: 'sd+jwt',
       },
       null,
-      2
-    )
+      2,
+    ),
   );
 
   const encode = async () => {
     try {
       const data = JSON.parse(claims);
-      const sd_Data = discloseFrame
-        ? (JSON.parse(discloseFrame) as any)
-        : undefined;
+      const sd_Data = discloseFrame ? (JSON.parse(discloseFrame) as any) : undefined;
       console.log(data);
 
       const getSigner = getSignerByAlg(alg);
@@ -179,13 +177,29 @@ export const DebugHook = () => {
     }
   };
 
+  const switchAlg = (alg: string) => {
+    setAlg(alg);
+    setHeader(
+      JSON.stringify(
+        {
+          alg,
+          typ: 'sd+jwt',
+        },
+        null,
+        2,
+      ),
+    );
+    // TODO: fix encode timing.
+    encode();
+  };
+
   return {
     token,
     setToken,
     secret,
     setSecret,
     alg,
-    setAlg,
+    setAlg: switchAlg,
     base64Checked,
     setBase64Checked,
     discloseFrame,

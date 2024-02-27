@@ -1,7 +1,7 @@
 import Button from './common/Button';
 import { ShareAltOutlined, SwapOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import { SelectAlgorithm } from './SelectAlgorithm';
-import { Switch } from 'antd';
+
 interface EquipmentsProps {
   mode: string;
   alg: string;
@@ -10,16 +10,17 @@ interface EquipmentsProps {
   shareSdJwt: () => void;
   verify: any;
 }
-export const Equipments = ({ alg, setAlg, shareSdJwt, switchMode, verify }: EquipmentsProps) => {
+export const Equipments = ({ mode, alg, setAlg, shareSdJwt, switchMode, verify }: EquipmentsProps) => {
   return (
     <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
-      <SelectAlgorithm
-        alg={alg}
-        select={(value: string) => {
-          console.log(value);
-          setAlg(value);
-        }}
-      />
+      {mode === 'decode' ? (
+        <SelectAlgorithm
+          alg={alg}
+          select={(value: string) => {
+            setAlg(value);
+          }}
+        />
+      ) : null}
       <Button onClick={switchMode}>
         <SwapOutlined />
         Toggle Mode
