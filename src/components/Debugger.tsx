@@ -41,6 +41,9 @@ export const Debugger = () => {
     verify,
     alg,
     setAlg,
+    pubpriKey,
+    setPubPriKey,
+    setSecret,
   } = DebugHook();
 
   type ModeType = 'encode' | 'decode';
@@ -99,7 +102,16 @@ export const Debugger = () => {
           <div className="decode-area">
             <JwtHeader header={header} setHeader={encode} mode={mode} />
             <JwtPayloadSection claim={claims} disclosureFrame={discloseFrame} tabHandler={encode} mode={mode} />
-            <JwtSigature mode={mode} secret={secret} checked={base64Checked} encode={encode} />
+            <JwtSigature
+              alg={alg}
+              secret={secret}
+              checked={base64Checked}
+              encode={encode}
+              pubpriKey={pubpriKey}
+              mode={mode}
+              setPubPriKey={setPubPriKey}
+              setSecret={setSecret}
+            />
           </div>
         </DebuggerContainer>
       </div>

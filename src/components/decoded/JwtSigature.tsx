@@ -3,21 +3,86 @@ import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { decodeItem } from '../common/style';
 import { decodeHeader, decodeHeaderTop } from '../common/style';
 import { UpdateEncode } from '../../hooks/debug.hook';
+import TextArea from 'antd/es/input/TextArea';
 
 export const JwtSigature = ({
+  alg,
   secret,
+  pubpriKey,
   checked,
-  mode,
   encode,
+  mode,
+  setPubPriKey,
+  setSecret,
 }: {
-  secret: any;
+  alg: string;
+  secret: string;
+  pubpriKey: { pri: string; pub: string };
   checked: boolean;
-  mode: string;
   encode: (data: UpdateEncode) => Promise<void>;
+  mode: string;
+  setPubPriKey: (data: { pri: string; pub: string }) => void;
+  setSecret: (data: string) => void;
 }) => {
   const onChange = (e: CheckboxChangeEvent) => {
     encode({ b64checked: e.target.checked });
   };
+  const field =
+    alg === 'HS256' ? (
+      <Input
+        onChange={(e) => {
+          if (mode === 'encode') setSecret(e.target.value);
+          else encode({ secret: e.target.value });
+        }}
+        value={secret}
+        style={{
+          width: '200px',
+          color: 'rgb(0, 185, 241)',
+        }}
+      />
+    ) : (
+      <>
+        <span
+          style={{
+            fontSize: '0.8rem',
+          }}
+        >
+          {'[Public Key]'}
+        </span>
+        <TextArea
+          onChange={(e) => {
+            if (mode === 'encode') setPubPriKey({ ...pubpriKey, pub: e.target.value });
+            else encode({ pubpriKey: { ...pubpriKey, pub: e.target.value } });
+          }}
+          value={pubpriKey.pub}
+          style={{
+            width: '600px',
+            color: 'rgb(0, 185, 241)',
+            height: '100px',
+          }}
+        />
+        <span
+          style={{
+            fontSize: '0.8rem',
+          }}
+        >
+          {'[Private Key]'}
+        </span>
+        <TextArea
+          onChange={(e) => {
+            if (mode === 'encode') setPubPriKey({ ...pubpriKey, pri: e.target.value });
+            else encode({ pubpriKey: { ...pubpriKey, pri: e.target.value } });
+          }}
+          value={pubpriKey.pri}
+          style={{
+            width: '600px',
+            color: 'rgb(0, 185, 241)',
+            height: '100px',
+          }}
+        />
+      </>
+    );
+
   return (
     <div>
       <div style={{ ...decodeHeader, ...decodeHeaderTop }}>{'SIGNATURE'}</div>
@@ -31,31 +96,31 @@ export const JwtSigature = ({
             color: 'rgb(0, 185, 241)',
           }}
         >
-          <div>{'HMACSHA256('}</div>
+          <div>{true ? 'HMACSHA256(' : 'ECDSASHA256('}</div>
           <div>{`base64UrlEncode(header) + "." +`}</div>
           <div>{'base64UrlEncode(payload),'}</div>
-          <div>
-            <Input
-              readOnly={mode === 'encode'}
-              onChange={(e) => encode({ secret: e.target.value })}
-              value={secret}
-              style={{
-                width: '200px',
-                color: 'rgb(0, 185, 241)',
-              }}
-            />
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '2px',
+            }}
+          >
+            {field}
           </div>
           <div>
             {')  '}
-            <Checkbox
-              checked={checked}
-              onChange={onChange}
-              style={{
-                color: 'rgb(0, 185, 241)',
-              }}
-            >
-              {'secret base64 encoded'}
-            </Checkbox>
+            {alg === 'HS256' ? (
+              <Checkbox
+                checked={checked}
+                onChange={onChange}
+                style={{
+                  color: 'rgb(0, 185, 241)',
+                }}
+              >
+                {'secret base64 encoded'}
+              </Checkbox>
+            ) : null}
           </div>
         </pre>
       </div>

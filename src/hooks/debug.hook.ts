@@ -11,6 +11,7 @@ export type UpdateEncode = {
   alg?: string;
   b64checked?: boolean;
   disclosureFrame?: string;
+  pubpriKey?: { pri: string; pub: string };
 };
 
 const initialSecret = 'your-256-bit-secret';
@@ -65,10 +66,47 @@ const getVerifierByAlg = (alg: string) => {
   }
 };
 
+ES256.generateKeyPair().then((a) => console.log(a));
+
+const initialPubPriKey = {
+  pri: JSON.stringify(
+    {
+      crv: 'P-256',
+      d: 'SU7I_ZZ1BgFUVusIFcMjmTIAXFuEIO-YLcpuYx6jSG4',
+      kty: 'EC',
+      x: 'h29tWfkCJ73nJbP51C4SotdI0CuttfQS3Svt0se6gFU',
+      y: 'mBavlbiJLFhGsuIJRz7wYLiW15gpiWEDLjE1gfVh_7k',
+    },
+    null,
+    2,
+  ),
+  pub: JSON.stringify(
+    {
+      crv: 'P-256',
+      kty: 'EC',
+      x: 'h29tWfkCJ73nJbP51C4SotdI0CuttfQS3Svt0se6gFU',
+      y: 'mBavlbiJLFhGsuIJRz7wYLiW15gpiWEDLjE1gfVh_7k',
+    },
+    null,
+    2,
+  ),
+};
+
+function getKey(alg: string, secret: string, b64checked: boolean, privateKey: string) {
+  if (alg === 'HS256') {
+    return b64checked ? atob(secret) : secret;
+  } else if (alg === 'ES256') {
+    return privateKey;
+  }
+
+  throw new Error(`Invalid Algorithm ${alg}`);
+}
+
 export const DebugHook = () => {
   const [token, setToken] = useState(initialToken);
   const [alg, setAlg] = useState(HS256.alg);
   const [secret, setSecret] = useState(initialSecret);
+  const [pubpriKey, setPubPriKey] = useState(initialPubPriKey);
   const [base64Checked, setBase64Checked] = useState(false);
   const [discloseFrame, setDiscloseFrame] = useState(
     JSON.stringify(
@@ -128,6 +166,7 @@ export const DebugHook = () => {
     const encodingAlg = updates.alg ?? alg;
     const encodingBase64Checked = updates.b64checked ?? base64Checked;
     const encodingDisclosureFrame = updates.disclosureFrame ?? discloseFrame;
+    const encodingPubPriKey = updates.pubpriKey ?? pubpriKey;
 
     if (updates.header !== undefined) {
       setHeader(encodingHeader);
@@ -153,14 +192,18 @@ export const DebugHook = () => {
       setDiscloseFrame(encodingDisclosureFrame);
     }
 
+    if (updates.pubpriKey !== undefined) {
+      setPubPriKey(updates.pubpriKey);
+    }
+
     try {
-      const sig = encodingBase64Checked ? atob(encodingSecret) : encodingSecret;
+      const key = getKey(encodingAlg, encodingSecret, encodingBase64Checked, encodingPubPriKey.pri);
       const protectedHeader = JSON.parse(encodingHeader);
       const data = JSON.parse(encodingClaims);
       const sd_Data = encodingDisclosureFrame ? (JSON.parse(encodingDisclosureFrame) as any) : undefined;
 
       const getSigner = getSignerByAlg(encodingAlg);
-      const signer = await getSigner(sig);
+      const signer = await getSigner(key);
       sdjwt.config({
         signer,
       });
@@ -202,9 +245,9 @@ export const DebugHook = () => {
 
   const verify = async () => {
     try {
-      const sig = base64Checked ? atob(secret) : secret;
+      const key = getKey(alg, secret, base64Checked, pubpriKey.pub);
       const getVerifier = getVerifierByAlg(alg);
-      const verifier = await getVerifier(sig);
+      const verifier = await getVerifier(key);
       sdjwt.config({
         verifier,
       });
@@ -230,7 +273,6 @@ export const DebugHook = () => {
       null,
       2,
     );
-    setHeader(header);
     encode({ header, alg });
   };
 
@@ -239,6 +281,8 @@ export const DebugHook = () => {
     setToken,
     secret,
     setSecret,
+    pubpriKey,
+    setPubPriKey,
     alg,
     setAlg: switchAlg,
     base64Checked,
