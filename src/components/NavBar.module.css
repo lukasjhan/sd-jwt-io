@@ -48,7 +48,7 @@
   display: flex;
   list-style: none;
   text-align: center;
-  margin-right: 2rem;
+  padding-left: 0px;
 
   justify-content: center;
 
@@ -75,7 +75,6 @@
 
 .navItem {
   line-height: 40px;
-  margin-right: 1rem;
 }
 
 .navItem:after {
