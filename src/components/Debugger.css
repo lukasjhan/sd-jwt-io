@@ -45,10 +45,11 @@
 .code-item {
   width: calc(50% - 1rem);
   position: relative;
-  height: 600px;
+  max-height: 800px;
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
+  height: 800px;
 }
 
 .CodeMirror {
@@ -88,7 +89,6 @@
   flex: 1;
   border-radius: 6px;
   border: 1px solid #ccc;
-  max-height: 536px;
   /* overflow: auto; */
 }
 

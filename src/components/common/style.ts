@@ -4,6 +4,7 @@ export const decodeItem: CSSProperties = {
   // flex: 1,
   padding: '0.8rem 1rem',
   overflowY: 'auto',
+  minHeight: '80px',
 };
 
 export const decodeHeader: CSSProperties = {
