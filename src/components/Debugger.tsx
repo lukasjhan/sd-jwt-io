@@ -169,6 +169,13 @@ const JwtPayloadSection = ({ claim, disclosureFrame, tabHandler, mode }: any) =>
         </PayloadHeader>
         <div style={{ display: 'flex' }}>
           <JwtPayload payload={claim} setPayload={tabHandler} mode={mode} type="claim" />
+          <div
+            style={{
+              width: '1px',
+              height: '100%',
+              backgroundColor: 'rgba(0, 0, 0, 0.2)',
+            }}
+          />
           <JwtPayload
             className="cm-sdjwt-disclosure"
             payload={disclosureFrame}
