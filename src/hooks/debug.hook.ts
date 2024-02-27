@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import { SDJwtInstance } from '@lukas.j.han/sd-jwt-core';
-import { digest, generateSalt } from '@lukas.j.han/sd-jwt-browser-crypto';
+import { SDJwtInstance } from '@sd-jwt/core';
+import { digest, generateSalt, ES256 } from '@sd-jwt/crypto-browser';
 import { message } from 'antd';
 import { HS256 } from '../alg/hs256';
-import { ES256 } from '../alg/es256';
 
 const initialSecret = 'your-256-bit-secret';
 
