@@ -16,7 +16,7 @@ export const SelectAlgorithm = ({ select, alg }: SelectAlgorithmProps) => {
         }}
       >
         {algorithms.map((option, index) => (
-          <Select.Option key={index} value={option.value} disabled={index !== 0}>
+          <Select.Option key={index} value={option.value}>
             {option.label}
           </Select.Option>
         ))}

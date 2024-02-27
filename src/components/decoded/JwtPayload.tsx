@@ -1,17 +1,18 @@
 import { Controlled as ControlledEditor } from 'react-codemirror2';
 import { decodeItem } from '../common/style';
+import { UpdateEncode } from '../../hooks/debug.hook';
 
 export const JwtPayload = ({
   payload,
   setPayload,
   mode,
-  encode,
+  type,
   className,
 }: {
   payload: string;
-  setPayload: React.Dispatch<React.SetStateAction<string>>;
+  setPayload: (data: UpdateEncode) => Promise<void>;
   mode: string;
-  encode: () => Promise<void>;
+  type: 'claim' | 'disclosureFrame';
   className?: string;
 }) => {
   return (
@@ -24,9 +25,8 @@ export const JwtPayload = ({
           lineWrapping: true,
         }}
         onBeforeChange={(editor, data, value) => {
-          console.log(value);
-          setPayload(value);
-          encode();
+          if (type === 'claim') setPayload({ claims: value });
+          else if (type === 'disclosureFrame') setPayload({ disclosureFrame: value });
         }}
         className={`json-payload ${className}`}
       />

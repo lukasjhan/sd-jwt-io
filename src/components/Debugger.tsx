@@ -8,9 +8,6 @@ import './Debugger.css';
 import { DebuggerContainer } from './DebuggerContainer';
 import { Equipments } from './Equipments';
 
-const CLAIM = 'claim';
-const DISCLOSE_FRAME = 'discloseFrame';
-
 export const Debugger = () => {
   useEffect(() => {
     if (window.location.hash !== '#debugger') {
@@ -35,29 +32,19 @@ export const Debugger = () => {
     token,
     setToken,
     secret,
-    setSecret,
     base64Checked,
-    setBase64Checked,
     discloseFrame,
-    setDiscloseFrame,
     claims,
-    setClaims,
-    discolsures,
-    setDiscolsures,
     header,
-    setHeader,
     encode,
-    decode,
     updateToken,
     verify,
     alg,
     setAlg,
   } = DebugHook();
 
-  type TabType = 'claim' | 'discloseFrame' | 'discolsures';
   type ModeType = 'encode' | 'decode';
 
-  const [tab, setTab] = useState<TabType>('claim');
   const [mode, setMode] = useState<ModeType>('encode');
 
   const swtichMode = () => {
@@ -73,18 +60,6 @@ export const Debugger = () => {
     updateURLWithQuery(token, mode);
     const result = await copyCurrentURLToClipboard();
     if (result) message.success('URL is copied to your clipboard', 2);
-  };
-
-  const tabValue = {
-    claim: claims,
-    discloseFrame: discloseFrame,
-    discolsures: discolsures,
-  };
-
-  const tabHandler = {
-    claim: setClaims,
-    discloseFrame: setDiscloseFrame,
-    discolsures: setDiscolsures,
   };
 
   useEffect(() => {
@@ -122,16 +97,9 @@ export const Debugger = () => {
 
         <DebuggerContainer headerText="Decoded" descriptionText="PAYLOAD AND SECRET">
           <div className="decode-area">
-            <JwtHeader header={header} setHeader={setHeader} mode={mode} encode={encode} />
-            <JwtPayloadSection tabValue={tabValue} tabHandler={tabHandler} mode={mode} encode={encode} />
-            <JwtSigature
-              mode={mode}
-              secret={secret}
-              setSecret={setSecret}
-              checked={base64Checked}
-              setChecked={setBase64Checked}
-              encode={encode}
-            />
+            <JwtHeader header={header} setHeader={encode} mode={mode} />
+            <JwtPayloadSection claim={claims} disclosureFrame={discloseFrame} tabHandler={encode} mode={mode} />
+            <JwtSigature mode={mode} secret={secret} checked={base64Checked} encode={encode} />
           </div>
         </DebuggerContainer>
       </div>
@@ -139,13 +107,7 @@ export const Debugger = () => {
   );
 };
 
-interface TabProps {
-  tab: string;
-  setTab: React.Dispatch<React.SetStateAction<'claim' | 'discloseFrame' | 'discolsures'>>;
-}
-
 CodeMirror.defineMode('jwt', function () {
-  console.log('jwt code Mirror');
   return {
     token: function (stream, state) {
       if (stream.sol()) {
@@ -176,14 +138,14 @@ CodeMirror.defineMode('jwt', function () {
   };
 });
 
-const JwtPayloadSection = ({ tabValue, tabHandler, mode, encode }: any) => (
+const JwtPayloadSection = ({ claim, disclosureFrame, tabHandler, mode }: any) => (
   <>
     {mode === 'encode' && (
       <>
         <PayloadHeader>
           <span> {'Claims'.toUpperCase()} </span>
         </PayloadHeader>
-        <JwtPayload payload={tabValue[CLAIM]} setPayload={tabHandler[CLAIM]} mode={mode} encode={encode} />
+        <JwtPayload payload={claim} setPayload={tabHandler} mode={mode} type="claim" />
       </>
     )}
 
@@ -194,13 +156,13 @@ const JwtPayloadSection = ({ tabValue, tabHandler, mode, encode }: any) => (
           <span style={{ flex: 1 }}> {'Disclosure Frame'.toUpperCase()} </span>
         </PayloadHeader>
         <div style={{ display: 'flex' }}>
-          <JwtPayload payload={tabValue[CLAIM]} setPayload={tabHandler[CLAIM]} mode={mode} encode={encode} />
+          <JwtPayload payload={claim} setPayload={tabHandler} mode={mode} type="claim" />
           <JwtPayload
             className="cm-sdjwt-disclosure"
-            payload={tabValue[DISCLOSE_FRAME]}
-            setPayload={tabHandler[DISCLOSE_FRAME]}
+            payload={disclosureFrame}
+            setPayload={tabHandler}
             mode={mode}
-            encode={encode}
+            type="disclosureFrame"
           />
         </div>
       </>
