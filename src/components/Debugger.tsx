@@ -8,6 +8,8 @@ import './Debugger.css';
 import { DebuggerContainer } from './DebuggerContainer';
 import { Equipments } from './Equipments';
 
+export type ModeType = 'encode' | 'decode';
+
 export const Debugger = () => {
   useEffect(() => {
     if (window.location.hash !== '#debugger') {
@@ -46,17 +48,10 @@ export const Debugger = () => {
     setSecret,
   } = DebugHook();
 
-  type ModeType = 'encode' | 'decode';
-
   const [mode, setMode] = useState<ModeType>('encode');
 
-  const swtichMode = () => {
-    if (mode === 'encode') {
-      setMode('decode');
-      return;
-    }
-
-    setMode('encode');
+  const swtichMode = (mode: ModeType) => {
+    setMode(mode);
   };
 
   const shareSdJwt = async () => {
