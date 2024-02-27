@@ -11,20 +11,6 @@ function NavBar() {
     window.scrollTo(0, 0);
     setClick(false);
   };
-  const onClickDebug = () => {
-    setClick(false);
-    const element = document.getElementById('debugger');
-    if (element) {
-      const offset = 150; // Number of pixels you want to scroll above the element
-      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
-      const offsetPosition = elementPosition - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth',
-      });
-    }
-  };
 
   return (
     <>
@@ -36,14 +22,9 @@ function NavBar() {
 
           <ul className={click ? styles.navMenuActive : styles.navMenu}>
             <li className={styles.navItem}>
-              <NavLink to="/#debugger" className={styles.navLinks} onClick={onClickDebug}>
-                Debugger
-              </NavLink>
-            </li>
-            <li className={styles.navItem}>
               <NavLink
                 to="https://github.com/openwallet-foundation-labs/sd-jwt-js"
-                target="_black"
+                target="_blank"
                 className={styles.navLinks}
                 onClick={unClick}
               >
@@ -51,12 +32,7 @@ function NavBar() {
               </NavLink>
             </li>
             <li className={styles.navItem}>
-              <NavLink
-                to="https://www.ietf.org/archive/id/draft-ietf-oauth-selective-disclosure-jwt-07.html"
-                target="_blank"
-                className={styles.navLinks}
-                onClick={unClick}
-              >
+              <NavLink to="https://sdjwt.js.org" target="_blank" className={styles.navLinks} onClick={unClick}>
                 About
               </NavLink>
             </li>
