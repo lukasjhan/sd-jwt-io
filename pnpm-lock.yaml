@@ -8,15 +8,15 @@ dependencies:
   '@ant-design/icons':
     specifier: ^5.2.6
     version: 5.2.6(react-dom@18.2.0)(react@18.2.0)
-  '@lukas.j.han/sd-jwt-browser-crypto':
-    specifier: ^2.1.0
-    version: 2.1.0
-  '@lukas.j.han/sd-jwt-core':
-    specifier: 2.1.0
-    version: 2.1.0
-  '@lukas.j.han/sd-jwt-type':
-    specifier: 2.1.0
-    version: 2.1.0
+  '@sd-jwt/core':
+    specifier: 0.3.2-next.73
+    version: 0.3.2-next.73
+  '@sd-jwt/crypto-browser':
+    specifier: 0.3.2-next.73
+    version: 0.3.2-next.73
+  '@sd-jwt/types':
+    specifier: 0.3.2-next.73
+    version: 0.3.2-next.73
   '@testing-library/jest-dom':
     specifier: ^5.17.0
     version: 5.17.0
@@ -2131,38 +2131,6 @@ packages:
     resolution: {integrity: sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A==}
     dev: false
 
-  /@lukas.j.han/sd-jwt-browser-crypto@2.1.0:
-    resolution: {integrity: sha512-hku76j9ucAIhhC3MaMPa8Qq4glZyVVxZw8a83+X6msw5xHGWXsuj4vH++Y1xipFeN6XZbE7T3gcLwyZHECD85A==}
-    dev: false
-
-  /@lukas.j.han/sd-jwt-core@2.1.0:
-    resolution: {integrity: sha512-WskXJqL3ZkjGgStzv71ddxbYIqJ5JvfFYqo8nvWea61t35IocgrOhKeyXA7/yYzXqfZDX8kTFnDdlmsPhHC2EA==}
-    dependencies:
-      '@lukas.j.han/sd-jwt-decode': 2.1.0
-      '@lukas.j.han/sd-jwt-type': 2.1.0
-      '@lukas.j.han/sd-jwt-util': 2.1.0
-    dev: false
-
-  /@lukas.j.han/sd-jwt-decode@2.1.0:
-    resolution: {integrity: sha512-1G866sFEU8TycJ/Bimyse9Y5d7BKQEHj1Y07i4eiMHLikFDXD3cRIoflRFcT+ZpL9ITNKBRw/dPgde2pafKhww==}
-    dependencies:
-      '@lukas.j.han/sd-jwt-type': 2.1.0
-      '@lukas.j.han/sd-jwt-util': 2.1.0
-    dev: false
-
-  /@lukas.j.han/sd-jwt-type@2.1.0:
-    resolution: {integrity: sha512-Q9OfaW4INQZuxcxZptFUe9GTwEvtbuZvG0tuRopnzn907liQ/o/w7prgH1RPS5b4VE+CeAfw1kUu3ncyzE2AqA==}
-    dependencies:
-      js-base64: 3.7.7
-    dev: false
-
-  /@lukas.j.han/sd-jwt-util@2.1.0:
-    resolution: {integrity: sha512-K7wW+2lmeqfie1siuONocHXv49WkqeHHTgW/06zJ7WWDLhXEDXaQ6OR7oy2OXwfV6A52HR6/0+BJh8pOsaIznQ==}
-    dependencies:
-      '@lukas.j.han/sd-jwt-type': 2.1.0
-      js-base64: 3.7.7
-    dev: false
-
   /@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1:
     resolution: {integrity: sha512-54/JRvkLIzzDWshCWfuhadfrfZVPiElY8Fcgmg1HroEly/EDSszzhBAsarCux+D/kOslTRquNzuyGSmUSTTHGg==}
     dependencies:
@@ -2385,6 +2353,40 @@ packages:
 
   /@rushstack/eslint-patch@1.6.1:
     resolution: {integrity: sha512-UY+FGM/2jjMkzQLn8pxcHGMaVLh9aEitG3zY2CiY7XHdLiz3bZOwa6oDxNqEMv7zZkV+cj5DOdz0cQ1BP5Hjgw==}
+    dev: false
+
+  /@sd-jwt/core@0.3.2-next.73:
+    resolution: {integrity: sha512-UaOvp3ds1W87LcjFnbu5JozxPj8AVpJp5DDxpQYNmb6V7uBO+5qH5MdXIgB5A/qdrcZAQwJwYNVMNKvp6VLY2g==}
+    engines: {node: '>=16'}
+    dependencies:
+      '@sd-jwt/decode': 0.3.2-next.73
+      '@sd-jwt/types': 0.3.2-next.73
+      '@sd-jwt/utils': 0.3.2-next.73
+    dev: false
+
+  /@sd-jwt/crypto-browser@0.3.2-next.73:
+    resolution: {integrity: sha512-c5pOkMvGwT/apte1X4Gqkub4S231bQ7I80zXJF6FJIqXRvsNKM0JrK/IwCOkFCZ48DHIp3YK+4elP1bSwoj9fQ==}
+    dev: false
+
+  /@sd-jwt/decode@0.3.2-next.73:
+    resolution: {integrity: sha512-ZbyXqO+GneERPwkpbe9CtZPXMUwG3wnQrVkoXgIjIifjO9RRvxV2NKA5JFvecU8M3sVHrlnwJBVAwBAFFnip1A==}
+    engines: {node: '>=16'}
+    dependencies:
+      '@sd-jwt/types': 0.3.2-next.73
+      '@sd-jwt/utils': 0.3.2-next.73
+    dev: false
+
+  /@sd-jwt/types@0.3.2-next.73:
+    resolution: {integrity: sha512-e7vtqoy2KD3xMHna6CSyZs/T/DweKYUifwPcfWVz7uci3D0WTM2zSS2zG1ru0NVSdBtiHeKDU0q0LgNfwfU7qA==}
+    engines: {node: '>=16'}
+    dev: false
+
+  /@sd-jwt/utils@0.3.2-next.73:
+    resolution: {integrity: sha512-6Y910hr/9KrCQS9IYFygNZo1bOIKArF4oVrR/VG8BDlI12YZxTPD/S5ae3AyJkaMd55yNfWZHw5WAz/aTwiUEA==}
+    engines: {node: '>=16'}
+    dependencies:
+      '@sd-jwt/types': 0.3.2-next.73
+      js-base64: 3.7.7
     dev: false
 
   /@sinclair/typebox@0.24.51:
