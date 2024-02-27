@@ -29,6 +29,7 @@ export const Debugger = () => {
   }, []);
 
   const {
+    isValid,
     token,
     setToken,
     secret,
@@ -94,11 +95,15 @@ export const Debugger = () => {
         verify={verify}
       />
       <div className={mode === 'encode' ? 'code-wrapper' : 'code-reverse-wrapper'}>
-        <DebuggerContainer headerText="Encoded" descriptionText="SD-JWT TOKEN">
+        <DebuggerContainer headerText="Encoded" descriptionText="SD-JWT TOKEN" isValid={isValid || mode === 'decode'}>
           <JwtCode token={token} updateToken={updateToken} mode={mode} />
         </DebuggerContainer>
 
-        <DebuggerContainer headerText="Decoded" descriptionText="PAYLOAD AND SECRET">
+        <DebuggerContainer
+          headerText="Decoded"
+          descriptionText="PAYLOAD AND SECRET"
+          isValid={isValid || mode === 'encode'}
+        >
           <div className="decode-area">
             <JwtHeader header={header} setHeader={encode} mode={mode} />
             <JwtPayloadSection claim={claims} disclosureFrame={discloseFrame} tabHandler={encode} mode={mode} />
