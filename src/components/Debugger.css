@@ -199,3 +199,7 @@
   font-weight: bold;
   cursor: pointer;
 }
+
+.input-cursor {
+  cursor: text;
+}
