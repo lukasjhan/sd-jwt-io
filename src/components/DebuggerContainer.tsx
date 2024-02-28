@@ -15,7 +15,7 @@ export const DebuggerContainer = ({ children, headerText, descriptionText, isVal
         <div className="code-title">{headerText}</div>
         <div className="code-desc">{descriptionText}</div>
         <div style={{ marginLeft: 'auto' }}>
-          {!isValid ? (
+          {!isValid && (
             <Alert
               style={{
                 width: '100%',
@@ -26,7 +26,7 @@ export const DebuggerContainer = ({ children, headerText, descriptionText, isVal
               message="Unable to process due to wrong data format"
               type="error"
             />
-          ) : null}
+          )}
         </div>
       </div>
       {children}
