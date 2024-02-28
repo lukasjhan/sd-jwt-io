@@ -244,8 +244,9 @@ export const DebugHook = () => {
   };
 
   const updateToken = async (token: string) => {
-    setToken(token);
-    decode(token);
+    const trimedToken = token.replace(/\s/g, '');
+    setToken(trimedToken);
+    decode(trimedToken);
   };
 
   const verify = async () => {
