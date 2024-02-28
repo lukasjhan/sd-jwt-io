@@ -84,7 +84,7 @@ export const JwtSigature = ({
     );
 
   return (
-    <div>
+    <>
       <div style={{ ...decodeHeader, ...decodeHeaderTop }}>{'SIGNATURE'}</div>
       <div style={decodeItem} className="input-cursor">
         <pre
@@ -124,6 +124,6 @@ export const JwtSigature = ({
           </div>
         </pre>
       </div>
-    </div>
+    </>
   );
 };
