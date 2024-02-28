@@ -50,7 +50,7 @@ export const Debugger = () => {
 
   const [mode, setMode] = useState<ModeType>('encode');
 
-  const swtichMode = (mode: ModeType) => {
+  const switchMode = (mode: ModeType) => {
     setMode(mode);
   };
 
@@ -84,7 +84,7 @@ export const Debugger = () => {
         alg={alg}
         setAlg={setAlg}
         mode={mode}
-        switchMode={swtichMode}
+        switchMode={switchMode}
         shareSdJwt={shareSdJwt}
         verify={verify}
       />
