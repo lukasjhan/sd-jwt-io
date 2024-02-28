@@ -5,6 +5,8 @@ export const decodeItem: CSSProperties = {
   padding: '0.8rem 1rem',
   overflowY: 'auto',
   minHeight: '80px',
+  width: '100%',
+  boxSizing: 'border-box',
 };
 
 export const decodeHeader: CSSProperties = {
