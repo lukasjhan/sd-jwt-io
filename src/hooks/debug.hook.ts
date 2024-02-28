@@ -103,6 +103,7 @@ function getKey(alg: string, secret: string, b64checked: boolean, privateKey: st
 }
 
 export const DebugHook = () => {
+  const [isValid, setIsValid] = useState(true);
   const [token, setToken] = useState(initialToken);
   const [alg, setAlg] = useState(HS256.alg);
   const [secret, setSecret] = useState(initialSecret);
@@ -212,9 +213,11 @@ export const DebugHook = () => {
       const sdJwtToken = await sdjwt.decode(token);
 
       setDiscolsures(JSON.stringify(sdJwtToken.disclosures, null, 2));
+      setIsValid(true);
     } catch (e) {
       console.error(e);
       setToken('');
+      setIsValid(false);
     }
   };
 
@@ -229,12 +232,14 @@ export const DebugHook = () => {
       setDiscolsures(disclosures);
       setClaims(JSON.stringify(claims, null, 2));
       setDiscloseFrame('');
+      setIsValid(true);
     } catch (e) {
       console.error(e);
       setHeader('');
       setDiscloseFrame('');
       setClaims('');
       setDiscolsures('');
+      setIsValid(false);
     }
   };
 
@@ -277,6 +282,7 @@ export const DebugHook = () => {
   };
 
   return {
+    isValid,
     token,
     setToken,
     secret,
