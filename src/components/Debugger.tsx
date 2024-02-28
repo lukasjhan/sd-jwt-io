@@ -170,6 +170,8 @@ const JwtPayloadSection = ({ claim, disclosureFrame, tabHandler, mode }: any) =>
         <div style={{ display: 'flex' }}>
           <JwtPayload payload={claim} setPayload={tabHandler} mode={mode} type="claim" />
           <div
+            role="presentation"
+            aria-label="border"
             style={{
               width: '1px',
               height: '100%',
