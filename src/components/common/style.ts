@@ -6,6 +6,7 @@ export const decodeItem: CSSProperties = {
   overflowY: 'auto',
   minHeight: '80px',
   width: '100%',
+  boxSizing: 'border-box',
 };
 
 export const decodeHeader: CSSProperties = {
