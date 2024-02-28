@@ -18,7 +18,7 @@ export const JwtHeader = ({
         <span style={decodeDescStyle}>{'ALGORITHM & TOKEN TYPE'}</span>
       </div>
 
-      <div style={decodeItem} className="input-cursor">
+      <div style={{ ...decodeItem, height: '130px' }} className="input-cursor">
         <ControlledEditor
           value={header}
           options={{

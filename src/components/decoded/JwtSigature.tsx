@@ -86,7 +86,7 @@ export const JwtSigature = ({
   return (
     <>
       <div style={{ ...decodeHeader, ...decodeHeaderTop }}>{'SIGNATURE'}</div>
-      <div style={decodeItem} className="input-cursor">
+      <div style={{ ...decodeItem, maxHeight: '500px' }} className="input-cursor">
         <pre
           style={{
             margin: 0,
