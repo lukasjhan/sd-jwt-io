@@ -45,11 +45,11 @@
 .code-item {
   width: calc(50% - 1rem);
   position: relative;
-  max-height: 800px;
+  max-height: 1200px;
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
-  height: 800px;
+  height: 1200px;
 }
 
 .CodeMirror {
@@ -202,6 +202,7 @@
 }
 
 .input-cursor {
-  cursor: text;
+  /* cursor: text;
   max-width: 250px;
+  height: auto; */
 }

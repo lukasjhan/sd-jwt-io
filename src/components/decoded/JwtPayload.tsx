@@ -16,7 +16,7 @@ export const JwtPayload = ({
   className?: string;
 }) => {
   return (
-    <div style={decodeItem} className="input-cursor">
+    <div style={{ ...decodeItem, height: '350px' }} className="input-cursor">
       <ControlledEditor
         value={payload}
         options={{
