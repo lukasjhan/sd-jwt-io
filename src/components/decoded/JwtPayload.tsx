@@ -21,7 +21,7 @@ export const JwtPayload = ({
         value={payload}
         options={{
           mode: 'javascript',
-          readOnly: mode === 'encode' ? 'nocursor' : false,
+          readOnly: mode === 'encode',
           lineWrapping: true,
         }}
         onBeforeChange={(editor, data, value) => {
