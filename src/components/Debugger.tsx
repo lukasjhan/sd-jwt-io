@@ -90,12 +90,16 @@ export const Debugger = () => {
         verify={verify}
       />
       <div className={mode === 'encode' ? 'code-wrapper' : 'code-reverse-wrapper'}>
-        <DebuggerContainer headerText="Encoded" descriptionText="SD-JWT TOKEN" isValid={isValid || mode === 'decode'}>
+        <DebuggerContainer
+          headerText={mode === 'encode' ? 'Encoded' : 'Encoded Result'}
+          descriptionText="SD-JWT TOKEN"
+          isValid={isValid || mode === 'decode'}
+        >
           <JwtCode token={token} updateToken={updateToken} mode={mode} />
         </DebuggerContainer>
 
         <DebuggerContainer
-          headerText="Decoded"
+          headerText={mode === 'decode' ? 'Decoded' : 'Decoded Result'}
           descriptionText="PAYLOAD AND SECRET"
           isValid={isValid || mode === 'encode'}
         >
