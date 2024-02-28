@@ -4,7 +4,9 @@ export const decodeItem: CSSProperties = {
   // flex: 1,
   padding: '0.8rem 1rem',
   overflowY: 'auto',
-  minHeight: '80px',
+  height: '130px',
+  // to ensure that the div size is maintained even when there is >no input<.
+  // To prevent a >long input< value from exceeding the entire div length, do the following
   width: '100%',
   boxSizing: 'border-box',
 };
