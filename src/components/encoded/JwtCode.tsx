@@ -17,7 +17,7 @@ export const JwtCode = ({
         options={{
           mode: 'jwt',
           lineWrapping: true,
-          readOnly: mode === 'decode' ? true : false,
+          readOnly: mode === 'decode',
         }}
         onBeforeChange={(editor, data, value) => {
           updateURLWithQuery(value, mode);
