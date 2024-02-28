@@ -233,6 +233,12 @@ export const DebugHook = () => {
       setClaims(JSON.stringify(claims, null, 2));
       setDiscloseFrame('');
       setIsValid(true);
+      if (sdJwtToken.jwt?.header?.alg) {
+        const alg = sdJwtToken.jwt.header?.alg as string;
+        if (alg && ['HS256', 'ES256'].includes(alg)) {
+          setAlg(alg);
+        }
+      }
     } catch (e) {
       console.error(e);
       setHeader('');
