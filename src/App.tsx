@@ -24,24 +24,17 @@ function App() {
             <div
               style={{
                 display: 'flex',
-                justifyContent: 'space-between',
+                justifyContent: 'flex-end',
               }}
             >
-              <div></div>
-              <div
-                style={{
-                  cursor: 'pointer',
-                }}
-                onClick={() => {
-                  window.open('https://github.com/lukasjhan/sd-jwt-io', '_blank');
-                }}
-              >
+              <a href="https://github.com/lukasjhan/sd-jwt-io" target="_blank" rel="noopener noreferrer">
                 <GithubOutlined
                   style={{
+                    color: 'white',
                     fontSize: '1.2rem',
                   }}
                 />
-              </div>
+              </a>
             </div>
           </ContentWrapper>
         </Footer>
