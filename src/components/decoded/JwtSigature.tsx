@@ -5,6 +5,9 @@ import { decodeHeader, decodeHeaderTop } from '../common/style';
 import { UpdateEncode } from '../../hooks/debug.hook';
 import TextArea from 'antd/es/input/TextArea';
 import { CSSProperties } from 'react';
+import { ENCODED, DECODED } from '../Debugger';
+
+const HS256 = 'HS256';
 
 interface JwtSigatureType {
   alg: string;
@@ -29,11 +32,9 @@ export const JwtSigature = ({
   setSecret,
   setBase64Checked,
 }: JwtSigatureType) => {
-  const HS256 = 'HS256';
-
   const onHandlecCheckBox = (e: CheckboxChangeEvent) => {
-    if (mode === 'decode') encode({ b64checked: e.target.checked });
-    if (mode === 'encode') setBase64Checked(e.target.checked);
+    if (mode === DECODED) encode({ b64checked: e.target.checked });
+    if (mode === ENCODED) setBase64Checked(e.target.checked);
   };
 
   return (
@@ -77,7 +78,7 @@ const HS256Algorithm = ({ mode, encode, setSecret, secret, checked, onHandlecChe
   <>
     <Input
       onChange={(e) => {
-        if (mode === 'encode') setSecret(e.target.value);
+        if (mode === ENCODED) setSecret(e.target.value);
         else encode({ secret: e.target.value });
       }}
       value={secret}
@@ -104,7 +105,7 @@ interface ES2565Type {
 
 const ES2565Algorithm = ({ setPubPriKey, mode, encode, pubpriKey }: ES2565Type) => {
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (mode === 'encode') setPubPriKey({ ...pubpriKey, pub: e.target.value });
+    if (mode === ENCODED) setPubPriKey({ ...pubpriKey, pub: e.target.value });
     else encode({ pubpriKey: { ...pubpriKey, pub: e.target.value } });
   };
 

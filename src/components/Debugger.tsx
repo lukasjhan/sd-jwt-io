@@ -10,7 +10,10 @@ import { Equipments } from './Equipments';
 
 // Mode represents the left section
 // e.g. if mode is encode, then left section is `encoded`
-export type ModeType = 'encode' | 'decode';
+
+export const ENCODED = 'encoded';
+export const DECODED = 'decoded';
+export type ModeType = 'encoded' | 'decoded';
 
 export const Debugger = () => {
   const {
@@ -33,7 +36,7 @@ export const Debugger = () => {
     setBase64Checked,
   } = DebugHook();
 
-  const [mode, setMode] = useState<ModeType>('encode');
+  const [mode, setMode] = useState<ModeType>(ENCODED);
 
   const switchMode = (mode: ModeType) => {
     setMode(mode);
@@ -73,19 +76,19 @@ export const Debugger = () => {
         shareSdJwt={shareSdJwt}
         verify={verify}
       />
-      <div className={mode === 'encode' ? 'code-wrapper' : 'code-reverse-wrapper'}>
+      <div className={mode === ENCODED ? 'code-wrapper' : 'code-reverse-wrapper'}>
         <DebuggerContainer
-          headerText={mode === 'encode' ? 'Encoded' : 'Encoded Result'}
+          headerText={mode === ENCODED ? 'Encoded' : 'Encoded Result'}
           descriptionText="SD-JWT TOKEN"
-          isValid={isValid || mode === 'decode'}
+          isValid={isValid || mode === DECODED}
         >
           <JwtCode token={token} updateToken={updateToken} mode={mode} />
         </DebuggerContainer>
 
         <DebuggerContainer
-          headerText={mode === 'decode' ? 'Decoded' : 'Decoded Result'}
+          headerText={mode === DECODED ? 'Decoded' : 'Decoded Result'}
           descriptionText="PAYLOAD AND SECRET"
-          isValid={isValid || mode === 'encode'}
+          isValid={isValid || mode === ENCODED}
         >
           <div className="decode-area">
             <JwtHeader header={header} setHeader={encode} mode={mode} />
@@ -141,7 +144,7 @@ CodeMirror.defineMode('jwt', function () {
 
 const JwtPayloadSection = ({ claim, disclosureFrame, tabHandler, mode }: any) => (
   <>
-    {mode === 'encode' && (
+    {mode === ENCODED && (
       <>
         <PayloadHeader>
           <span> {'Claims'.toUpperCase()} </span>
@@ -150,7 +153,7 @@ const JwtPayloadSection = ({ claim, disclosureFrame, tabHandler, mode }: any) =>
       </>
     )}
 
-    {mode === 'decode' && (
+    {mode === DECODED && (
       <>
         <PayloadHeader>
           <span style={{ flex: 1 }}> {'Claims'.toUpperCase()} </span>
