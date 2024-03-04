@@ -158,15 +158,7 @@ const JwtPayloadSection = ({ claim, disclosureFrame, tabHandler, mode }: any) =>
         </PayloadHeader>
         <div style={{ display: 'flex' }}>
           <JwtPayload payload={claim} setPayload={tabHandler} mode={mode} type="claim" />
-          <div
-            role="presentation"
-            aria-label="border"
-            style={{
-              width: '1px',
-              height: '100%',
-              backgroundColor: 'rgba(0, 0, 0, 0.2)',
-            }}
-          />
+          <div role="presentation" aria-label="border" style={claimDividerBorder} />
           <JwtPayload
             className="cm-sdjwt-disclosure"
             payload={disclosureFrame}
@@ -183,3 +175,9 @@ const JwtPayloadSection = ({ claim, disclosureFrame, tabHandler, mode }: any) =>
 const PayloadHeader = ({ children }: { children: ReactNode }) => (
   <div className="decode-header decode-border-top">{children}</div>
 );
+
+const claimDividerBorder = {
+  width: '1px',
+  height: '100%',
+  backgroundColor: 'rgba(0, 0, 0, 0.2)',
+};

@@ -4,6 +4,19 @@ import { decodeItem } from '../common/style';
 import { decodeHeader, decodeHeaderTop } from '../common/style';
 import { UpdateEncode } from '../../hooks/debug.hook';
 import TextArea from 'antd/es/input/TextArea';
+import { CSSProperties } from 'react';
+
+interface JwtSigatureType {
+  alg: string;
+  secret: string;
+  pubpriKey: { pri: string; pub: string };
+  checked: boolean;
+  encode: (data: UpdateEncode) => Promise<void>;
+  mode: string;
+  setPubPriKey: (data: { pri: string; pub: string }) => void;
+  setSecret: (data: string) => void;
+  setBase64Checked: (check: boolean) => void;
+}
 
 export const JwtSigature = ({
   alg,
@@ -15,118 +28,128 @@ export const JwtSigature = ({
   setPubPriKey,
   setSecret,
   setBase64Checked,
-}: {
-  alg: string;
-  secret: string;
-  pubpriKey: { pri: string; pub: string };
-  checked: boolean;
-  encode: (data: UpdateEncode) => Promise<void>;
-  mode: string;
-  setPubPriKey: (data: { pri: string; pub: string }) => void;
-  setSecret: (data: string) => void;
-  setBase64Checked: (check: boolean) => void;
-}) => {
+}: JwtSigatureType) => {
+  const HS256 = 'HS256';
+
   const onChange = (e: CheckboxChangeEvent) => {
     if (mode === 'decode') encode({ b64checked: e.target.checked });
     if (mode === 'encode') setBase64Checked(e.target.checked);
   };
-  const field =
-    alg === 'HS256' ? (
-      <Input
-        onChange={(e) => {
-          if (mode === 'encode') setSecret(e.target.value);
-          else encode({ secret: e.target.value });
-        }}
-        value={secret}
-        style={{
-          width: '200px',
-          color: 'rgb(0, 185, 241)',
-        }}
-      />
-    ) : (
-      <>
-        <span
-          style={{
-            fontSize: '0.8rem',
-          }}
-        >
-          {'[Public Key]'}
-        </span>
-        <TextArea
-          onChange={(e) => {
-            if (mode === 'encode') setPubPriKey({ ...pubpriKey, pub: e.target.value });
-            else encode({ pubpriKey: { ...pubpriKey, pub: e.target.value } });
-          }}
-          value={pubpriKey.pub}
-          style={{
-            width: '600px',
-            color: 'rgb(0, 185, 241)',
-            height: '100px',
-          }}
-        />
-        <span
-          style={{
-            fontSize: '0.8rem',
-          }}
-        >
-          {'[Private Key]'}
-        </span>
-        <TextArea
-          onChange={(e) => {
-            if (mode === 'encode') setPubPriKey({ ...pubpriKey, pri: e.target.value });
-            else encode({ pubpriKey: { ...pubpriKey, pri: e.target.value } });
-          }}
-          value={pubpriKey.pri}
-          style={{
-            width: '600px',
-            color: 'rgb(0, 185, 241)',
-            height: '100px',
-          }}
-        />
-      </>
-    );
 
   return (
     <>
       <div style={{ ...decodeHeader, ...decodeHeaderTop }}>{'SIGNATURE'}</div>
       <div style={{ ...decodeItem, maxHeight: '500px' }} className="input-cursor">
-        <pre
-          style={{
-            margin: 0,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.2rem',
-            color: 'rgb(0, 185, 241)',
-          }}
-        >
+        <pre style={signatureWrap}>
           <div>{true ? 'HMACSHA256(' : 'ECDSASHA256('}</div>
           <div>{`base64UrlEncode(header) + "." +`}</div>
-          <div>{'base64UrlEncode(payload),'}</div>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '2px',
-            }}
-          >
-            {field}
-          </div>
-          <div>
-            {')  '}
-            {alg === 'HS256' ? (
-              <Checkbox
+          <div style={secretWrap}>
+            {alg === HS256 ? (
+              <HS256Algorithm
+                mode={mode}
+                encode={encode}
+                setSecret={setSecret}
+                secret={secret}
                 checked={checked}
                 onChange={onChange}
-                style={{
-                  color: 'rgb(0, 185, 241)',
-                }}
-              >
-                {'secret base64 encoded'}
-              </Checkbox>
-            ) : null}
+              />
+            ) : (
+              <ES2565Algorithm setPubPriKey={setPubPriKey} mode={mode} encode={encode} pubpriKey={pubpriKey} />
+            )}
           </div>
+          <div>{')  '}</div>
         </pre>
       </div>
     </>
   );
+};
+
+interface HS256Type {
+  mode: string;
+  encode: (data: UpdateEncode) => Promise<void>;
+  setSecret: (data: string) => void;
+  secret: string;
+  checked: boolean;
+  onChange: (e: CheckboxChangeEvent) => void;
+}
+
+const HS256Algorithm = ({ mode, encode, setSecret, secret, checked, onChange }: HS256Type) => (
+  <>
+    <Input
+      onChange={(e) => {
+        if (mode === 'encode') setSecret(e.target.value);
+        else encode({ secret: e.target.value });
+      }}
+      value={secret}
+      style={HS256TextArea}
+    />
+    <Checkbox
+      checked={checked}
+      onChange={onChange}
+      style={{
+        color: 'rgb(0, 185, 241)',
+      }}
+    >
+      {'secret base64 encoded'}
+    </Checkbox>
+  </>
+);
+
+interface ES2565Type {
+  setPubPriKey: (data: { pri: string; pub: string }) => void;
+  mode: string;
+  encode: (data: UpdateEncode) => Promise<void>;
+  pubpriKey: { pri: string; pub: string };
+}
+
+const ES2565Algorithm = ({ setPubPriKey, mode, encode, pubpriKey }: ES2565Type) => (
+  <>
+    <span style={algorithmFontiSize}>{'[Public Key]'}</span>
+    <TextArea
+      onChange={(e) => {
+        if (mode === 'encode') setPubPriKey({ ...pubpriKey, pub: e.target.value });
+        else encode({ pubpriKey: { ...pubpriKey, pub: e.target.value } });
+      }}
+      value={pubpriKey.pub}
+      style={ES2565TextArea}
+    />
+    <span style={algorithmFontiSize}>{'[Private Key]'}</span>
+
+    <TextArea
+      onChange={(e) => {
+        if (mode === 'encode') setPubPriKey({ ...pubpriKey, pri: e.target.value });
+        else encode({ pubpriKey: { ...pubpriKey, pri: e.target.value } });
+      }}
+      value={pubpriKey.pri}
+      style={ES2565TextArea}
+    />
+  </>
+);
+
+const signatureWrap: CSSProperties = {
+  margin: 0,
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0.2rem',
+  color: 'rgb(0, 185, 241)',
+};
+
+const secretWrap: CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '2px',
+};
+const algorithmFontiSize = {
+  fontSize: '0.8rem',
+};
+
+const HS256TextArea = {
+  width: '200px',
+  color: 'rgb(0, 185, 241)',
+};
+
+const ES2565TextArea = {
+  width: '600px',
+  color: 'rgb(0, 185, 241)',
+  height: '100px',
 };
