@@ -66,8 +66,6 @@ const getVerifierByAlg = (alg: string) => {
   }
 };
 
-ES256.generateKeyPair().then((a) => console.log(a));
-
 const initialPubPriKey = {
   pri: JSON.stringify(
     {

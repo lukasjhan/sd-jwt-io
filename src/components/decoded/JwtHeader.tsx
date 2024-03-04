@@ -27,7 +27,6 @@ export const JwtHeader = ({
             lineWrapping: true,
           }}
           onBeforeChange={(editor, data, value) => {
-            console.log(value);
             setHeader({ header: value });
           }}
           className="json-header"
