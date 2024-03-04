@@ -8,6 +8,8 @@ import './Debugger.css';
 import { DebuggerContainer } from './DebuggerContainer';
 import { Equipments } from './Equipments';
 
+// Mode represents the left section
+// e.g. if mode is encode, then left section is `encoded`
 export type ModeType = 'encode' | 'decode';
 
 export const Debugger = () => {
