@@ -102,29 +102,22 @@ interface ES2565Type {
   pubpriKey: { pri: string; pub: string };
 }
 
-const ES2565Algorithm = ({ setPubPriKey, mode, encode, pubpriKey }: ES2565Type) => (
-  <>
-    <span style={algorithmFontiSize}>{'[Public Key]'}</span>
-    <TextArea
-      onChange={(e) => {
-        if (mode === 'encode') setPubPriKey({ ...pubpriKey, pub: e.target.value });
-        else encode({ pubpriKey: { ...pubpriKey, pub: e.target.value } });
-      }}
-      value={pubpriKey.pub}
-      style={ES2565TextArea}
-    />
-    <span style={algorithmFontiSize}>{'[Private Key]'}</span>
+const ES2565Algorithm = ({ setPubPriKey, mode, encode, pubpriKey }: ES2565Type) => {
+  const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (mode === 'encode') setPubPriKey({ ...pubpriKey, pub: e.target.value });
+    else encode({ pubpriKey: { ...pubpriKey, pub: e.target.value } });
+  };
 
-    <TextArea
-      onChange={(e) => {
-        if (mode === 'encode') setPubPriKey({ ...pubpriKey, pri: e.target.value });
-        else encode({ pubpriKey: { ...pubpriKey, pri: e.target.value } });
-      }}
-      value={pubpriKey.pri}
-      style={ES2565TextArea}
-    />
-  </>
-);
+  return (
+    <>
+      <span style={algorithmFontiSize}>{'[Public Key]'}</span>
+      <TextArea onChange={onChange} value={pubpriKey.pub} style={ES2565TextArea} />
+      <span style={algorithmFontiSize}>{'[Private Key]'}</span>
+
+      <TextArea onChange={onChange} value={pubpriKey.pri} style={ES2565TextArea} />
+    </>
+  );
+};
 
 const signatureWrap: CSSProperties = {
   margin: 0,
