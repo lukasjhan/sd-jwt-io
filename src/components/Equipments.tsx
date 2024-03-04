@@ -3,7 +3,7 @@ import { ShareAltOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import { SelectAlgorithm } from './SelectAlgorithm';
 import { Radio, RadioChangeEvent } from 'antd';
 import { ModeType } from './Debugger';
-
+import { DECODED, ENCODED } from './Debugger';
 interface EquipmentsProps {
   mode: string;
   alg: string;
@@ -18,7 +18,7 @@ export const Equipments = ({ mode, alg, setAlg, shareSdJwt, switchMode, verify }
   };
   return (
     <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
-      {mode === 'decode' ? (
+      {mode === DECODED ? (
         <SelectAlgorithm
           alg={alg}
           select={(value: string) => {
@@ -27,8 +27,8 @@ export const Equipments = ({ mode, alg, setAlg, shareSdJwt, switchMode, verify }
         />
       ) : null}
       <Radio.Group onChange={handleModeChange} value={mode} style={{ padding: '0 6px' }}>
-        <Radio.Button value="encode">Encode</Radio.Button>
-        <Radio.Button value="decode">Decode</Radio.Button>
+        <Radio.Button value={ENCODED}>Encode</Radio.Button>
+        <Radio.Button value={DECODED}>Decode</Radio.Button>
       </Radio.Group>
 
       <Button onClick={verify} icon={<CheckCircleOutlined />}>
