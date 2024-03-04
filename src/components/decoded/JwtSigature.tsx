@@ -31,7 +31,7 @@ export const JwtSigature = ({
 }: JwtSigatureType) => {
   const HS256 = 'HS256';
 
-  const onChange = (e: CheckboxChangeEvent) => {
+  const onHandlecCheckBox = (e: CheckboxChangeEvent) => {
     if (mode === 'decode') encode({ b64checked: e.target.checked });
     if (mode === 'encode') setBase64Checked(e.target.checked);
   };
@@ -51,7 +51,7 @@ export const JwtSigature = ({
                 setSecret={setSecret}
                 secret={secret}
                 checked={checked}
-                onChange={onChange}
+                onHandlecCheckBox={onHandlecCheckBox}
               />
             ) : (
               <ES2565Algorithm setPubPriKey={setPubPriKey} mode={mode} encode={encode} pubpriKey={pubpriKey} />
@@ -70,10 +70,10 @@ interface HS256Type {
   setSecret: (data: string) => void;
   secret: string;
   checked: boolean;
-  onChange: (e: CheckboxChangeEvent) => void;
+  onHandlecCheckBox: (e: CheckboxChangeEvent) => void;
 }
 
-const HS256Algorithm = ({ mode, encode, setSecret, secret, checked, onChange }: HS256Type) => (
+const HS256Algorithm = ({ mode, encode, setSecret, secret, checked, onHandlecCheckBox }: HS256Type) => (
   <>
     <Input
       onChange={(e) => {
@@ -85,7 +85,7 @@ const HS256Algorithm = ({ mode, encode, setSecret, secret, checked, onChange }: 
     />
     <Checkbox
       checked={checked}
-      onChange={onChange}
+      onChange={onHandlecCheckBox}
       style={{
         color: 'rgb(0, 185, 241)',
       }}
