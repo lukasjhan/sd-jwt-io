@@ -16,9 +16,9 @@
   ],
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
-    "@sd-jwt/crypto-browser": "0.3.2-next.73",
-    "@sd-jwt/core": "0.3.2-next.73",
-    "@sd-jwt/types": "0.3.2-next.73",
+    "@sd-jwt/crypto-browser": "0.3.2-next.103",
+    "@sd-jwt/core": "0.3.2-next.103",
+    "@sd-jwt/types": "0.3.2-next.103",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
