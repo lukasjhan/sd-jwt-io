@@ -14,6 +14,7 @@ export const JwtSigature = ({
   mode,
   setPubPriKey,
   setSecret,
+  setBase64Checked,
 }: {
   alg: string;
   secret: string;
@@ -23,9 +24,11 @@ export const JwtSigature = ({
   mode: string;
   setPubPriKey: (data: { pri: string; pub: string }) => void;
   setSecret: (data: string) => void;
+  setBase64Checked: (check: boolean) => void;
 }) => {
   const onChange = (e: CheckboxChangeEvent) => {
-    encode({ b64checked: e.target.checked });
+    if (mode === 'decode') encode({ b64checked: e.target.checked });
+    if (mode === 'encode') setBase64Checked(e.target.checked);
   };
   const field =
     alg === 'HS256' ? (

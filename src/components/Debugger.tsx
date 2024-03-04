@@ -8,6 +8,8 @@ import './Debugger.css';
 import { DebuggerContainer } from './DebuggerContainer';
 import { Equipments } from './Equipments';
 
+// Mode represents the left section
+// e.g. if mode is encode, then left section is `encoded`
 export type ModeType = 'encode' | 'decode';
 
 export const Debugger = () => {
@@ -47,6 +49,7 @@ export const Debugger = () => {
     pubpriKey,
     setPubPriKey,
     setSecret,
+    setBase64Checked,
   } = DebugHook();
 
   const [mode, setMode] = useState<ModeType>('encode');
@@ -115,6 +118,7 @@ export const Debugger = () => {
               mode={mode}
               setPubPriKey={setPubPriKey}
               setSecret={setSecret}
+              setBase64Checked={setBase64Checked}
             />
           </div>
         </DebuggerContainer>
