@@ -47,6 +47,7 @@ export const Debugger = () => {
     pubpriKey,
     setPubPriKey,
     setSecret,
+    setBase64Checked,
   } = DebugHook();
 
   const [mode, setMode] = useState<ModeType>('encode');
@@ -115,6 +116,7 @@ export const Debugger = () => {
               mode={mode}
               setPubPriKey={setPubPriKey}
               setSecret={setSecret}
+              setBase64Checked={setBase64Checked}
             />
           </div>
         </DebuggerContainer>
