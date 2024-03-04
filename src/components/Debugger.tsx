@@ -13,25 +13,6 @@ import { Equipments } from './Equipments';
 export type ModeType = 'encode' | 'decode';
 
 export const Debugger = () => {
-  useEffect(() => {
-    if (window.location.hash !== '#debugger') {
-      return;
-    }
-    setTimeout(() => {
-      const element = document.getElementById('debugger');
-      if (element) {
-        const offset = 150; // Number of pixels you want to scroll above the element
-        const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-        const offsetPosition = elementPosition - offset;
-
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth',
-        });
-      }
-    });
-  }, []);
-
   const {
     isValid,
     token,
