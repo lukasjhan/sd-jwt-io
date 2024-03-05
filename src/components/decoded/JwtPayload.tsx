@@ -1,11 +1,12 @@
 import { Controlled as ControlledEditor } from 'react-codemirror2';
 import { decodeItem } from '../common/style';
 import { UpdateEncode } from '../../hooks/debug.hook';
+import { ENCODED, ModeType } from '../Debugger';
 
 interface JwtPayloadType {
   payload: string;
   setPayload: (data: UpdateEncode) => Promise<void>;
-  mode: string;
+  mode: ModeType;
   type: 'claim' | 'disclosureFrame';
   className?: string;
 }
@@ -13,7 +14,7 @@ interface JwtPayloadType {
 export const JwtPayload = ({ payload, setPayload, mode, type, className }: JwtPayloadType) => {
   const editorOption = {
     mode: 'javascript',
-    readOnly: mode === 'encode',
+    readOnly: mode === ENCODED,
     lineWrapping: true,
   };
 
