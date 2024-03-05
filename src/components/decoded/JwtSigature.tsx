@@ -5,7 +5,7 @@ import { decodeHeader, decodeHeaderTop } from '../common/style';
 import { UpdateEncode } from '../../hooks/debug.hook';
 import TextArea from 'antd/es/input/TextArea';
 import { CSSProperties } from 'react';
-import { ENCODED, DECODED } from '../Debugger';
+import { ENCODED, DECODED, ModeType } from '../Debugger';
 
 const HS256 = 'HS256';
 
@@ -15,7 +15,7 @@ interface JwtSigatureType {
   pubpriKey: { pri: string; pub: string };
   checked: boolean;
   encode: (data: UpdateEncode) => Promise<void>;
-  mode: string;
+  mode: ModeType;
   setPubPriKey: (data: { pri: string; pub: string }) => void;
   setSecret: (data: string) => void;
   setBase64Checked: (check: boolean) => void;
@@ -66,7 +66,7 @@ export const JwtSigature = ({
 };
 
 interface HS256Type {
-  mode: string;
+  mode: ModeType;
   encode: (data: UpdateEncode) => Promise<void>;
   setSecret: (data: string) => void;
   secret: string;
@@ -98,7 +98,7 @@ const HS256Algorithm = ({ mode, encode, setSecret, secret, checked, onHandlecChe
 
 interface ES2565Type {
   setPubPriKey: (data: { pri: string; pub: string }) => void;
-  mode: string;
+  mode: ModeType;
   encode: (data: UpdateEncode) => Promise<void>;
   pubpriKey: { pri: string; pub: string };
 }

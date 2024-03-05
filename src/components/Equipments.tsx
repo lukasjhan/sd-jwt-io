@@ -5,7 +5,7 @@ import { Radio, RadioChangeEvent } from 'antd';
 import { ModeType } from './Debugger';
 import { DECODED, ENCODED } from './Debugger';
 interface EquipmentsProps {
-  mode: string;
+  mode: ModeType;
   alg: string;
   setAlg: (value: string) => void;
   switchMode: (mode: ModeType) => void;

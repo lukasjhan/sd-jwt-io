@@ -1,6 +1,7 @@
 import { Controlled as ControlledEditor } from 'react-codemirror2';
 import { decodeItem, decodeHeader, decodeDescStyle } from '../common/style';
 import { UpdateEncode } from '../../hooks/debug.hook';
+import { ENCODED, ModeType } from '../Debugger';
 
 export const JwtHeader = ({
   header,
@@ -9,7 +10,7 @@ export const JwtHeader = ({
 }: {
   header: string;
   setHeader: (data: UpdateEncode) => Promise<void>;
-  mode: string;
+  mode: ModeType;
 }) => {
   return (
     <>
@@ -22,7 +23,7 @@ export const JwtHeader = ({
         <ControlledEditor
           value={header}
           options={{
-            readOnly: mode === 'encode',
+            readOnly: mode === ENCODED,
             mode: 'javascript',
             lineWrapping: true,
           }}

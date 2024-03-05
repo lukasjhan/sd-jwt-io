@@ -1,5 +1,6 @@
 import { Controlled as ControlledEditor } from 'react-codemirror2';
 import { updateURLWithQuery } from '../../utils';
+import { DECODED, ModeType } from '../Debugger';
 
 export const JwtCode = ({
   token,
@@ -8,7 +9,7 @@ export const JwtCode = ({
 }: {
   token: string;
   updateToken: (token: string) => void;
-  mode: string;
+  mode: ModeType;
 }) => {
   return (
     <div className="area-wrapper">
@@ -17,7 +18,7 @@ export const JwtCode = ({
         options={{
           mode: 'jwt',
           lineWrapping: true,
-          readOnly: mode === 'decode',
+          readOnly: mode === DECODED,
         }}
         onBeforeChange={(editor, data, value) => {
           updateURLWithQuery(value, mode);
