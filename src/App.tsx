@@ -2,10 +2,10 @@ import './App.module.css';
 import NavBar from './components/NavBar';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Home } from './components/Pages/Home';
-import { Library } from './components/Pages/Library';
 import { Layout } from 'antd';
 import { ContentWrapper } from './components/ContentWrapper';
 import { GithubOutlined } from '@ant-design/icons';
+import MonacoEditorComponent from './components/Pages/Editor';
 const { Content, Footer } = Layout;
 
 function App() {
@@ -16,7 +16,9 @@ function App() {
         <Content style={{ minHeight: '100vh' }}>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/library" element={<Library />} />
+            <Route path="/decode" element={<MonacoEditorComponent />} />
+            <Route path="/issue" element={<Home />} />
+            <Route path="/present" element={<Home />} />
           </Routes>
         </Content>
         <Footer style={{ background: 'black', color: 'white' }}>
