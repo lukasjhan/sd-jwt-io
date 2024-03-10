@@ -37,7 +37,7 @@ const Encoded = () => {
             position: 'relative',
           }}
         >
-          <SDJWTEditor />
+          <SDJWTEditor value="" updateValue={(data: string) => {}} />
         </div>
       </div>
       <div
@@ -56,7 +56,7 @@ const Encoded = () => {
             boxSizing: 'border-box',
           }}
         >
-          <SampleEditor />
+          <SampleEditor value="" updateValue={() => {}} />
         </div>
       </div>
     </div>
@@ -94,7 +94,7 @@ const Frame = () => {
             boxSizing: 'border-box',
           }}
         >
-          <SampleEditor />
+          <SampleEditor value="" updateValue={() => {}} />
         </div>
       </div>
     </div>
@@ -132,7 +132,7 @@ const KBJWT = () => {
             height: '100px',
           }}
         >
-          <SampleEditor />
+          <SampleEditor value="" updateValue={() => {}} />
         </div>
       </div>
       <div
@@ -156,7 +156,7 @@ const KBJWT = () => {
             height: '435px',
           }}
         >
-          <SampleEditor />
+          <SampleEditor value="" updateValue={() => {}} />
         </div>
       </div>
       <div
@@ -179,7 +179,7 @@ const KBJWT = () => {
             height: '200px',
           }}
         >
-          <SampleEditor />
+          <SampleEditor value="" updateValue={() => {}} />
         </div>
       </div>
     </div>
@@ -211,7 +211,7 @@ const Claims = () => {
             height: '810px',
           }}
         >
-          <SDJWTEditor />
+          <SDJWTEditor value="" updateValue={(data: string) => {}} />
         </div>
       </div>
     </div>

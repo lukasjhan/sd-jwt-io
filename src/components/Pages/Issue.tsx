@@ -35,7 +35,7 @@ const JWT = () => {
             height: '100px',
           }}
         >
-          <SampleEditor />
+          <SampleEditor value="" updateValue={() => {}} />
         </div>
       </div>
       <div
@@ -66,10 +66,10 @@ const JWT = () => {
           }}
         >
           <div style={{ flex: '1', width: '50%', height: '100%' }}>
-            <SampleEditor />
+            <SampleEditor value="" updateValue={() => {}} />
           </div>
           <div style={{ flex: '1', borderLeft: '1px solid black', width: '50%' }}>
-            <SampleEditor />
+            <SampleEditor value="" updateValue={() => {}} />
           </div>
         </div>
       </div>
@@ -93,7 +93,7 @@ const JWT = () => {
             height: '200px',
           }}
         >
-          <SampleEditor />
+          <SampleEditor value="" updateValue={() => {}} />
         </div>
       </div>
     </div>
@@ -126,7 +126,7 @@ const Encoded = () => {
             boxSizing: 'border-box',
           }}
         >
-          <SDJWTEditor />
+          <SDJWTEditor value="" updateValue={(data: string) => {}} />
         </div>
       </div>
     </div>

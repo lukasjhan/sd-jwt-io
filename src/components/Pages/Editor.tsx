@@ -33,20 +33,17 @@ monaco.editor.defineTheme('sdjwtTheme', {
   colors: {},
 });
 
-export const SDJWTEditor = () => {
+export const SDJWTEditor = ({ value, updateValue }: { value: string; updateValue: (data: string) => void }) => {
   // This is hacky, but it's the only way to get the theme to apply
   const [theme, setTheme] = useState('');
-  const [data, setData] = useState(
-    'eyJ0eXAiOiJzZC1qd3QiLCJhbGciOiJIUzI1NiJ9.eyJsYXN0bmFtZSI6IkRvZSIsInNzbiI6IjEyMy00NS02Nzg5IiwiX3NkIjpbImVfMnZHTkpGcXBBVHNxd21NcDVJWXQ0cHlSb25KQmVOV2pNN3BJdFJtMUkiLCJ4UnptQWlCYjV5Vk9jUHNDWUdwaEVCdjRCZWRtVkZpQlBnakROLWNjN1NRIl0sIl9zZF9hbGciOiJTSEEtMjU2In0.IgTBKAhwyT0qaopCQUC_-RYKC2uBknxEwucCWAgSBXM~WyI5NDUxZjMzN2E4ZTQ3NzU5IiwiZmlyc3RuYW1lIiwiSm9obiJd~WyI3NjQ1YjUwOTM1YjQ4ZmNjIiwiaWQiLCIxMjM0Il0~eyJ0eXAiOiJzZC1qd3QiLCJhbGciOiJIUzI1NiJ9.eyJsYXN0bmFtZSI6IkRvZSIsInNzbiI6IjEyMy00NS02Nzg5IiwiX3NkIjpbImVfMnZHTkpGcXBBVHNxd21NcDVJWXQ0cHlSb25KQmVOV2pNN3BJdFJtMUkiLCJ4UnptQWlCYjV5Vk9jUHNDWUdwaEVCdjRCZWRtVkZpQlBnakROLWNjN1NRIl0sIl9zZF9hbGciOiJTSEEtMjU2In0.IgTBKAhwyT0qaopCQUC_-RYKC2uBknxEwucCWAgSBXM',
-  );
   const handleEditorChange = (value: string | undefined, event: any) => {
-    setData(value || '');
+    updateValue(value || '');
   };
 
   return (
     <Editor
       language="sdjwt"
-      value={data}
+      value={value}
       onChange={handleEditorChange}
       theme={theme}
       editorDidMount={() => {

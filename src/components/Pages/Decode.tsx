@@ -5,8 +5,9 @@ import { SampleEditor } from './SampleEditor';
 import Button from '../common/Button';
 import { CheckCircleOutlined } from '@ant-design/icons';
 import { SDJWTEditor } from './Editor';
+import { Disclosures, SDJwtHook } from '../../hooks/hook';
 
-const Encoded = () => {
+const Encoded = ({ token, updateToken }: { token: string; updateToken: (data: string) => void }) => {
   return (
     <div
       style={{
@@ -37,14 +38,67 @@ const Encoded = () => {
             boxSizing: 'border-box',
           }}
         >
-          <SDJWTEditor />
+          <SDJWTEditor value={token} updateValue={updateToken} />
         </div>
       </div>
     </div>
   );
 };
 
-const JWT = () => {
+const DisclosuresTable = ({ disclosures }: { disclosures: Disclosures[] }) => {
+  return (
+    <div
+      style={{
+        overflow: 'auto',
+        height: '100%',
+      }}
+    >
+      {disclosures.map((disclosure, index) => {
+        return (
+          <div
+            key={index}
+            style={{
+              borderTop: '1px solid black',
+              borderBottom: '1px solid black',
+              width: '100%',
+              boxSizing: 'border-box',
+              padding: '0.6rem',
+              fontSize: '12px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '2px',
+            }}
+          >
+            <div>
+              <span>Salt: </span>
+              <span>{disclosure.salt}</span>
+            </div>
+            <div>
+              <span>Key: </span>
+              <span>{disclosure.key}</span>
+            </div>
+            <div>
+              <span>Value: </span>
+              <span>{disclosure.value}</span>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+const JWT = ({
+  header,
+  payload,
+  pubKey,
+  disclosures,
+}: {
+  header: string;
+  payload: string;
+  pubKey: string;
+  disclosures: Disclosures[];
+}) => {
   return (
     <div
       style={{
@@ -64,7 +118,7 @@ const JWT = () => {
             height: '100px',
           }}
         >
-          <SampleEditor />
+          <SampleEditor value={header} updateValue={() => {}} readonly={true} />
         </div>
       </div>
       <div style={{ display: 'flex', position: 'relative', justifyContent: 'space-between', width: '100%' }}>
@@ -84,9 +138,11 @@ const JWT = () => {
           }}
         >
           <div style={{ flex: '1', width: '50%', height: '100%' }}>
-            <SampleEditor />
+            <SampleEditor value={payload} updateValue={() => {}} readonly={true} />
           </div>
-          <div style={{ flex: '1', borderLeft: '1px solid black', width: '50%' }}></div>
+          <div style={{ flex: '1', borderLeft: '1px solid black', width: '50%', position: 'relative' }}>
+            <DisclosuresTable disclosures={disclosures} />
+          </div>
         </div>
       </div>
       <div
@@ -109,14 +165,14 @@ const JWT = () => {
             height: '200px',
           }}
         >
-          <SampleEditor />
+          <SampleEditor value={pubKey} updateValue={() => {}} />
         </div>
       </div>
     </div>
   );
 };
 
-const KBJWT = () => {
+const KBJWT = ({ header, payload, pubKey }: { header: string; payload: string; pubKey: string }) => {
   return (
     <div
       style={{
@@ -136,7 +192,7 @@ const KBJWT = () => {
             height: '100px',
           }}
         >
-          <SampleEditor />
+          <SampleEditor value={header} updateValue={() => {}} readonly={true} />
         </div>
       </div>
       <div style={{ padding: '0.6rem' }}>Key Binding Payload</div>
@@ -149,7 +205,7 @@ const KBJWT = () => {
             height: '400px',
           }}
         >
-          <SampleEditor />
+          <SampleEditor value={payload} updateValue={() => {}} readonly={true} />
         </div>
       </div>
       <div
@@ -172,14 +228,14 @@ const KBJWT = () => {
             height: '200px',
           }}
         >
-          <SampleEditor />
+          <SampleEditor value={pubKey} updateValue={() => {}} readonly={!payload} />
         </div>
       </div>
     </div>
   );
 };
 
-const Claims = () => {
+const Claims = ({ claims }: { claims: string }) => {
   return (
     <div
       style={{
@@ -204,7 +260,7 @@ const Claims = () => {
             height: '780px',
           }}
         >
-          <SampleEditor />
+          <SampleEditor value={claims} updateValue={() => {}} readonly={true} />
         </div>
       </div>
     </div>
@@ -212,6 +268,19 @@ const Claims = () => {
 };
 
 const Decode = () => {
+  const {
+    claims,
+    token,
+    updateToken,
+    pubpriKey,
+    disclosures,
+    header,
+    verify,
+    payload,
+    kbHeader,
+    kbPayload,
+    KBpubpriKey,
+  } = SDJwtHook();
   return (
     <div style={HomeContainer}>
       <ContentWrapper>
@@ -232,7 +301,12 @@ const Decode = () => {
               justifyContent: 'flex-end',
             }}
           >
-            <Button onClick={() => {}} style={{}} icon={<CheckCircleOutlined />}>
+            <Button
+              onClick={() => {
+                verify();
+              }}
+              icon={<CheckCircleOutlined />}
+            >
               {'Verify SD-JWT'}
             </Button>
           </div>
@@ -244,10 +318,10 @@ const Decode = () => {
               alignItems: 'flex-start',
             }}
           >
-            <Encoded />
-            <JWT />
-            <KBJWT />
-            <Claims />
+            <Encoded token={token} updateToken={updateToken} />
+            <JWT header={header} payload={payload} pubKey={pubpriKey.pub} disclosures={disclosures} />
+            <KBJWT header={kbHeader} payload={kbPayload} pubKey={KBpubpriKey.pub} />
+            <Claims claims={claims} />
           </div>
         </div>
       </ContentWrapper>

@@ -1,24 +1,22 @@
 import Editor from 'react-monaco-editor';
-import { useState } from 'react';
 
-const sample = {
-  firstname: 'John',
-  lastname: 'Doe',
-  id: '1234',
-  ssn: '123-45-6789',
-};
-
-export const SampleEditor = () => {
-  const [data, setData] = useState(JSON.stringify(sample, null, 2));
-  console.log(data);
+export const SampleEditor = ({
+  readonly,
+  value,
+  updateValue,
+}: {
+  readonly?: boolean;
+  value: string;
+  updateValue: (data: string) => void;
+}) => {
   const handleEditorChange = (value: string | undefined, event: any) => {
-    setData(value || '');
+    updateValue(value || '');
   };
 
   return (
     <Editor
       language="json"
-      value={data}
+      value={value}
       onChange={handleEditorChange}
       options={{
         wordWrap: 'on',
@@ -29,6 +27,8 @@ export const SampleEditor = () => {
         lineNumbersMinChars: 3,
         tabSize: 2,
         automaticLayout: true,
+        readOnly: readonly,
+        fontSize: 12,
       }}
     />
   );
