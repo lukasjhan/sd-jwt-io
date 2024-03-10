@@ -11,6 +11,13 @@ export type IssueData = {
   pubpriKey?: { pri: string; pub: string };
 };
 
+export type PresentData = {
+  oriToken?: string;
+  presentationFrame?: string;
+  kbPayload?: string;
+  kbpubpriKey?: { pri: string; pub: string };
+};
+
 export type Disclosures = {
   _digest: string;
   _encoded: string;
@@ -75,9 +82,10 @@ const initialPubPriKey = {
   ),
 };
 
-export const SDJwtHook = (kb: boolean) => {
+export const SDJwtHook = (kb: boolean, presenting?: boolean) => {
   const [isValid, setIsValid] = useState(true);
   const [token, setToken] = useState(kb ? initialToken : initialTokenWithNoKB);
+  const [presentedToken, setPresentedToken] = useState(initialToken);
   const [alg, setAlg] = useState(ES256.alg);
   const [pubpriKey, setPubPriKey] = useState(initialPubPriKey);
   const [payload, setPayload] = useState(
@@ -175,12 +183,18 @@ export const SDJwtHook = (kb: boolean) => {
 
   const [kbPayload, setKBPayload] = useState(
     JSON.stringify(
-      {
-        iat: 1710069722,
-        aud: 'did:example:123',
-        nonce: 'k8vdf0nd6',
-        sd_hash: '_-NbVK3fs9wW3Gh3NRKR4Ku6fC1L37Dv0Q_jPWwJiFE',
-      },
+      presenting
+        ? {
+            iat: 1710069722,
+            aud: 'did:example:123',
+            nonce: 'k8vdf0nd6',
+          }
+        : {
+            iat: 1710069722,
+            aud: 'did:example:123',
+            nonce: 'k8vdf0nd6',
+            sd_hash: '_-NbVK3fs9wW3Gh3NRKR4Ku6fC1L37Dv0Q_jPWwJiFE',
+          },
       null,
       2,
     ),
@@ -290,8 +304,53 @@ export const SDJwtHook = (kb: boolean) => {
     }
   };
 
-  const present = async () => {
-    // TODO: fix
+  const present = async (data: PresentData) => {
+    const presentingToken = data.oriToken ?? token;
+    const presentingPresentationFrame = data.presentationFrame ?? presentationFrame;
+    const presentingKBpubpriKey = data.kbpubpriKey ?? KBpubpriKey;
+    const presentingKBpayload = data.kbPayload ?? kbPayload;
+
+    try {
+      if (data.oriToken !== undefined) {
+        setToken(data.oriToken);
+        try {
+          const claims = await sdjwt.getClaims(data.oriToken);
+          setClaims(JSON.stringify(claims, null, 2));
+        } catch (e) {
+          console.error(e);
+          setClaims('');
+        }
+      }
+
+      if (data.presentationFrame !== undefined) {
+        setPresentationFrame(data.presentationFrame);
+      }
+
+      if (data.kbpubpriKey !== undefined) {
+        setKBPubPriKey(data.kbpubpriKey);
+      }
+
+      if (data.kbPayload !== undefined) {
+        setKBPayload(data.kbPayload);
+      }
+
+      const kb = !!presentingKBpayload ? JSON.parse(presentingKBpayload) : undefined;
+      if (kb) {
+        sdjwt.config({
+          kbSignAlg: ES256.alg,
+          kbSigner: await ES256.getSigner(JSON.parse(presentingKBpubpriKey.pri)),
+        });
+      }
+
+      const newPresentedToken = await sdjwt.present(presentingToken, JSON.parse(presentingPresentationFrame), {
+        kb: kb ? { payload: kb } : undefined,
+      });
+      setPresentedToken(newPresentedToken);
+    } catch (e) {
+      console.error(e);
+      setPresentedToken('');
+      setIsValid(false);
+    }
   };
 
   return {
@@ -323,5 +382,6 @@ export const SDJwtHook = (kb: boolean) => {
     present,
     payload,
     setPayload,
+    presentedToken,
   };
 };

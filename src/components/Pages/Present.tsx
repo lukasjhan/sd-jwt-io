@@ -3,8 +3,17 @@ import { Warning } from '../Warning';
 import { ContentWrapper } from '../ContentWrapper';
 import { SampleEditor } from './SampleEditor';
 import { SDJWTEditor } from './Editor';
+import { PresentData, SDJwtHook } from '../../hooks/hook';
 
-const Encoded = () => {
+const Encoded = ({
+  token,
+  claims,
+  present,
+}: {
+  token: string;
+  claims: string;
+  present: (data: PresentData) => Promise<void>;
+}) => {
   return (
     <div
       style={{
@@ -37,7 +46,12 @@ const Encoded = () => {
             position: 'relative',
           }}
         >
-          <SDJWTEditor value="" updateValue={(data: string) => {}} />
+          <SDJWTEditor
+            value={token}
+            updateValue={(data: string) => {
+              present({ oriToken: data });
+            }}
+          />
         </div>
       </div>
       <div
@@ -56,14 +70,14 @@ const Encoded = () => {
             boxSizing: 'border-box',
           }}
         >
-          <SampleEditor value="" updateValue={() => {}} />
+          <SampleEditor value={claims} updateValue={() => {}} readonly={true} />
         </div>
       </div>
     </div>
   );
 };
 
-const Frame = () => {
+const Frame = ({ frame, present }: { frame: string; present: (data: PresentData) => Promise<void> }) => {
   return (
     <div
       style={{
@@ -94,14 +108,34 @@ const Frame = () => {
             boxSizing: 'border-box',
           }}
         >
-          <SampleEditor value="" updateValue={() => {}} />
+          <SampleEditor
+            value={frame}
+            updateValue={(data: string) => {
+              present({ presentationFrame: data });
+            }}
+          />
         </div>
       </div>
     </div>
   );
 };
 
-const KBJWT = () => {
+const KBJWT = ({
+  header,
+  payload,
+  priKey,
+  present,
+  pubpriKey,
+}: {
+  header: string;
+  payload: string;
+  priKey: string;
+  present: (data: PresentData) => Promise<void>;
+  pubpriKey: {
+    pri: string;
+    pub: string;
+  };
+}) => {
   return (
     <div
       style={{
@@ -114,11 +148,6 @@ const KBJWT = () => {
       <div
         style={{
           padding: '0.6rem',
-          backgroundColor: 'black',
-          color: 'white',
-          width: '100%',
-          textAlign: 'center',
-          boxSizing: 'border-box',
         }}
       >
         Key Binding Header
@@ -132,7 +161,7 @@ const KBJWT = () => {
             height: '100px',
           }}
         >
-          <SampleEditor value="" updateValue={() => {}} />
+          <SampleEditor value={header} updateValue={() => {}} readonly={true} />
         </div>
       </div>
       <div
@@ -156,7 +185,12 @@ const KBJWT = () => {
             height: '435px',
           }}
         >
-          <SampleEditor value="" updateValue={() => {}} />
+          <SampleEditor
+            value={payload}
+            updateValue={(data: string) => {
+              present({ kbPayload: data });
+            }}
+          />
         </div>
       </div>
       <div
@@ -179,14 +213,19 @@ const KBJWT = () => {
             height: '200px',
           }}
         >
-          <SampleEditor value="" updateValue={() => {}} />
+          <SampleEditor
+            value={priKey}
+            updateValue={(data: string) => {
+              present({ kbpubpriKey: { pub: pubpriKey.pub, pri: data } });
+            }}
+          />
         </div>
       </div>
     </div>
   );
 };
 
-const Claims = () => {
+const Claims = ({ token }: { token: string }) => {
   return (
     <div
       style={{
@@ -211,7 +250,7 @@ const Claims = () => {
             height: '810px',
           }}
         >
-          <SDJWTEditor value="" updateValue={(data: string) => {}} />
+          <SDJWTEditor value={token} updateValue={(data: string) => {}} readonly={true} />
         </div>
       </div>
     </div>
@@ -219,6 +258,10 @@ const Claims = () => {
 };
 
 const Present = () => {
+  const { claims, token, KBpubpriKey, kbHeader, kbPayload, presentationFrame, present, presentedToken } = SDJwtHook(
+    false,
+    true,
+  );
   return (
     <div style={HomeContainer}>
       <ContentWrapper>
@@ -240,10 +283,16 @@ const Present = () => {
               alignItems: 'center',
             }}
           >
-            <Encoded />
-            <Frame />
-            <KBJWT />
-            <Claims />
+            <Encoded token={token} claims={claims} present={present} />
+            <Frame frame={presentationFrame} present={present} />
+            <KBJWT
+              header={kbHeader}
+              payload={kbPayload}
+              priKey={KBpubpriKey.pri}
+              present={present}
+              pubpriKey={KBpubpriKey}
+            />
+            <Claims token={presentedToken} />
           </div>
         </div>
       </ContentWrapper>

@@ -18,7 +18,7 @@ function App() {
         <NavBar />
         <Content style={{ minHeight: '100vh' }}>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Decode />} />
             <Route path="/decode" element={<Decode />} />
             <Route path="/issue" element={<Issue />} />
             <Route path="/present" element={<Present />} />
