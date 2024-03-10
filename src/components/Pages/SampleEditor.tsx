@@ -17,7 +17,6 @@ export const SampleEditor = () => {
 
   return (
     <Editor
-      className={'json-editor'}
       language="json"
       value={data}
       onChange={handleEditorChange}
