@@ -4,6 +4,7 @@ import { ContentWrapper } from '../ContentWrapper';
 import { SampleEditor } from './SampleEditor';
 import Button from '../common/Button';
 import { CheckCircleOutlined } from '@ant-design/icons';
+import { SDJWTEditor } from './Editor';
 
 const Encoded = () => {
   return (
@@ -36,7 +37,7 @@ const Encoded = () => {
             boxSizing: 'border-box',
           }}
         >
-          <SampleEditor />
+          <SDJWTEditor />
         </div>
       </div>
     </div>

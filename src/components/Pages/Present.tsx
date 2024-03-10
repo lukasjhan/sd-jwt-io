@@ -2,6 +2,7 @@ import { CSSProperties } from 'react';
 import { Warning } from '../Warning';
 import { ContentWrapper } from '../ContentWrapper';
 import { SampleEditor } from './SampleEditor';
+import { SDJWTEditor } from './Editor';
 
 const Encoded = () => {
   return (
@@ -33,9 +34,10 @@ const Encoded = () => {
             width: '500px',
             height: '380px',
             boxSizing: 'border-box',
+            position: 'relative',
           }}
         >
-          <SampleEditor />
+          <SDJWTEditor />
         </div>
       </div>
       <div
@@ -50,7 +52,7 @@ const Encoded = () => {
           style={{
             borderTop: '1px solid black',
             width: '500px',
-            height: '400px',
+            height: '390px',
             boxSizing: 'border-box',
           }}
         >
@@ -209,7 +211,7 @@ const Claims = () => {
             height: '810px',
           }}
         >
-          <SampleEditor />
+          <SDJWTEditor />
         </div>
       </div>
     </div>

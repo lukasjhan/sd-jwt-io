@@ -20,7 +20,7 @@ monaco.languages.setMonarchTokensProvider('sdjwt', {
   },
 });
 
-monaco.editor.defineTheme('sdjwttheme', {
+monaco.editor.defineTheme('sdjwtTheme', {
   base: 'vs', // can also be vs-dark or hc-black
   inherit: false, // can also be false to completely replace the built-in rules
   rules: [
@@ -33,31 +33,34 @@ monaco.editor.defineTheme('sdjwttheme', {
   colors: {},
 });
 
-const MonacoEditorComponent = () => {
+export const SDJWTEditor = () => {
+  // This is hacky, but it's the only way to get the theme to apply
+  const [theme, setTheme] = useState('');
   const [data, setData] = useState(
     'eyJ0eXAiOiJzZC1qd3QiLCJhbGciOiJIUzI1NiJ9.eyJsYXN0bmFtZSI6IkRvZSIsInNzbiI6IjEyMy00NS02Nzg5IiwiX3NkIjpbImVfMnZHTkpGcXBBVHNxd21NcDVJWXQ0cHlSb25KQmVOV2pNN3BJdFJtMUkiLCJ4UnptQWlCYjV5Vk9jUHNDWUdwaEVCdjRCZWRtVkZpQlBnakROLWNjN1NRIl0sIl9zZF9hbGciOiJTSEEtMjU2In0.IgTBKAhwyT0qaopCQUC_-RYKC2uBknxEwucCWAgSBXM~WyI5NDUxZjMzN2E4ZTQ3NzU5IiwiZmlyc3RuYW1lIiwiSm9obiJd~WyI3NjQ1YjUwOTM1YjQ4ZmNjIiwiaWQiLCIxMjM0Il0~eyJ0eXAiOiJzZC1qd3QiLCJhbGciOiJIUzI1NiJ9.eyJsYXN0bmFtZSI6IkRvZSIsInNzbiI6IjEyMy00NS02Nzg5IiwiX3NkIjpbImVfMnZHTkpGcXBBVHNxd21NcDVJWXQ0cHlSb25KQmVOV2pNN3BJdFJtMUkiLCJ4UnptQWlCYjV5Vk9jUHNDWUdwaEVCdjRCZWRtVkZpQlBnakROLWNjN1NRIl0sIl9zZF9hbGciOiJTSEEtMjU2In0.IgTBKAhwyT0qaopCQUC_-RYKC2uBknxEwucCWAgSBXM',
   );
-  console.log(data);
   const handleEditorChange = (value: string | undefined, event: any) => {
     setData(value || '');
   };
 
   return (
     <Editor
-      height="600px"
       language="sdjwt"
       value={data}
       onChange={handleEditorChange}
-      theme="sdjwttheme"
+      theme={theme}
+      editorDidMount={() => {
+        setTheme('sdjwtTheme');
+      }}
       options={{
         wordWrap: 'on',
         scrollbar: { horizontal: 'hidden', verticalScrollbarSize: 10 },
         minimap: { enabled: false },
         wrappingStrategy: 'advanced',
         lineNumbersMinChars: 3,
+        tabSize: 2,
+        automaticLayout: true,
       }}
     />
   );
 };
-
-export default MonacoEditorComponent;

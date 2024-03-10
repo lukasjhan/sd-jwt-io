@@ -2,6 +2,7 @@ import { CSSProperties } from 'react';
 import { Warning } from '../Warning';
 import { ContentWrapper } from '../ContentWrapper';
 import { SampleEditor } from './SampleEditor';
+import { SDJWTEditor } from './Editor';
 
 const JWT = () => {
   return (
@@ -125,7 +126,7 @@ const Encoded = () => {
             boxSizing: 'border-box',
           }}
         >
-          <SampleEditor />
+          <SDJWTEditor />
         </div>
       </div>
     </div>
