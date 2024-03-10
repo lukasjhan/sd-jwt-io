@@ -6,6 +6,9 @@ import { Layout } from 'antd';
 import { ContentWrapper } from './components/ContentWrapper';
 import { GithubOutlined } from '@ant-design/icons';
 import MonacoEditorComponent from './components/Pages/Editor';
+import Decode from './components/Pages/Decode';
+import Issue from './components/Pages/Issue';
+import Present from './components/Pages/Present';
 const { Content, Footer } = Layout;
 
 function App() {
@@ -16,9 +19,9 @@ function App() {
         <Content style={{ minHeight: '100vh' }}>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/decode" element={<MonacoEditorComponent />} />
-            <Route path="/issue" element={<Home />} />
-            <Route path="/present" element={<Home />} />
+            <Route path="/decode" element={<Decode />} />
+            <Route path="/issue" element={<Issue />} />
+            <Route path="/present" element={<Present />} />
           </Routes>
         </Content>
         <Footer style={{ background: 'black', color: 'white' }}>

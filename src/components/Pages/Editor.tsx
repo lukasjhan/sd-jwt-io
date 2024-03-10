@@ -49,7 +49,13 @@ const MonacoEditorComponent = () => {
       value={data}
       onChange={handleEditorChange}
       theme="sdjwttheme"
-      options={{ wordWrap: 'on', scrollbar: { horizontal: 'hidden' }, minimap: { enabled: false } }}
+      options={{
+        wordWrap: 'on',
+        scrollbar: { horizontal: 'hidden', verticalScrollbarSize: 10 },
+        minimap: { enabled: false },
+        wrappingStrategy: 'advanced',
+        lineNumbersMinChars: 3,
+      }}
     />
   );
 };
