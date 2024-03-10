@@ -22,6 +22,15 @@ function NavBar() {
 
           <ul className={click ? styles.navMenuActive : styles.navMenu}>
             <li className={styles.navItem}>
+              <NavLink to="/decode" className={styles.navLinks} onClick={unClick}>
+                Decode
+              </NavLink>
+              <NavLink to="/issue" className={styles.navLinks} onClick={unClick}>
+                Issue
+              </NavLink>
+              <NavLink to="/present" className={styles.navLinks} onClick={unClick}>
+                Present
+              </NavLink>
               <NavLink
                 to="https://github.com/openwallet-foundation-labs/sd-jwt-js"
                 target="_blank"
