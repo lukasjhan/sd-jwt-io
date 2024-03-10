@@ -1,6 +1,136 @@
 import { CSSProperties } from 'react';
 import { Warning } from '../Warning';
 import { ContentWrapper } from '../ContentWrapper';
+import { SampleEditor } from './SampleEditor';
+
+const JWT = () => {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        border: '1px solid black',
+        alignItems: 'center',
+        flexDirection: 'column',
+      }}
+    >
+      <div
+        style={{
+          padding: '0.6rem',
+          backgroundColor: 'black',
+          color: 'white',
+          width: '100%',
+          textAlign: 'center',
+          boxSizing: 'border-box',
+        }}
+      >
+        Header
+      </div>
+      <div>
+        <div
+          style={{
+            borderTop: '1px solid black',
+            borderBottom: '1px solid black',
+            width: '600px',
+            height: '100px',
+          }}
+        >
+          <SampleEditor />
+        </div>
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          position: 'relative',
+          justifyContent: 'space-between',
+          width: '100%',
+          backgroundColor: 'black',
+          color: 'white',
+          textAlign: 'center',
+          boxSizing: 'border-box',
+        }}
+      >
+        <div style={{ padding: '0.6rem', flex: '1', textAlign: 'center' }}>Payload</div>
+        <div style={{ padding: '0.6rem', flex: '1', textAlign: 'center', borderLeft: '1px solid black' }}>
+          DisclosureFrame
+        </div>
+      </div>
+      <div>
+        <div
+          style={{
+            borderTop: '1px solid black',
+            borderBottom: '1px solid black',
+            width: '600px',
+            height: '400px',
+            display: 'flex',
+          }}
+        >
+          <div style={{ flex: '1', width: '50%', height: '100%' }}>
+            <SampleEditor />
+          </div>
+          <div style={{ flex: '1', borderLeft: '1px solid black', width: '50%' }}>
+            <SampleEditor />
+          </div>
+        </div>
+      </div>
+      <div
+        style={{
+          padding: '0.6rem',
+          backgroundColor: 'black',
+          color: 'white',
+          width: '100%',
+          textAlign: 'center',
+          boxSizing: 'border-box',
+        }}
+      >
+        Signature(Input JWK to sign)
+      </div>
+      <div>
+        <div
+          style={{
+            borderTop: '1px solid black',
+            width: '600px',
+            height: '200px',
+          }}
+        >
+          <SampleEditor />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const Encoded = () => {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        border: '1px solid black',
+        alignItems: 'center',
+        flexDirection: 'column',
+      }}
+    >
+      <div
+        style={{
+          padding: '0.6rem',
+        }}
+      >
+        Encoded SD-JWT
+      </div>
+      <div>
+        <div
+          style={{
+            borderTop: '1px solid black',
+            width: '500px',
+            height: '780px',
+            boxSizing: 'border-box',
+          }}
+        >
+          <SampleEditor />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const Issue = () => {
   return (
@@ -24,10 +154,8 @@ const Issue = () => {
               alignItems: 'center',
             }}
           >
-            <div>1</div>
-            <div>1</div>
-            <div>2</div>
-            <div>3</div>
+            <JWT />
+            <Encoded />
           </div>
         </div>
       </ContentWrapper>

@@ -2,8 +2,10 @@ import { CSSProperties } from 'react';
 import { Warning } from '../Warning';
 import { ContentWrapper } from '../ContentWrapper';
 import { SampleEditor } from './SampleEditor';
+import Button from '../common/Button';
+import { CheckCircleOutlined } from '@ant-design/icons';
 
-const Encoeded = () => {
+const Encoded = () => {
   return (
     <div
       style={{
@@ -30,7 +32,7 @@ const Encoeded = () => {
           style={{
             borderTop: '1px solid black',
             width: '500px',
-            height: '825px',
+            height: '780px',
             boxSizing: 'border-box',
           }}
         >
@@ -58,7 +60,7 @@ const JWT = () => {
             borderTop: '1px solid black',
             borderBottom: '1px solid black',
             width: '600px',
-            height: '150px',
+            height: '100px',
           }}
         >
           <SampleEditor />
@@ -83,9 +85,7 @@ const JWT = () => {
           <div style={{ flex: '1', width: '50%', height: '100%' }}>
             <SampleEditor />
           </div>
-          <div style={{ flex: '1', borderLeft: '1px solid black', width: '50%' }}>
-            <SampleEditor />
-          </div>
+          <div style={{ flex: '1', borderLeft: '1px solid black', width: '50%' }}></div>
         </div>
       </div>
       <div
@@ -98,7 +98,7 @@ const JWT = () => {
           boxSizing: 'border-box',
         }}
       >
-        Signature(Input key to verify)
+        Signature(Input JWK to verify)
       </div>
       <div>
         <div
@@ -132,7 +132,7 @@ const KBJWT = () => {
             borderTop: '1px solid black',
             borderBottom: '1px solid black',
             width: '300px',
-            height: '150px',
+            height: '100px',
           }}
         >
           <SampleEditor />
@@ -161,7 +161,7 @@ const KBJWT = () => {
           boxSizing: 'border-box',
         }}
       >
-        Key Binding Signature(Input key to verify)
+        Key Binding Signature(Input JWK to verify)
       </div>
       <div>
         <div
@@ -200,7 +200,7 @@ const Claims = () => {
           style={{
             borderTop: '1px solid black',
             width: '400px',
-            height: '825px',
+            height: '780px',
           }}
         >
           <SampleEditor />
@@ -226,13 +226,24 @@ const Decode = () => {
           <Warning />
           <div
             style={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'flex-end',
+            }}
+          >
+            <Button onClick={() => {}} style={{}} icon={<CheckCircleOutlined />}>
+              {'Verify SD-JWT'}
+            </Button>
+          </div>
+          <div
+            style={{
               display: 'flex',
               flexDirection: 'row',
               gap: '1rem',
               alignItems: 'flex-start',
             }}
           >
-            <Encoeded />
+            <Encoded />
             <JWT />
             <KBJWT />
             <Claims />

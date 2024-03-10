@@ -15,6 +15,7 @@ export const SampleEditor = () => {
       language="javascript"
       value={data}
       onChange={handleEditorChange}
+      theme={'header'}
       options={{
         wordWrap: 'on',
         scrollbar: { horizontal: 'hidden', verticalScrollbarSize: 10 },
@@ -22,6 +23,8 @@ export const SampleEditor = () => {
         wrappingStrategy: 'advanced',
         lineDecorationsWidth: '1px',
         lineNumbersMinChars: 3,
+        tabSize: 2,
+        automaticLayout: true,
       }}
     />
   );

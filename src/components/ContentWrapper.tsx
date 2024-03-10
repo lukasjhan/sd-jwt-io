@@ -11,7 +11,7 @@ const containerStyle = {
 };
 
 const contentWrap: CSSProperties = {
-  maxWidth: '1600px',
+  maxWidth: '1800px',
   margin: '0 auto',
   padding: '1rem 0',
   boxSizing: 'border-box',

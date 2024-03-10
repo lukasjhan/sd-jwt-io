@@ -5,10 +5,10 @@ import { Home } from './components/Pages/Home';
 import { Layout } from 'antd';
 import { ContentWrapper } from './components/ContentWrapper';
 import { GithubOutlined } from '@ant-design/icons';
-import MonacoEditorComponent from './components/Pages/Editor';
 import Decode from './components/Pages/Decode';
 import Issue from './components/Pages/Issue';
 import Present from './components/Pages/Present';
+
 const { Content, Footer } = Layout;
 
 function App() {
