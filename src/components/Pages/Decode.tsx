@@ -92,11 +92,18 @@ const JWT = ({
   header,
   payload,
   pubKey,
+  setPubPriKey,
   disclosures,
 }: {
   header: string;
   payload: string;
   pubKey: string;
+  setPubPriKey: React.Dispatch<
+    React.SetStateAction<{
+      pri: string;
+      pub: string;
+    }>
+  >;
   disclosures: Disclosures[];
 }) => {
   return (
@@ -165,14 +172,34 @@ const JWT = ({
             height: '200px',
           }}
         >
-          <SampleEditor value={pubKey} updateValue={() => {}} />
+          <SampleEditor
+            value={pubKey}
+            updateValue={(data: string) => {
+              setPubPriKey((prev) => ({ ...prev, pub: data }));
+            }}
+          />
         </div>
       </div>
     </div>
   );
 };
 
-const KBJWT = ({ header, payload, pubKey }: { header: string; payload: string; pubKey: string }) => {
+const KBJWT = ({
+  header,
+  payload,
+  pubKey,
+  setPubPriKey,
+}: {
+  header: string;
+  payload: string;
+  pubKey: string;
+  setPubPriKey: React.Dispatch<
+    React.SetStateAction<{
+      pri: string;
+      pub: string;
+    }>
+  >;
+}) => {
   return (
     <div
       style={{
@@ -228,7 +255,13 @@ const KBJWT = ({ header, payload, pubKey }: { header: string; payload: string; p
             height: '200px',
           }}
         >
-          <SampleEditor value={pubKey} updateValue={() => {}} readonly={!payload} />
+          <SampleEditor
+            value={pubKey}
+            updateValue={(data: string) => {
+              setPubPriKey((prev) => ({ ...prev, pub: data }));
+            }}
+            readonly={!payload}
+          />
         </div>
       </div>
     </div>
@@ -280,7 +313,9 @@ const Decode = () => {
     kbHeader,
     kbPayload,
     KBpubpriKey,
-  } = SDJwtHook();
+    setPubPriKey,
+    setKBPubPriKey,
+  } = SDJwtHook(true);
   return (
     <div style={HomeContainer}>
       <ContentWrapper>
@@ -319,8 +354,14 @@ const Decode = () => {
             }}
           >
             <Encoded token={token} updateToken={updateToken} />
-            <JWT header={header} payload={payload} pubKey={pubpriKey.pub} disclosures={disclosures} />
-            <KBJWT header={kbHeader} payload={kbPayload} pubKey={KBpubpriKey.pub} />
+            <JWT
+              header={header}
+              payload={payload}
+              pubKey={pubpriKey.pub}
+              disclosures={disclosures}
+              setPubPriKey={setPubPriKey}
+            />
+            <KBJWT header={kbHeader} payload={kbPayload} pubKey={KBpubpriKey.pub} setPubPriKey={setKBPubPriKey} />
             <Claims claims={claims} />
           </div>
         </div>

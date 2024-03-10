@@ -3,8 +3,26 @@ import { Warning } from '../Warning';
 import { ContentWrapper } from '../ContentWrapper';
 import { SampleEditor } from './SampleEditor';
 import { SDJWTEditor } from './Editor';
+import { IssueData, SDJwtHook } from '../../hooks/hook';
 
-const JWT = () => {
+const JWT = ({
+  header,
+  payload,
+  priKey,
+  disclosureFrame,
+  issue,
+  pubpriKey,
+}: {
+  header: string;
+  payload: string;
+  priKey: string;
+  disclosureFrame: string;
+  issue: (updates: IssueData) => Promise<void>;
+  pubpriKey: {
+    pri: string;
+    pub: string;
+  };
+}) => {
   return (
     <div
       style={{
@@ -35,7 +53,12 @@ const JWT = () => {
             height: '100px',
           }}
         >
-          <SampleEditor value="" updateValue={() => {}} />
+          <SampleEditor
+            value={header}
+            updateValue={(data: string) => {
+              issue({ header: data });
+            }}
+          />
         </div>
       </div>
       <div
@@ -50,7 +73,7 @@ const JWT = () => {
           boxSizing: 'border-box',
         }}
       >
-        <div style={{ padding: '0.6rem', flex: '1', textAlign: 'center' }}>Payload</div>
+        <div style={{ padding: '0.6rem', flex: '1', textAlign: 'center' }}>Claims</div>
         <div style={{ padding: '0.6rem', flex: '1', textAlign: 'center', borderLeft: '1px solid black' }}>
           DisclosureFrame
         </div>
@@ -66,10 +89,20 @@ const JWT = () => {
           }}
         >
           <div style={{ flex: '1', width: '50%', height: '100%' }}>
-            <SampleEditor value="" updateValue={() => {}} />
+            <SampleEditor
+              value={payload}
+              updateValue={(data: string) => {
+                issue({ claims: data });
+              }}
+            />
           </div>
           <div style={{ flex: '1', borderLeft: '1px solid black', width: '50%' }}>
-            <SampleEditor value="" updateValue={() => {}} />
+            <SampleEditor
+              value={disclosureFrame}
+              updateValue={(data: string) => {
+                issue({ disclosureFrame: data });
+              }}
+            />
           </div>
         </div>
       </div>
@@ -93,14 +126,19 @@ const JWT = () => {
             height: '200px',
           }}
         >
-          <SampleEditor value="" updateValue={() => {}} />
+          <SampleEditor
+            value={priKey}
+            updateValue={(data: string) => {
+              issue({ pubpriKey: { pub: pubpriKey.pub, pri: data } });
+            }}
+          />
         </div>
       </div>
     </div>
   );
 };
 
-const Encoded = () => {
+const Encoded = ({ token }: { token: string }) => {
   return (
     <div
       style={{
@@ -126,7 +164,7 @@ const Encoded = () => {
             boxSizing: 'border-box',
           }}
         >
-          <SDJWTEditor value="" updateValue={(data: string) => {}} />
+          <SDJWTEditor value={token} updateValue={(data: string) => {}} readonly={true} />
         </div>
       </div>
     </div>
@@ -134,6 +172,7 @@ const Encoded = () => {
 };
 
 const Issue = () => {
+  const { claims, token, pubpriKey, header, discloseFrame, issue } = SDJwtHook(false);
   return (
     <div style={HomeContainer}>
       <ContentWrapper>
@@ -155,8 +194,15 @@ const Issue = () => {
               alignItems: 'center',
             }}
           >
-            <JWT />
-            <Encoded />
+            <JWT
+              header={header}
+              disclosureFrame={discloseFrame}
+              payload={claims}
+              priKey={pubpriKey.pri}
+              pubpriKey={pubpriKey}
+              issue={issue}
+            />
+            <Encoded token={token} />
           </div>
         </div>
       </ContentWrapper>

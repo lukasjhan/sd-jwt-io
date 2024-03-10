@@ -33,7 +33,15 @@ monaco.editor.defineTheme('sdjwtTheme', {
   colors: {},
 });
 
-export const SDJWTEditor = ({ value, updateValue }: { value: string; updateValue: (data: string) => void }) => {
+export const SDJWTEditor = ({
+  value,
+  updateValue,
+  readonly,
+}: {
+  readonly?: boolean;
+  value: string;
+  updateValue: (data: string) => void;
+}) => {
   // This is hacky, but it's the only way to get the theme to apply
   const [theme, setTheme] = useState('');
   const handleEditorChange = (value: string | undefined, event: any) => {
@@ -57,6 +65,7 @@ export const SDJWTEditor = ({ value, updateValue }: { value: string; updateValue
         lineNumbersMinChars: 3,
         tabSize: 2,
         automaticLayout: true,
+        readOnly: readonly,
       }}
     />
   );

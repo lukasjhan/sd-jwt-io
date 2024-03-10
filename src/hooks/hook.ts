@@ -48,6 +48,9 @@ const sdjwt = new SDJwtInstance({
 const initialToken =
   'eyJ0eXAiOiJzZCtqd3QiLCJhbGciOiJFUzI1NiJ9.eyJpZCI6IjEyMzQiLCJfc2QiOlsiYkRUUnZtNS1Zbi1IRzdjcXBWUjVPVlJJWHNTYUJrNTdKZ2lPcV9qMVZJNCIsImV0M1VmUnlsd1ZyZlhkUEt6Zzc5aGNqRDFJdHpvUTlvQm9YUkd0TW9zRmsiLCJ6V2ZaTlMxOUF0YlJTVGJvN3NKUm4wQlpRdldSZGNob0M3VVphYkZyalk4Il0sIl9zZF9hbGciOiJzaGEtMjU2In0.n27NCtnuwytlBYtUNjgkesDP_7gN7bhaLhWNL4SWT6MaHsOjZ2ZMp987GgQRL6ZkLbJ7Cd3hlePHS84GBXPuvg~WyI1ZWI4Yzg2MjM0MDJjZjJlIiwiZmlyc3RuYW1lIiwiSm9obiJd~WyJjNWMzMWY2ZWYzNTg4MWJjIiwibGFzdG5hbWUiLCJEb2UiXQ~WyJmYTlkYTUzZWJjOTk3OThlIiwic3NuIiwiMTIzLTQ1LTY3ODkiXQ~eyJ0eXAiOiJrYitqd3QiLCJhbGciOiJFUzI1NiJ9.eyJpYXQiOjE3MTAwNjk3MjIsImF1ZCI6ImRpZDpleGFtcGxlOjEyMyIsIm5vbmNlIjoiazh2ZGYwbmQ2Iiwic2RfaGFzaCI6Il8tTmJWSzNmczl3VzNHaDNOUktSNEt1NmZDMUwzN0R2MFFfalBXd0ppRkUifQ.pqw2OB5IA5ya9Mxf60hE3nr2gsJEIoIlnuCa4qIisijHbwg3WzTDFmW2SuNvK_ORN0WU6RoGbJx5uYZh8k4EbA';
 
+const initialTokenWithNoKB =
+  'eyJ0eXAiOiJzZCtqd3QiLCJhbGciOiJFUzI1NiJ9.eyJpZCI6IjEyMzQiLCJfc2QiOlsiYkRUUnZtNS1Zbi1IRzdjcXBWUjVPVlJJWHNTYUJrNTdKZ2lPcV9qMVZJNCIsImV0M1VmUnlsd1ZyZlhkUEt6Zzc5aGNqRDFJdHpvUTlvQm9YUkd0TW9zRmsiLCJ6V2ZaTlMxOUF0YlJTVGJvN3NKUm4wQlpRdldSZGNob0M3VVphYkZyalk4Il0sIl9zZF9hbGciOiJzaGEtMjU2In0.n27NCtnuwytlBYtUNjgkesDP_7gN7bhaLhWNL4SWT6MaHsOjZ2ZMp987GgQRL6ZkLbJ7Cd3hlePHS84GBXPuvg~WyI1ZWI4Yzg2MjM0MDJjZjJlIiwiZmlyc3RuYW1lIiwiSm9obiJd~WyJjNWMzMWY2ZWYzNTg4MWJjIiwibGFzdG5hbWUiLCJEb2UiXQ~WyJmYTlkYTUzZWJjOTk3OThlIiwic3NuIiwiMTIzLTQ1LTY3ODkiXQ~';
+
 const initialPubPriKey = {
   pri: JSON.stringify(
     {
@@ -72,9 +75,9 @@ const initialPubPriKey = {
   ),
 };
 
-export const SDJwtHook = () => {
+export const SDJwtHook = (kb: boolean) => {
   const [isValid, setIsValid] = useState(true);
-  const [token, setToken] = useState(initialToken);
+  const [token, setToken] = useState(kb ? initialToken : initialTokenWithNoKB);
   const [alg, setAlg] = useState(ES256.alg);
   const [pubpriKey, setPubPriKey] = useState(initialPubPriKey);
   const [payload, setPayload] = useState(
@@ -151,7 +154,7 @@ export const SDJwtHook = () => {
   const [header, setHeader] = useState(
     JSON.stringify(
       {
-        alg: 'HS256',
+        alg: 'ES256',
         typ: 'sd+jwt',
       },
       null,
@@ -230,14 +233,14 @@ export const SDJwtHook = () => {
   const decode = async (token: string) => {
     try {
       const sdJwtToken = await sdjwt.decode(token);
-      const header = JSON.stringify(sdJwtToken.jwt?.header ?? {}, null, 2);
-      const payload = JSON.stringify(sdJwtToken.jwt?.payload ?? {}, null, 2);
+      const header = sdJwtToken.jwt?.header ? JSON.stringify(sdJwtToken.jwt?.header, null, 2) : '';
+      const payload = sdJwtToken.jwt?.payload ? JSON.stringify(sdJwtToken.jwt?.payload, null, 2) : '';
       const disclosureData = await processDisclosures(sdJwtToken.disclosures);
 
       const claims = await sdjwt.getClaims(token);
 
-      const kbHeader = JSON.stringify(sdJwtToken.kbJwt?.header ?? {}, null, 2);
-      const kbPayload = JSON.stringify(sdJwtToken.kbJwt?.payload ?? {}, null, 2);
+      const kbHeader = sdJwtToken.kbJwt?.header ? JSON.stringify(sdJwtToken.kbJwt?.header, null, 2) : '';
+      const kbPayload = sdJwtToken.kbJwt?.payload ? JSON.stringify(sdJwtToken.kbJwt?.payload, null, 2) : '';
 
       setHeader(header);
       setPayload(payload);
