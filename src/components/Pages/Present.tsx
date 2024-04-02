@@ -3,7 +3,8 @@ import { Warning } from '../Warning';
 import { ContentWrapper } from '../ContentWrapper';
 import { SampleEditor } from './SampleEditor';
 import { SDJWTEditor } from './Editor';
-import { PresentData, SDJwtHook } from '../../hooks/hook';
+import { PresentData } from '../../hooks/hook';
+import { SDJwtPresentHook } from '../../hooks/present.hook';
 
 const Encoded = ({
   token,
@@ -258,10 +259,8 @@ const Claims = ({ token }: { token: string }) => {
 };
 
 const Present = () => {
-  const { claims, token, KBpubpriKey, kbHeader, kbPayload, presentationFrame, present, presentedToken } = SDJwtHook(
-    false,
-    true,
-  );
+  const { claims, token, KBpubpriKey, kbHeader, kbPayload, presentationFrame, present, presentedToken } =
+    SDJwtPresentHook();
   return (
     <div style={HomeContainer}>
       <ContentWrapper>
