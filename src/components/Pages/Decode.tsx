@@ -5,7 +5,8 @@ import { SampleEditor } from './SampleEditor';
 import Button from '../common/Button';
 import { CheckCircleOutlined } from '@ant-design/icons';
 import { SDJWTEditor } from './Editor';
-import { Disclosures, SDJwtHook } from '../../hooks/hook';
+import { Disclosures } from '../../hooks/hook';
+import { SDJwtDecodeHook } from '../../hooks/decode.hook';
 
 const Encoded = ({ token, updateToken }: { token: string; updateToken: (data: string) => void }) => {
   return (
@@ -54,6 +55,8 @@ const DisclosuresTable = ({ disclosures }: { disclosures: Disclosures[] }) => {
       }}
     >
       {disclosures.map((disclosure, index) => {
+        const value =
+          typeof disclosure.value === 'string' ? disclosure.value : JSON.stringify(disclosure.value, null, 2);
         return (
           <div
             key={index}
@@ -79,7 +82,7 @@ const DisclosuresTable = ({ disclosures }: { disclosures: Disclosures[] }) => {
             </div>
             <div>
               <span>Value: </span>
-              <span>{disclosure.value}</span>
+              <span>{value}</span>
             </div>
           </div>
         );
@@ -315,7 +318,7 @@ const Decode = () => {
     KBpubpriKey,
     setPubPriKey,
     setKBPubPriKey,
-  } = SDJwtHook(true);
+  } = SDJwtDecodeHook();
   return (
     <div style={HomeContainer}>
       <ContentWrapper>

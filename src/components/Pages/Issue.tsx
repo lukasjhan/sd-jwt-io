@@ -3,7 +3,8 @@ import { Warning } from '../Warning';
 import { ContentWrapper } from '../ContentWrapper';
 import { SampleEditor } from './SampleEditor';
 import { SDJWTEditor } from './Editor';
-import { IssueData, SDJwtHook } from '../../hooks/hook';
+import { IssueData } from '../../hooks/hook';
+import { SDJwtIssueHook } from '../../hooks/issue.hook';
 
 const JWT = ({
   header,
@@ -172,7 +173,7 @@ const Encoded = ({ token }: { token: string }) => {
 };
 
 const Issue = () => {
-  const { claims, token, pubpriKey, header, discloseFrame, issue } = SDJwtHook(false);
+  const { claims, token, pubpriKey, header, discloseFrame, issue } = SDJwtIssueHook();
   return (
     <div style={HomeContainer}>
       <ContentWrapper>
