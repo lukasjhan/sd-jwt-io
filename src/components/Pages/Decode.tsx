@@ -7,6 +7,7 @@ import { CheckCircleOutlined } from '@ant-design/icons';
 import { SDJWTEditor } from './Editor';
 import { Disclosures } from '../../hooks/hook';
 import { SDJwtDecodeHook } from '../../hooks/decode.hook';
+import { trackButtonClick } from '../../hooks/ga.hooks';
 
 const Encoded = ({ token, updateToken }: { token: string; updateToken: (data: string) => void }) => {
   return (
@@ -342,6 +343,7 @@ const Decode = () => {
             <Button
               onClick={() => {
                 verify();
+                trackButtonClick('Verify Button');
               }}
               icon={<CheckCircleOutlined />}
             >
