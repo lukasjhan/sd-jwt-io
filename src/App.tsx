@@ -7,14 +7,12 @@ import { GithubOutlined } from '@ant-design/icons';
 import Decode from './components/Pages/Decode';
 import Issue from './components/Pages/Issue';
 import Present from './components/Pages/Present';
-import RouteTracker from './hooks/ga.hooks';
 
 const { Content, Footer } = Layout;
 function App() {
   return (
     <>
       <Router>
-        <RouteTracker />
         <NavBar />
         <Content style={{ minHeight: '100vh' }}>
           <Routes>
