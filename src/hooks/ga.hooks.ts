@@ -13,13 +13,6 @@ function usePageViews() {
   }, [location]);
 }
 
-export const trackButtonClick = (buttonName: string) => {
-  (window as any).gtag('event', 'button_click', {
-    event_category: 'engagement',
-    event_label: buttonName,
-  });
-};
-
 export default function RouteTracker() {
   usePageViews();
   return null;
