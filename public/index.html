@@ -23,7 +23,9 @@
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-    gtag('config', 'G-YSLD6T408C');
+    gtag('config', 'G-YSLD6T408C', {
+      page_path: window.location.pathname
+    });
   </script>
   <!--
       Notice the use of %PUBLIC_URL% in the tags above.
