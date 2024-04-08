@@ -9,6 +9,7 @@ import Issue from './components/Pages/Issue';
 import Present from './components/Pages/Present';
 
 const { Content, Footer } = Layout;
+
 function App() {
   return (
     <>
